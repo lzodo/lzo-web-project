@@ -1,0 +1,98 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+
+<body>
+</body>
+<script>
+function loadScript(src, callback) {
+    let script = document.createElement('script');
+    script.src = src;
+
+    script.onload = () => callback(null, script);
+    script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+    document.head.append(script);
+}
+
+loadScript('./Promise.js', (error, script) => {
+    if (!error) {
+        g()
+        loadScript('./Promise.js', (error, script) => {
+            if (error) {
+                console.log(error);
+            }
+        });
+    }
+});
+//弊端 : 当有多个需要加载时会产生 “回调地狱”或“厄运金字塔”。
+//=========================================================================================
+//Promise
+
+/*
+* 传递给 new Promise 的函数被称为 executor,创建是自动运行。
+* resolve 和 reject 是由 JavaScript 自身提供的回调
+* 当 executor 有了结果应该调用其中一个回调函数,只能调一个,多余将被忽略
+	resolve(value) — 如果任务成功完成并带有结果 value。
+	reject(error) — 如果出现了 error，error 即为 error 对象。
+*/
+
+//生产者代码
+let promise = new Promise(function(resolve, reject) {
+    setTimeout(() => resolve('成功'), 1000);
+    //setTimeout(() => resolve('成功'), 1000);
+    
+});
+console.log(promise)
+/*
+* 创建初始属性
+	State  ： pending      ==>   resolve('val')  ==>   fulfilled    or==> reject('val')  ==>  rejected
+	Result ： undefined								   val                                    error
+*/
+
+//消费者代码 then，catch，finally
+promise.then(
+    (res) => { console.log(res) }, //调用resolve
+    (err) => { console.log(err) } //调用reject
+)
+
+//如果只要err结果
+//Promise 的执行者（executor）和前面的 promise 的处理程序（handler）中如果有报错
+promise.catch((err) => {})
+promise.then(null, (err) => {console.log('dddddd')})
+
+//无论成功失败、但它没有参数
+promise.finally(() => console.log('data'))
+
+
+//链式操作
+new Promise(function(resolve, reject) {
+
+    setTimeout(() => resolve(1), 3000); // (*)
+
+}).then(function(result) { // (**)
+
+    console.log(result); // 1
+    return result * 2;
+
+}).then(function(result) { // (***)
+
+    console.log(result); // 2
+    return new Promise((resolve) => {
+        setTimeout(()=> resolve(result * 2),3000)
+    })
+
+}).then(function(result) {
+
+    console.log(result); // 4
+    return result * 2;
+
+});
+
+// 下一个 Promise API
+</script>
+
+</html>
