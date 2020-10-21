@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Module</title>
+</head>
+
+<body>
+</body>
+<script type="module" src="./import.js"></script>
+<script type="module">
+    /*
+	 *  import/export 指令必须在服务器上才起作用
+	 *  html内部引入必须设置 type="module"
+	 *  模块始终默认使用 use strict
+	 *  type="module"导入的文件中必须是 export的函数或变量才能使用,触发window.xxx配置的全局变量
+	 *  模块只被首次导入时执行一次。生成导出，然后它被分享给所有对其的导入，所以如果某个地方修改了导入对象，其他的模块也能看到这个修改。
+	 *  在一个模块中，“this” 是 undefined，非模块文件中this是window	
+	 * 
+	 *  import.meta 对象包含关于当前模块的信息
+	 *  没有任何路径的模块被称为“裸（bare）”模块。在 import 中不允许这种模块
+	 */
+
+	 /*
+	 *  浏览器特定
+	 *  下载外部模块脚本 <script type="module" src="..."> 不会阻塞 HTML 的处理，它们会与其他资源并行加载。与 defer 特性类似
+	 *	模块脚本会等到 HTML 文档完全准备就绪（即使它们很小并且比 HTML 加载速度更快），然后才会运行。
+	 *  加上async的 模块脚本不会等待 HTML 文档或者其他 <script> 标签了
+	 *
+	 *  <script type="module" src="http://another-site.com/their.js"><\/script> another-site.com 必须提供 Access-Control-Allow-Origin
+	 *   
+	 */
+	//import {sayHi,obj,User} from './export.js';
+	import {rsname,sayHi,obj,default as defaultSayHi} from './export.js';
+	import fileName from './export.js'; 
+	sayHi('suc')
+	console.log(window.user)
+	obj.name='export.html中又修改'
+	console.log(obj.name)
+
+	console.log(import.meta)
+
+
+	fileName('denames')
+	defaultSayHi('denames as');
+
+
+	rsname('名字重导成功')
+
+
+	/*
+	* 导入导出
+	*  export 来标记任意声明为导出，无论声明的是变量，函数还是类都可以
+	*  不建议在export 函数和类声明后使用分号
+	*  分开导出 export {sayHi as hi, sayBye};  as别名
+
+	*  import {sayHi, sayBye as bay} from './say.js';
+	*  import * as say from './say.js';  导出所有(不好原因如下:)
+	   前面的优点:
+			优化器（optimizer）就会检测到它，并从打包好的代码中删除那些未被使用的函数，从而使构建更小。这就是所谓的“摇树”
+			明确列出要导入的内容会使得名称较短：sayHi() 而不是 say.sayHi()。
+			导入的显式列表可以更好地概述代码结构：使用的内容和位置。它使得代码支持重构，并且重构起来更容易
+
+
+	* 	as 后不要用default 做别名，sayHi as default 其中关键词被用于引用默认的导出。
+	*   export default sayHi 和 export {sayHi as default} 一样
+	*   默认导出只能有一个
+	*   import {default as User} 导入默认导出
+	*    * 作为一个对象导入，那么 default 属性正是默认的导出： 如上面的 say.default 就是默认导入对象
+	*   import fileName from './export.js';  fileName直接去默认导入大的对象 ,一般导入的变量应与文件名相对应
+
+
+	*   重新导出（Re-export）”语法 export ... from ...
+	*/
+
+
+
+	/*
+	* 动态导入
+	* import() 看起来像一个函数调用，但它只是一种特殊语法，只是恰好使用了括号
+	* 我们不能将 import 复制到一个变量中，或者对其使用 call/apply
+	**/
+	async function doIt2() {
+	    let obj = await import('./export.js');
+	    obj.sayHi('--动态导成功')
+	    let defaultSayHi = obj.default;
+	    defaultSayHi('动态导入默认调用方法')
+	}
+	doIt2();
+
+</script>
+
+</html>

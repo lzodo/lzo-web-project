@@ -92,7 +92,107 @@ new Promise(function(resolve, reject) {
 
 });
 
-// 下一个 Promise API
+// Promise API
+//[1,2,3] 并行执行,全部成功才能到then1,否则then2或.catch
+Promise.all([
+  new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+  new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+  new Promise((resolve,reject) => setTimeout(() => reject(3), 1000))  // 3
+]).then((res)=> console.log(res),(err)=> console.log('err' + err));  
+
+
+//即使有reject 也会得到信息
+Promise.allSettled([
+  new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+  new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+  new Promise((resolve,reject) => setTimeout(() => reject(300), 1000))  // 3
+]).then((res)=> console.log(res),(err)=> console.log('err' + err));  
+
+//race 获取执行最快的结果
+Promise.race([
+  new Promise(resolve => setTimeout(() => resolve(1), 1000)), // 1
+  new Promise(resolve => setTimeout(() => resolve(2), 1000)), // 2
+  new Promise((resolve,reject) => setTimeout(() => reject(300), 1000))  // 3
+]).then((res)=> console.log(res),(err)=> console.log('err' + err)); 
+
+//Promise.resolve/reject 很少用
+
+// =====================================================================================
+// async/await同时存在 async:function/await必须在这个function内使用
+// async声明的函数的返回本质上是返回一个Promise。
+// async 后必须跟function  //必须是这个格式函数
+// await 等待直到 promise 完成（settle）并返回结果
+// 相比于 promise.then，它只是获取 promise 的结果的一个更优雅的语法，同时也更易于读写
+
+    
+
+
+const demo = async ()=>{
+    let result = await new Promise((resolve,reject) => {
+    	console.log('await内部先');
+        setTimeout(() => resolve('2000++'), 2000);
+    });
+    console.log('我由于上面的程序还没执行完，先不执行“等待一会”' + result);
+    return result
+}
+demo().then(result=>{
+  console.log('输出',result);
+})
+
+//直接用Promise 与 async/await
+
+function takeLongTime(n) {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(n + 2000), n);
+    });
+}
+
+function step1(n) {
+    console.log(`step1 with ${n}`);
+    return takeLongTime(n);
+}
+
+function step2(n) {
+    console.log(`step2 with ${n}`);
+    return takeLongTime(n);
+}
+
+function step3(n) {
+    console.log(`step3 with ${n}`);
+    return takeLongTime(n);
+}
+
+
+function doIt() {
+    console.time("doIt");
+    const time1 = 3000;
+    step1(time1)
+        .then(time2 => step2(time2))
+        .then(time3 => step3(time3))
+        .then(result => {
+            console.log(`result is ${result}`);
+        });
+}
+//doIt();
+
+
+async function doIt2() {
+    console.time("doIt");
+    const time1 = 3000;
+    const time2 = await step1(time1); //在这里step1没执行完成是不好走下一步的
+    const time3 = await step2(time2);
+    const result = await step3(time3);
+    await new Promise(resolve => {
+        setTimeout(()=>{
+            console.log('先执行');
+            resolve()
+        },5000)
+    })
+    console.log('后执行')
+    console.log(`result is ${result}`);
+}
+//doIt2();
+
 </script>
 
 </html>
