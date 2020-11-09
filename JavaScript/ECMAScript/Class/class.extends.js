@@ -54,3 +54,5 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 rabbit.stop(); // Rabbit 自己的stop.
 console.log(rabbit.classProp)
+console.log(rabbit instanceof Rabbit) //如果rabbit 属于 Rabbit 返回true
+console.log(rabbit instanceof Object) //true

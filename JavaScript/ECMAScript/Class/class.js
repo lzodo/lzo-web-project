@@ -9,6 +9,10 @@ class MyClass {
     sayHi2() {
         console.log(this.name + '2');
     }
+
+    static staticMethod() {
+        console.log(this === MyClass);
+    }
 }
 
 
@@ -17,19 +21,22 @@ class MyClass {
 // var MyClass = function() {
 	
 
-//     function MyClass(name) {
-//         this.name = name;
-//         console.log('调用myclass')
-//     }
+ //    function MyClass(name) {
+ //        this.name = name;
+ //        console.log('调用myclass')
+ //    }
 
-//     MyClass.prototype.sayHi = function sayHi() {
-//         console.log(this.name);
-//     };
+ //    MyClass.prototype.sayHi = function sayHi() {
+ //        console.log(this.name);
+ //    };
 
-//     MyClass.prototype.sayHi2 = function sayHi2() {
-//         console.log(this.name + '2');
-//     };
+ //    MyClass.prototype.sayHi2 = function sayHi2() {
+ //        console.log(this.name + '2');
+ //    };
 
+	// MyClass.staticMethod = function staticMethod() {
+	//     console.log(this === MyClass);
+ //    };
 
 //     return MyClass;
 // }();
