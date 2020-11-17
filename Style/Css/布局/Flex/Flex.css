@@ -42,12 +42,12 @@ flex容器的子元素 float clear vertical-align等属性都会失效
 
     子容器常用属性:
         flex: 子项目占的份数
-            :1 无宽度子元素个数分之一
+                :1 无宽度子元素个数分之一
 
         align-self: 控制某个子项自己在侧轴的排列方式
-            :flex-start 侧轴从上到下 
-            :flex-end 侧轴从下到上 
-            :center 垂直居中
+                :flex-start 侧轴从上到下 
+                :flex-end 侧轴从下到上 
+                :center 垂直居中
 
         order: 定义子项的排列顺序(前后顺序,数值越小越靠前 默认0,可以是负数)
 

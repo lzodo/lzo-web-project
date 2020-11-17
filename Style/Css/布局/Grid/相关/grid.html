@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>grid</title>
+</head>
+<body>
+	<div class="wrapper">
+	  <div class="one item">One</div>
+	  <div class="two item">Two</div>
+	  <div class="three item">Three</div>
+	  <div class="four item">Four</div>
+	  <div class="five item">Five</div>
+	  <div class="six item">Six</div>
+	</div>	
+</body>
+<style>
+	.wrapper {
+	  /* 声明一个容器 */
+	  display: grid;
+
+	  /* 声明列和宽度 */
+	  /* grid-template-columns: 100px 50px 100px;*/
+	  /* grid-template-columns: 100px auto 100px; /*第二列自适应*/ 
+	  /* grid-template-columns: repeat(2, 200px); /*重复次数与宽度*/
+	  /* grid-template-columns: repeat(auto-fill, 200px); /*自适应列数*/
+	  /* grid-template-columns: 100px 1fr 2fr; /*fr 处理固定宽度外的比例*/
+	  grid-template-columns:1fr 1fr minmax(300px,2fr); /*第三类宽最少100 最大200*/
+	  grid-auto-columns:50px; /*除指定宽度之外的列 设置grid-auto-flow: column;生效*/
+
+	  /* 声明行间距和列间距 */
+	  grid-gap: 5px; /*grid-row-gap 和 grid-column-gap */
+
+	  /* 声明行的高度 */
+	  grid-template-rows: 100px 100px; /*每行指定的行*/
+	  grid-auto-rows: 50px; /*除指定之外的行*/
+
+/*	  grid-auto-flow: column;*/
+	}
+	.one {
+	  background: #19CAAD;
+	}
+	.two { 
+	  background: #8CC7B5;
+	}
+	.three {
+	  background: #D1BA74;
+	}
+	.four {
+	  background: #BEE7E9;
+	}
+	.five {
+	  background: #E6CEAC;
+	}
+	.six {
+	  background: #ECAD9E;
+	}
+	.item {
+	  text-align: center;
+	  font-size: 200%;
+	  color: #fff;
+	}
+</style>
+</html>

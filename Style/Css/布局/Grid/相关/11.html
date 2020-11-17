@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>grid</title>
+</head>
+<body>
+<h1>justify-items: start;</h1>
+<div class="wrapper">
+  <div class="one item">One</div>
+  <div class="two item">Two</div>
+  <div class="three item">Three</div>
+  <div class="four item">Four</div>
+  <div class="five item">Five</div>
+  <div class="six item">Six</div>
+  <div class="seven item">Seven</div>
+  <div class="eight item">eight</div>
+  <div class="nine item">Nine</div>
+</div>
+
+<h1>justify-items: end;</h1>
+<div class="wrapper-1">
+  <div class="one item">One</div>
+  <div class="two item">Two</div>
+  <div class="three item">Three</div>
+  <div class="four item">Four</div>
+  <div class="five item">Five</div>
+  <div class="six item">Six</div>
+  <div class="seven item">Seven</div>
+  <div class="eight item">eight</div>
+  <div class="nine item">Nine</div>
+</div>
+
+<h1>justify-items: center;</h1>
+<div class="wrapper-2">
+  <div class="one item">One</div>
+  <div class="two item">Two</div>
+  <div class="three item">Three</div>
+  <div class="four item">Four</div>
+  <div class="five item">Five</div>
+  <div class="six item">Six</div>
+  <div class="seven item">Seven</div>
+  <div class="eight item">eight</div>
+  <div class="nine item">Nine</div>
+</div>
+
+<h1>justify-items: stretch;</h1>
+<div class="wrapper-3">
+  <div class="one item">One</div>
+  <div class="two item">Two</div>
+  <div class="three item">Three</div>
+  <div class="four item">Four</div>
+  <div class="five item">Five</div>
+  <div class="six item">Six</div>
+  <div class="seven item">Seven</div>
+  <div class="eight item">eight</div>
+  <div class="nine item">Nine</div>
+</div>
+</body>
+<style>
+.wrapper, .wrapper-1, .wrapper-2, .wrapper-3 {
+  display: grid;
+  grid-template-columns: 100px 200px 100px;
+  grid-gap: 5px;
+  grid-auto-rows: 50px;
+  justify-items: start;
+}
+.wrapper-1 {
+  justify-items: end;
+}
+.wrapper-2 {
+  justify-items: center;
+}
+.wrapper-3 {
+  justify-items: stretch;
+}
+.one {
+  background: #19CAAD;
+}
+.two { 
+  background: #8CC7B5;
+}
+.three {
+  background: #D1BA74;
+}
+.four {
+  background: #BEE7E9;
+}
+.five {
+  background: #E6CEAC;
+}
+.six {
+  background: #ECAD9E;
+}
+.seven {
+  background: #BEEDC7;
+}
+.eight {
+  background: #F4606C;
+}
+.nine {
+  background: #A0EEE1;
+}
+.item {
+  text-align: center;
+  font-size: 200%;
+  color: #fff;
+}
+</style>
+</html>
