@@ -43,6 +43,8 @@ li{
 }
 .CellWarp .item .list{
 	font-size: 13px;
+	height: 160px;
 	color:#777;
 	padding:0 10px 10px;
+	overflow: auto;
 }
