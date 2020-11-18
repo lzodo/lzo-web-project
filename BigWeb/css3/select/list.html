@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选择器总结</title>
+	<link rel="stylesheet" href='../../../static/style/reset.css' />
+</head>
+<style>
+	li[class*='baohan']{
+		color:#fa0;
+	}
+</style>
+<body>
+	<!-- div.CellTitle+div.CellWarp>div.item.item$*3>span.title+(ul.list>li.itemlist)+div.child -->
+	<div class="CellTitle">CSS选择器</div>
+	<div class="CellWarp">
+		<div class="item1 item">
+			<span class="title">伪类与伪元素</span>
+			<ul class="list">
+				<li class="itemlist">1、规范中伪类一个冒号表示，伪元素两个冒号，为了兼容有些伪元素也能用单冒号</li>
+				<li class="itemlist">2、常见伪类选择器如 ：hover、:first-child、：nth-child(2n)等</li>
+				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::first-letter等</li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item2 item">
+			<span class="title">属性选择器</span>
+			<ul class="list">
+				<li class="itemlist">1、与正则类似、用中括号</li>
+				<li class="itemlist attrbaohan">2、E[attr*="val"] 选择具有att属性且属性值为包含val的字符串的E元素</li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item3 item">
+			<span class="title">关系选择符</span>
+			<ul class="list">
+				<li class="itemlist">1、包含E F | 子 E>F </li>
+				<li class="itemlist">2、E紧贴的下一个F E+F | E后面所有同级F元素 E~F</li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item4 item">
+			<span class="title">元素选择符</span>
+			<ul class="list">
+				<li class="itemlist">1、 * div #xxx .xxx 等</li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item5 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item6 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item7 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item8 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item9 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item10 item">
+			<span class="title"></span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+	</div>
+
+	<div class="CellTitle">学习地址</div>
+	<div class="CellWarp">
+		<div class="item item1">
+			<span class="title">视频学习资料</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item item2">
+			<span class="title">素材资源</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+			</ul>
+			<div class="child"></div>
+		</div>
+		<div class="item item3">
+			<span class="title">文档学习资料</span>
+			<ul class="list">
+				<li class="itemlist">
+					<a href="https://www.xp.cn/css3/" target="_break">css参考手册</a>
+				</li>
+			</ul>
+			<div class="child"></div>
+		</div>
+	</div>
+
+</body>
+</html>
