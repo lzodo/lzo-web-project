@@ -21,7 +21,6 @@
 				<li class="itemlist">2、常见伪类选择器如 ：hover、:first-child、：nth-child(2n)等</li>
 				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::first-letter等</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item2 item">
 			<span class="title">属性选择器</span>
@@ -29,7 +28,6 @@
 				<li class="itemlist">1、与正则类似、用中括号</li>
 				<li class="itemlist attrbaohan">2、E[attr*="val"] 选择具有att属性且属性值为包含val的字符串的E元素</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item3 item">
 			<span class="title">关系选择符</span>
@@ -37,14 +35,12 @@
 				<li class="itemlist">1、包含E F | 子 E>F </li>
 				<li class="itemlist">2、E紧贴的下一个F E+F | E后面所有同级F元素 E~F</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item4 item">
 			<span class="title">元素选择符</span>
 			<ul class="list">
 				<li class="itemlist">1、 * div #xxx .xxx 等</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 	</div>
 
@@ -65,7 +61,6 @@
 				p{color:transparent;} 透明色
 				</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item2">
 			<span class="title">text-shadow文本阴影</span>
@@ -73,7 +68,6 @@
 				<li class="itemlist">1、text-shadow:none| px{2,3} && color,px{2,3} && color2</li>
 				<li class="itemlist">2、参数:左右偏移,上下偏移,模糊程度,颜色</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item3">
 			<span class="title">text-overflow文本溢出省略号</span>
@@ -93,7 +87,6 @@
 					-webkit-box-orient: vertical;<br/>
 				</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item4">
 			<span class="title">border-radius圆角边框</span>
@@ -105,7 +98,6 @@
 				<li class="itemlist">border-radius:5px/10px 水平5像素，垂直10像素</li>
 				<li class="itemlist">border-top-right-radius:5px/10px 上右角水平5像素，垂直10像素</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item5">
 			<span class="title">box-shadow边框阴影</span>
@@ -113,98 +105,99 @@
 				<li class="itemlist">1、box-shadow:none|inset? [ px{2,4} && color ], [ px{2,4} && color ]</li>
 				<li class="itemlist">2、px参数:水平偏移,垂直偏移,模糊程度,向外延申</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item6">
 			<span class="title">border-image</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">1、主要三个参数:路径(source)、切割(slice)、平铺(repeat)</li>
+				<li class="itemlist">2、切割的fill决定盒子背景要不要用图片除边框宽度的中间部分填充</li>
+				<li class="itemlist">3、border-image-repeat : [ stretch | repeat | round ]{1水平,2垂直}</li>
+				<li class="itemlist">4、border-image: url(/border-image.png) 27 fill repeat repeat;</li>
+				<li class="itemchild" style="
+					width: 150px;
+					height: 150px;
+					background: #ccc;
+					border: 27px solid #ccc;
+					border-image: url(../../../static/image/border-image2.png) 27 fill repeat repeat;
+
+		            /*border-image-source: url(../../../static/image/border-image2.png);
+					border-image-slice: 27 27 27 27 fill;
+					border-image-repeat: round repeat;*/
+				"></li>
 			</ul>
-			<div class="child"></div>
+			
 		</div>
 		<div class="item item7">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item8">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item9">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item10">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item11">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item12">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item13">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item14">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item15">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item16">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item17">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item18">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 	</div>
 
@@ -215,14 +208,12 @@
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item2">
 			<span class="title">素材资源</span>
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
-			<div class="child"></div>
 		</div>
 		<div class="item item3">
 			<span class="title">文档学习资料</span>
@@ -231,7 +222,6 @@
 					<a href="https://www.xp.cn/css3/" target="_break">css参考手册</a>
 				</li>
 			</ul>
-			<div class="child"></div>
 		</div>
 	</div>
 

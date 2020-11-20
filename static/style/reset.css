@@ -48,3 +48,6 @@ li{
 	padding:0 10px 10px;
 	overflow: auto;
 }
+.CellWarp .item .list .itemchild{
+	margin-top: 10px;
+}
