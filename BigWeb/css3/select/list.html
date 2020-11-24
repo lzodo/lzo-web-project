@@ -11,7 +11,8 @@
 	}
 </style>
 <body>
-	<!-- div.CellTitle+div.CellWarp>div.item.item$*3>span.title+(ul.list>li.itemlist)+div.child -->
+	<!-- div.CellTitle{标题}+div.CellWarp>div.item.item$*3>span.title+(ul.list>li.itemlist+li.itemchild) -->
+	<!--==========================选择器================================-->
 	<div class="CellTitle">CSS选择器</div>
 	<div class="CellWarp">
 		<div class="item1 item">
@@ -43,7 +44,7 @@
 			</ul>
 		</div>
 	</div>
-
+	<!--==========================常用属性================================-->
 	<div class="CellTitle">属性</div>
 	<div class="CellWarp">
 		<div class="item item1">
@@ -128,15 +129,29 @@
 			
 		</div>
 		<div class="item item7">
-			<span class="title"></span>
+			<span class="title">outline</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">1、与边框一样 outline:1px solid #000;</li>
+				<li class="itemlist">2、css3新增 outline-offset: px 设置偏移可负数</li>
+				<li class="itemchild" style="
+					width:200px;
+					height: 50px;
+					border:1px solid #f00;
+					outline: 3px solid #000;
+					outline-offset: -10px;
+					line-height: 50px;
+					text-align: center;
+				">outline-offset:-10px</li>
 			</ul>
 		</div>
 		<div class="item item8">
-			<span class="title"></span>
+			<span class="title">transition 过渡</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">transition：all .5s ease 1s</li></br>
+				<li class="itemlist">1、transition-property:all; 过渡的属性</li>
+				<li class="itemlist">2、transition-duration:.5s; 过渡时间</li>
+				<li class="itemlist">3、transition-timing-function:ease; 运动类型(贝塞尔曲线)</li>
+				<li class="itemlist">4、transition-delay:1s; 延迟时间</li>
 			</ul>
 		</div>
 		<div class="item item9">
@@ -200,7 +215,109 @@
 			</ul>
 		</div>
 	</div>
-
+	<!--==========================背景================================-->
+	<div class="CellTitle">背景</div>
+	<div class="CellWarp">
+		<div class="item item1">
+			<span class="title">background背景</span>
+			<ul class="list">
+				<li class="itemlist">background:颜色 url 平铺 滚动 定位</li>
+				<li class="itemchild">1、滚动:background-attachment:fixed(跟窗口)||local(跟元素内容)||scroll(跟元素)</li>
+			</ul>
+		</div>
+		<div class="item item2">
+			<span class="title">background-origin背景访问</span>
+			<ul class="list">
+				<li class="itemlist">background-origin:border-box; 背景从边框开始</li>
+				<li class="itemlist">background-origin:content-box; 背景从内容开始</li>
+				<li class="itemlist">background-origin:padding-box; 背景从padding开始(默认)</li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item3">
+			<span class="title">background-clip裁剪</span>
+			<ul class="list">
+				<li class="itemlist">background-clip:border-box; 从border向外裁剪(不含border)</li>
+				<li class="itemlist">background-clip:content-box; 从content向外裁剪(不含content)</li>
+				<li class="itemlist">background-clip:padding-box; 从padding向外裁剪(不含padding)</li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item4">
+			<span class="title">background-size背景大小</span>
+			<ul class="list">
+				<li class="itemlist">background-size:number; 像素设置大小</li>
+				<li class="itemlist">background-size:50%; 百分比设置大小</li>
+				<li class="itemlist">background-size:auto; 原图大小</li>
+				<li class="itemlist">background-size:cover; 将背景图像等比缩放到完全覆盖容器，背景图像有可能超出容器</li>
+				<li class="itemlist">background-size:contain; 将背景图像等比缩放到宽度或高度与容器的宽度或高度相等，背景图像始终被包含在容器内。</li>
+				<li class="itemlist">合并到background:background-position 和 background-size 之间用 / 分开。</li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item5">
+			<span class="title">多重背景</span>
+			<ul class="list">
+				<li class="itemlist">background:url(test1.jpg) no-repeat scroll 10px 20px,url(test2.jpg) no-repeat scroll 50px 60px</li>
+				<li class="itemlist">用逗号隔开,颜色无法设置多重</li>
+				<li class="itemlist">拆分方式也是用逗号隔开</li>
+			</ul>
+		</div>
+	</div>
+	<!--==========================语法规则================================-->
+	<div class="CellTitle">语法规则</div>
+	<div class="CellWarp">
+		<div class="item item1">
+			<span class="title">@import</span>
+			<ul class="list">
+				<li class="itemlist">@import url("global.css");</li>
+				<li class="itemlist">@import url(global.css);</li>
+				<li class="itemlist">@import "global.css"</li>
+				<li class="itemlist">以上3种方式都有效。当使用url(url)的方式时，包住路径的引号可有可无；当直接使用url时，包住路径的引号必须保留</li>
+				<li class="itemlist">媒体查询导入实例</li>
+				<li class="itemlist">@import url(example.css) screen and (min-width:800px);</li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item2">
+			<span class="title">@charset</span>
+			<ul class="list">
+				<li class="itemlist">在外部样式表文件内使用。指定该样式表使用的字符编码。</li>
+				<li class="itemlist">格式:@charset "utf-8"; </li>
+				<li class="itemlist">后面分号不能省略</li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item3">
+			<span class="title">@media</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item4">
+			<span class="title">@font-face</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item5">
+			<span class="title">@page</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+		<div class="item item6">
+			<span class="title">@keyframes</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild"></li>
+			</ul>
+		</div>
+	</div>
+	<!--==========================资料================================-->
 	<div class="CellTitle">学习地址</div>
 	<div class="CellWarp">
 		<div class="item item1">
