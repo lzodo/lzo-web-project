@@ -41,7 +41,7 @@ let obj = {
     },
 }
 console.log(obj) //可以打印任何书籍类型
-alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
+//alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
 
 function Myobj(name) {
     this.name = name;
@@ -53,7 +53,35 @@ Myobj.prototype.toString = function() {
     return 'ccc'
 }
 let obj1 = new Myobj('obj1')
-alert(obj1)
+// alert(obj1)
+
+//=============怎么能让a==1&&a==2&&a==3  ========
+/*
+    对象 == 字符串 对象.toString()转字符串
+    null == undefined 但是和其他值比较就不相等了
+    NaN == NaN 不相等
+    其他比较都转数字
+*/
+// 方法1 重写对象toString,valueOf方法
+var objdxxx ={
+    val:1,
+    toString(){ //valueOf也可以
+        return this.val++
+    }
+}
+
+//方法2 使用数据劫持实现
+var obje = 1;
+Object.defineProperty(window, "objd", {
+    get(){
+        return obje++
+    }
+});
+
+if(objd==1&&objd==2&&objd==3){
+    console.log('可以')
+}
+
 
 //=======================运行机制=========================||
 
@@ -83,4 +111,4 @@ alert(obj1)
 
 </script>
 
-</html>}
+</html>
