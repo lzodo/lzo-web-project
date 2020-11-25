@@ -155,9 +155,15 @@
 			</ul>
 		</div>
 		<div class="item item9">
-			<span class="title"></span>
+			<span class="title">animation 动画</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">animation：name .5s ease 1s;</li></br>
+				<li class="itemlist">1、animation-name:name; 动画名称</li>
+				<li class="itemlist">2、animation-duration:.5s; 动画持续时间</li>
+				<li class="itemlist">3、animation-timing-function:ease; 运动类型(贝塞尔曲线)</li>
+				<li class="itemlist">4、animation-delay:1s; 延迟时间</li>
+				<li class="itemlist">5、animation-iteration-count:5; 循环次数(infinite无限循环)</li>
+				<li class="itemlist">6、animation-direction :normal; 是否反向运动(alternate与反向交替)</li>
 			</ul>
 		</div>
 		<div class="item item10">
@@ -291,14 +297,39 @@
 		<div class="item item3">
 			<span class="title">@media</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">@media:设备类型 and (媒体特性) and (媒体特性){}</li>
+				<li class="itemlist">
+					@media和@import规则上，也可以被用在HTML和XML中
+					<pre>
+
+@media screen and (width:800px){ … }
+@import url(example.css) screen and (width:800px);
+<\link media="screen and (min-width:800px) and (max-width:900px)" rel="stylesheet" href="example.css" />
+<\?xml-stylesheet media="screen and (width:800px)" rel="stylesheet" href="example.css" ?>
+					</pre>
+				</li>
 				<li class="itemchild"></li>
 			</ul>
 		</div>
 		<div class="item item4">
 			<span class="title">@font-face</span>
 			<ul class="list">
-				<li class="itemlist">定义字体</li>
+				<li class="itemlist">定义字体 @font-face{font-family:字体名称;src:字体路径;sRules;}</li>
+				<li class="itemlist">
+					定义
+					<pre>
+@font-face{
+  font-family:YH;
+  src:url(http://domain/fonts/MSYH.TTF);
+}
+					</pre>
+				</li>
+				<li class="itemlist">
+					使用
+					<pre>
+body{font-family:'YH';}
+					</pre>
+				</li>
 				<li class="itemchild"></li>
 			</ul>
 		</div>
@@ -312,7 +343,31 @@
 		<div class="item item6">
 			<span class="title">@keyframes</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">定义 : @keyframes 动画名称{动画每个节点的动作}</li>
+				<li class="itemlist">使用 : el{animation: 动画名称 3s linear;}</li>
+				<li class="itemlist">@keyframes定义的动画名称用来被animation-name所使用</li>
+				<li class="itemlist">必须添加前缀Safari 和 Chrome(-webkit-)、Firefox(-moz-)、Opera(-o-)</li>
+				<li class="itemlist">
+					动作写法1
+					<pre>
+@keyframes 动画名称{
+  from{opacity:1;}
+  to{opacity:0;}
+}
+					</pre>
+				</li>
+				<li class="itemlist">
+					动作写法2
+					<pre>
+@keyframes testanimations{
+  from或0%{transform:translate(0,0);}
+  20%{transform:translate(20,20);}
+  40%{transform:translate(40,0);}
+  60%{transform:translate(60,20);}
+  80%{transform:translate(80,0);}
+  to或100%{transform:translate(100,20);}
+}					</pre>
+				</li>
 				<li class="itemchild"></li>
 			</ul>
 		</div>
