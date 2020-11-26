@@ -167,9 +167,18 @@
 			</ul>
 		</div>
 		<div class="item item10">
-			<span class="title"></span>
+			<span class="title">gradien 渐变</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">1、一般用于background-image，border-image等</li>
+				<li class="itemlist">2、线性渐变 linear-gradient(to left,#fff,#000 20%,#f00); 方向(不写默认上到下),颜色n n%时开始显示这个颜色</li>
+				<li class="itemlist">3、线性渐变 linear-gradient(0deg,#fff,#000); 从对面到 0度(十二点方向),颜色n</li>
+				<li> |</li>
+				<li class="itemlist">4、径向渐变 radial-gradients(#fff,#000 20%,#f00)</li>
+				<li class="itemlist">5、径向渐变 radial-gradients(设置圆形椭圆 渐变到哪里,#fff,#000 20%,#f00);如:circle closest-side</li>
+				<li class="itemlist">6、径向渐变 radial-gradients(100px at 50ox 50px,#fff,#000 20%,#f00);设置渐变半径 at 圆心坐标</li>
+				<li> |</li>
+				<li class="itemlist">7、重复渐变 repeating-radial-gradients(#fff,#000 5px,#f00 5px)</li>
+				<li class="itemlist">8、重复渐变 repeating-linear-gradients(#fff,#000 5px,#f00 5px);斑马纹效果</li>
 			</ul>
 		</div>
 		<div class="item item11">
@@ -219,6 +228,128 @@
 			<ul class="list">
 				<li class="itemlist"></li>
 			</ul>
+		</div>
+	</div>
+	<!--==========================3D================================-->
+	<div class="CellTitle">3D</div>
+	<div class="CellWarp">
+		<div class="item item1">
+			<span class="title">2D transform:以下属性位置随意用空格分隔 </span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item2">
+			<span class="title">transform:translate(50px,10px) 位移</span>
+			<ul class="list">
+				<li class="itemlist">两个值都能分x和y 如:transform:translateX(50px);transform:translateY(10px)</li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					transform:translate(50px,10px)
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item3">
+			<span class="title">transform:scale(.5) 缩放</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					transform:scale(.5)
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item4">
+			<span class="title">transform:rotate(45deg) 旋转</span>
+			<ul class="list">
+				<li class="itemlist">旋转之后坐标系也会跟着旋转</li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					transform:rotate(45deg)
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item3">
+			<span class="title">transform-origin:0px 0px;设置旋转中心点</span>
+			<ul class="list">
+				<li class="itemlist">px px</li>
+				<li class="itemlist">0% 100%</li>
+				<li class="itemlist">left top</li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					transform:rotate(45deg);
+					transform-origin:0px 0px;
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item3">
+			<span class="title">transform:skew(30deg,0deg) 变形</span>
+			<ul class="list">
+				<li class="itemlist"></li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					transform:skew(30deg,0deg)
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item4">
+			<span class="title">弧度与角度</span>
+			<ul class="list">
+				<li class="itemlist">deg度:一个完整的圆共有360deg,0度时deg不能省略</li>
+				<li class="itemlist">grad百分度:一个完整的圆共有400grad</li>
+				<li class="itemlist">rad弧度:一个完整的圆共有2π,180/π = 1rad(??)</li>
+				<li class="itemlist">turn圈:一个完整的圆共有1turn</li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item5">
+			<span class="title">3D坐标系</span>
+			<ul class="list">
+				<li class="itemlist">1、比2D多了Z轴，Z轴从XY交叉中心点穿过</li>
+				<li class="itemlist">2、用户面对页面:上(-Y)、下(+Y)、左(-X)、右(+X)、前(+Z)、后(-Z)</li>
+				<li class="itemlist">3、实现: 设置视距(用户眼睛离屏幕的距离)</li>
+				<li class="itemlist">transform:perspective(1000px)  translate3d(10px,10px,100px)</li>
+				<li class="itemlist">眼睛距离屏幕1000,Z轴使页面向用户移动100px</li>
+				<li class="itemchild" style="
+					width: 100px;
+					height: 100px;
+					background: #0ff;
+					/* perspective: 500px; 给变换元素父级设置视距离，二选一*/
+					
+				    transform:perspective(1000px) translate3d(10px,10px,100px)
+				"></li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item5">
+			<span class="title">3D属性</span>
+			<ul class="list">
+				<li class="itemlist">1、在2D基础上新增Z,如:transform:translate3d(x,y,z) 或 transform:translateZ(z)</li>
+				<li class="itemlist">2、</li>
+
+			</ul>
+			<li></li>
 		</div>
 	</div>
 	<!--==========================背景================================-->
