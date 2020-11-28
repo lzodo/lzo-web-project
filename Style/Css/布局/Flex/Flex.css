@@ -21,6 +21,7 @@ flex容器的子元素 float clear vertical-align等属性都会失效
         flex-warp: 设置子元素是否可以换行(默认flex是不会换行的,空间不够会减小项目的宽度)
                 :nowarp  默认
                 :warp  可以换行
+                :warp-reverse  可以换行，且第一行在下面
         
         align-content: 设置侧轴上子元素的排列方式(多行,单行无效果)
                 :flex-start 侧轴从上到下 

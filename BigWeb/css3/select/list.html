@@ -152,6 +152,7 @@
 				<li class="itemlist">2、transition-duration:.5s; 过渡时间</li>
 				<li class="itemlist">3、transition-timing-function:ease; 运动类型(贝塞尔曲线)</li>
 				<li class="itemlist">4、transition-delay:1s; 延迟时间</li>
+				<li class="itemlist">5、很相对动画局限通过事件触发且不灵活</li>
 			</ul>
 		</div>
 		<div class="item item9">
@@ -164,6 +165,8 @@
 				<li class="itemlist">4、animation-delay:1s; 延迟时间</li>
 				<li class="itemlist">5、animation-iteration-count:5; 循环次数(infinite无限循环)</li>
 				<li class="itemlist">6、animation-direction :normal; 是否反向运动(alternate与反向交替)</li>
+				<li class="itemlist">7、相关属性</li>
+				<li class="itemlist">animation-play-state:paused; 暂停动画</li>
 			</ul>
 		</div>
 		<div class="item item10">
@@ -182,48 +185,14 @@
 			</ul>
 		</div>
 		<div class="item item11">
-			<span class="title"></span>
+			<span class="title">字体</span>
 			<ul class="list">
-				<li class="itemlist"></li>
+				<li class="itemlist">1、font:italic bold 12px/20px arial,sans-serif;</li>
+				<li class="itemlist">2、font:font-style font-weight font-size/line-height font-family,font-family2;</li>
+				<li class="itemlist">3、连写中size和family选项不可以省略</li>
 			</ul>
 		</div>
 		<div class="item item12">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item13">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item14">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item15">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item16">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item17">
-			<span class="title"></span>
-			<ul class="list">
-				<li class="itemlist"></li>
-			</ul>
-		</div>
-		<div class="item item18">
 			<span class="title"></span>
 			<ul class="list">
 				<li class="itemlist"></li>
@@ -326,16 +295,19 @@
 		<div class="item item5">
 			<span class="title">3D坐标系</span>
 			<ul class="list">
-				<li class="itemlist">1、比2D多了Z轴，Z轴从XY交叉中心点穿过</li>
+				<li class="itemlist">1、比2D多了Z轴，Z轴从XY交叉中心点穿过;增加属性:transform:translate3d(x,y,z) 或 transform:translateZ(z</li>
 				<li class="itemlist">2、用户面对页面:上(-Y)、下(+Y)、左(-X)、右(+X)、前(+Z)、后(-Z)</li>
 				<li class="itemlist">3、实现: 设置视距(用户眼睛离屏幕的距离)</li>
 				<li class="itemlist">transform:perspective(1000px)  translate3d(10px,10px,100px)</li>
 				<li class="itemlist">眼睛距离屏幕1000,Z轴使页面向用户移动100px</li>
+				<li class="itemlist">4、父级:perspective:1000px;transform-style: preserve-3d;3d环境</li>
+				<li class="itemlist">5、有时间实现一下两个3d案例</li>
 				<li class="itemchild" style="
 					width: 100px;
 					height: 100px;
 					background: #0ff;
 					/* perspective: 500px; 给变换元素父级设置视距离，二选一*/
+					transform-style: preserve-3d;
 					
 				    transform:perspective(1000px) translate3d(10px,10px,100px)
 				"></li>
@@ -343,11 +315,16 @@
 			<li></li>
 		</div>
 		<div class="item item5">
-			<span class="title">3D属性</span>
+			<span class="title">transform-origin 设置3d操作中心点</span>
 			<ul class="list">
-				<li class="itemlist">1、在2D基础上新增Z,如:transform:translate3d(x,y,z) 或 transform:translateZ(z)</li>
-				<li class="itemlist">2、</li>
-
+				<li class="itemlist">1、transform-origin:x y z;三个坐标的位置(left||0% bottom||100% 0)</li>
+			</ul>
+			<li></li>
+		</div>
+		<div class="item item5">
+			<span class="title">backface-visibility </span>
+			<ul class="list">
+				<li class="itemlist">1、backface-visibility:hidden;设置容器旋转到背面时不显示</li>
 			</ul>
 			<li></li>
 		</div>
