@@ -42,8 +42,8 @@ flex容器的子元素 float clear vertical-align等属性都会失效
                 :column warp  直接设置主轴方向与是否换行
 
     子容器常用属性:
-        flex: 子项目占的份数
-                :1 无宽度子元素个数分之一
+        flex:null | flex-grow flex-shrink flex-basis
+                :1 无宽度子元素个数分之一,一般只用第一个
 
         align-self: 控制某个子项自己在侧轴的排列方式
                 :flex-start 侧轴从上到下 
@@ -51,6 +51,13 @@ flex容器的子元素 float clear vertical-align等属性都会失效
                 :center 垂直居中
 
         order: 定义子项的排列顺序(前后顺序,数值越小越靠前 默认0,可以是负数)
+
+        flex-grow:设置子元素所占剩余空间比例
+                flex-grow:4,flex-grow:1,flex-grow:2;第一个占七分之四,第二个占七分之一，第三个占七分之二
+
+        flex-shrink:设置缩小比例(不换行时单所有元素宽度之和超过父容器时),默认都是1
+
+
 
 
 主轴与侧轴

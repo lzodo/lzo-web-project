@@ -122,7 +122,7 @@ if(objd==1&&objd==2&&objd==3){
 
     阶段二: iframe 也很不方便不好
 
-    阶段三: CORS跨域资源共享
+    阶段三: CORS跨域资源共享(设置CORS与客户端关系不大)
     后端开启资源共享，但是会设置类似token的东西,保证获取数据的安全，不会别人调用
     前端:
         准备好baseURL、请求头信息等准备发送请求
@@ -130,7 +130,62 @@ if(objd==1&&objd==2&&objd==3){
                   axios.interceptors.request.use...
                   后端拿到token后再经过同样的方法生成token哪里对比，一样合法则可以通过
         相应拦截器:拿到数据后在这里出来，调用错误，或可以调用状态不对，直接提示问题,成功则通过返回到页面
+
+    服务器:
+        设置*允许所有源访问(不好尽量不要用*)、指定某个源访问(http://localhost:8080)、允许指定请求方式(POST)、允许指定请求头等操作
+        OPTIONS:试探性请求; 一般CORS跨域请求时，在我们调用接口请求时浏览器会帮我们发一个OPTIONS试探性请求，试探一下能不能连上服务器，能连上才会发正常的请求
+
+    阶段四: 基于http proxy实现
+        客户端:webpack有一个devServer提供proxy实现
+            // vue.config.js
+            module.exports = {
+                devServer:{
+                    proxy:{
+                        //为所有的服务器接口起一个别名前缀，为了和vue脚手架中其他页面的路由地址区分
+                        '/api':{
+                            target:'http://localhost:3000/'//自己的服务器端口3000
+                            changeOrigin:true //打开跨域
+                            pathRewrite:{
+                                "^/api":""
+                                //因为真实的服务器端的地址中不包含/api ，所以应该将程序中的、api删除（替换空字符串），再和target中的基础路径拼接起来作为发送到服务器端的最终请求地址
+                            }
+                        }
+                    }
+                }
+            }
+            //main.js
+            axios.defalts.baseURL = "/api"
+            // 然后重启脚手架（记得打开服务器）
+
+        服务端:打包后不存在webpage了，服务端要做反向到了(nginx)才能正常运行
+
+    。。
 */
+
+//=======================数据存储=========================||
+/*
+    vuex(vue):
+        特点:vue中使用,数据变换会直接带动页面的变化
+    localStorage(h5):
+        特点：存储的值是字符串格式，大小一般在5mb左右，能永久性存储
+    sessionStorage(h5):
+        特点：(临时保存同一窗口或标签页)的数据，在关闭窗口或标签页之后将会删除这些数据
+             value的值必须为字符串类型(true值会转换为"true")
+    cookie:
+        特点:
+            可设置有效期
+            大小一般4kb(与浏览器有关)
+            可与服务器传来传去
+        作用:服务端设置session，服务器返回给客户端信息，在响应头带着 set-cookie='connect.sid'(客户端与服务端建立唯一标识)
+             客户端会把信息种植到本地cookie中httponly(只能看不能改)，
+             客户端再次发送请求的时候会默认在请求头cookies中把connect.sid传给服务器
+
+
+    userdata(ie):只适用于ie，每个页面只能存储64kb，该域名网站最多存储640kb; 仅做了解
+    更多存储方式在f12 Application中有很多，当一般localStorage和cookies用的较多，其他不太常用
+*/
+
+存储
 
 </script>
 
