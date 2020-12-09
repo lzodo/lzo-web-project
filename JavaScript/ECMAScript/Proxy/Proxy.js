@@ -88,7 +88,7 @@ const handler = {
 
 function sum(...args) {
     let num = 0;
-    console.log(args); 
+    console.log(args);
     args.forEach((item) => {
         num += item;
     })
