@@ -1,91 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+	<body></body>
+	<script>
+		//=======================对象基础=========================||
 
-<body>
-</body>
-<script>
-//=======================对象基础=========================||
+		let obja = {},
+			objb = "0",
+			objc = 0;
+		obja[objb] = "val1";
+		obja[objc] = "val2";
+		console.log(obja[objb]); //val2 对象的key中 "0" 和 0 是一样的
 
-let obja = {},
-    objb = "0",
-    objc = 0;
-obja[objb] = 'val1';
-obja[objc] = 'val2';
-console.log(obja[objb]) //val2 对象的key中 "0" 和 0 是一样的
+		// ====================
 
-// ====================
+		let a = {},
+			b = {
+				bb: "1",
+			},
+			c = {
+				cc: "2",
+			};
 
-let a = {},
-    b = {
-        bb: '1'
-    },
-    c = {
-        cc: '2'
-    }
+		a[b] = 1; // a["[object object]"] = 1 所有对象做为key都会被转 [object object]
+		a[c] = 2;
+		console.log(a[b]); //2
 
-a[b] = 1; // a["[object object]"] = 1 所有对象做为key都会被转 [object object]
-a[c] = 2;
-console.log(a[b]) //2
+		//=============js将对象自动转字符串的过程========
+		let obj = {
+			a: 4,
+			toString() {
+				return "aaa";
+			},
+		};
+		console.log(obj); //可以打印任何书籍类型
+		//alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
 
-//=============js将对象自动转字符串的过程========
-let obj = {
-    a: 4,
-    toString() {
-        return 'aaa'
-    },
-}
-console.log(obj) //可以打印任何书籍类型
-//alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
+		function Myobj(name) {
+			this.name = name;
+			this.toString = function () {
+				return "bbb";
+			};
+		}
+		Myobj.prototype.toString = function () {
+			return "ccc";
+		};
+		let obj1 = new Myobj("obj1");
+		// alert(obj1)
 
-function Myobj(name) {
-    this.name = name;
-    this.toString = function(){
-     return 'bbb'
-    }
-}
-Myobj.prototype.toString = function() {
-    return 'ccc'
-}
-let obj1 = new Myobj('obj1')
-// alert(obj1)
-
-//=============怎么能让a==1&&a==2&&a==3  ========
-/*
+		//=============怎么能让a==1&&a==2&&a==3  ========
+		/*
     对象 == 字符串 对象.toString()转字符串
     null == undefined 但是和其他值比较就不相等了
     NaN == NaN 不相等
     其他比较都转数字
 */
-// 方法1 重写对象toString,valueOf方法
-var objdxxx ={
-    val:1,
-    toString(){ //valueOf也可以
-        return this.val++
-    }
-}
+		// 方法1 重写对象toString,valueOf方法
+		var objdxxx = {
+			val: 1,
+			toString() {
+				//valueOf也可以
+				return this.val++;
+			},
+		};
 
-//方法2 使用数据劫持实现
-var obje = 1;
-Object.defineProperty(window, "objd", {
-    get(){
-        return obje++
-    }
-});
+		//方法2 使用数据劫持实现
+		var obje = 1;
+		Object.defineProperty(window, "objd", {
+			get() {
+				return obje++;
+			},
+		});
 
-if(objd==1&&objd==2&&objd==3){
-    console.log('可以')
-}
+		if (objd == 1 && objd == 2 && objd == 3) {
+			console.log("可以");
+		}
 
+		//=======================运行机制=========================||
 
-//=======================运行机制=========================||
-
-/*
+		/*
     执行上下文:
     函数外
         定义var变量与函数(函数名与变量名相同会被覆盖)
@@ -102,33 +100,33 @@ if(objd==1&&objd==2&&objd==3){
     主线程执行完后去找一个个的微宏任务，找到一个拿到主线程继续执行执行完再去找。。。，就叫做Event Loop事件循环
 */
 
-//=======================闭包=========================||
+		//=======================闭包=========================||
 
-/*
+		/*
     闭包
     闭包就是外面函数中return 新函数地址,使新函数在外面可以使用，新函数中可以使用外面函数的变量
 */
-function fun(n, o) {
-    console.log(n, o);
-    return {
-        fun2: function(m) {
-            return fun(m, n);
-        }
-    };
-}
+		function fun(n, o) {
+			console.log(n, o);
+			return {
+				fun2: function (m) {
+					return fun(m, n);
+				},
+			};
+		}
 
-var a = fun(0); // ?0
-a.fun2(1); // ?
-a.fun2(2); // ?
-a.fun2(3).fun2(4); // ?
+		var a = fun(0); // ?0
+		a.fun2(1); // ?
+		a.fun2(2); // ?
+		a.fun2(3).fun2(4); // ?
 
-var b = fun(0).fun2(1).fun2(2).fun2(3); // ?
-var c = fun(0).fun2(1); // ?
-c.fun2(2); // ?
-c.fun2(3);
+		var b = fun(0).fun2(1).fun2(2).fun2(3); // ?
+		var c = fun(0).fun2(1); // ?
+		c.fun2(2); // ?
+		c.fun2(3);
 
-//=======================跨域=========================||
-/*
+		//=======================跨域=========================||
+		/*
     http 默认 80, https 默认 443, ftp 默认 21
     协议域名端口号都要相同
     浏览器同源策略，不同源之间不能进行访问(前后端分离之前情况不多，分离后前端开发时开的服务一般与后端或线上的域不一样，导致跨域普遍增多)
@@ -154,6 +152,7 @@ c.fun2(3);
         OPTIONS:试探性请求; 一般CORS跨域请求时，在我们调用接口请求时浏览器会帮我们发一个OPTIONS试探性请求，试探一下能不能连上服务器，能连上才会发正常的请求
 
     阶段四: 基于http proxy实现
+        原理:服务器请求服务器没有跨域问题，用本地页面请求本地服务器,本地服务器在去访问跨域的接口
         客户端:webpack有一个devServer提供proxy实现
             // vue.config.js
             module.exports = {
@@ -180,8 +179,8 @@ c.fun2(3);
     。。
 */
 
-//=======================数据存储=========================||
-/*
+		//=======================数据存储=========================||
+		/*
     vuex(vue):
         特点:vue中使用,数据变换会直接带动页面的变化
     localStorage(h5):
@@ -203,8 +202,6 @@ c.fun2(3);
     更多存储方式在f12 Application中有很多，当一般localStorage和cookies用的较多，其他不太常用
 */
 
-存储
-
-</script>
-
+		存储;
+	</script>
 </html>
