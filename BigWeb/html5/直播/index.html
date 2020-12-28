@@ -20,17 +20,42 @@
 		              getUserMedia
 		          4. 得到用户的视频媒体流,输出到video
 		      */
-		var constraints = { video: true }; //video: true 使用户可以同意开启
+		var constraints = { video: true, audio: true }; //video: true 使用户可以同意开启
 		navigator.mediaDevices.getUserMedia(constraints).then((mediaStream) => {
 			//调用设备成功后执行的回调
 			var video = document.querySelector("video");
-			console.log(JSON.stringify(mediaStream));
+			// console.log(JSON.stringify(mediaStream));
 			//输出到video
 			video.srcObject = mediaStream;
+			//video.src = window.URL.createObjectURL(mediaStream);
 			//视频流加载成功后播放
 			video.onloadedmetadata = () => {
 				video.play();
 			};
 		});
+		/*
+			生成HTTPS证书
+
+			http://slproweb.com/products/Win32OpenSSL.html
+
+			Win64 OpenSSL v1.1.1i Light
+			EXE | MSI  -> 下载EXE
+
+			打开 C:\Program Files\OpenSSL-Win64 start.bat
+
+			cd C:/ 进入根目录运行 openssl genrsa -out privkey.key 2048  生成秘钥
+			运行 openssl req -new -x509 -key  privkey.key -out cacert.pen -days 1095  生成证书
+			连续回车 直到 Common name 输入要签名的IP 直接回车
+
+			node中开启https服务
+			var sslOptions = {
+				key: fs.readFileSync("C:/privkey.key"),
+				cert: fs.readFileSync("C:/cacert.pen"),
+			};
+			var http = require("https").Server(sslOptions, app);
+
+			配置HTTPS服务方法二
+			WebRTC基础
+		*/
 	</script>
 </html>
