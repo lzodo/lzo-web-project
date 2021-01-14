@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			//JavaScript 的对象本质上只能用字符串单做键值,用对象的话会自动调用toString方法 转换为字符串
+			const data = {};
+			const objectkey = { a: 1 };
+			data[objectkey] = "metadata";
+			console.log(data); //[object Object]:"metadata"
+
+			//Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键
+			const map = new Map([
+				["name", "张三"],
+				["title", "Author"],
+			]);
+			let obj  = {a:1};
+			debugger
+
+			map.size; // 2
+			map.has("name"); // true
+			map.get("name"); // "张三"
+			map.set(obj,123);
+			map.get(obj); //123
+			map.delete('name');
+
+
+		</script>
+	</body>
+</html>

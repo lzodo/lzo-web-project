@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			//!新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+			//set中添加数据不会自动类型转换 相当于 === ,区别是set中的NaN等于NaN
+			//set中两个对象总是不相等的
+			console.log(
+				new Set([1, 1, "2", 2, "abc", "abc", 4, 4, 4, NaN, NaN, {}, {}])
+			); //{1,"2",2,'abc',4,NaN,{},{}} ,可以set 数组与类数组
+			console.log([...new Set([1, 1, 2, 2, 3, 3, 4, 4, 4])]); //[1,2,3,4]
+			console.log(Array.from(new Set([1, 1, 2, 2, 3, 3, 4, 4, 4]))); //[1,2,3,4]
+			console.log([...new Set("aabbccdd")]); //['a','b','c','d']
+
+			//=======================================================================
+			let set = new Set();
+			set.add(1);
+			set.add(2);
+			set.add(2);
+			set.add(3);
+
+			console.log(set); //{1,2,3}
+			console.log(set.size); //3 相当于length。
+
+			//Set 实例的方法分为:用于操作数据 和 遍历方法
+			set.add("value"); //添加某个值，返回 Set 结构本身。
+			set.has("value"); //返回一个布尔值，表示该值是否为Set的成员。
+			set.delete("value"); //删除某个值，返回一个布尔值，表示删除是否成功。
+			//set.clear() //清除所有成员，没有返回值
+
+			console.log(set.keys());
+			console.log(set.values());
+			console.log(set.entries()); //key end value
+			set.forEach((value, key) => console.log(key + " : " + value));
+
+			//=======================================================================
+			let a = new Set([1, 2, 3]);
+			let b = new Set([4, 3, 2]);
+
+			// 并集
+			let union = new Set([...a, ...b]);
+			// Set {1, 2, 3, 4}
+
+			// 交集
+			let intersect = new Set([...a].filter((x) => b.has(x)));
+			// set {2, 3}
+
+			// （a 相对于 b 的）差集
+			let difference = new Set([...a].filter((x) => !b.has(x)));
+
+			//=======================================================================
+			//必须是对象
+			const aaa = [
+				[1, 2],
+				[3, 4],
+				{a:'1'}
+			];
+			const ws = new WeakSet(aaa);
+			console.log(ws)
+
+			//主要三个方法
+			ws.add();
+			ws.delete();
+			ws.has();
+
+			//没有size ，forEach等
+
+		</script>
+	</body>
+</html>
