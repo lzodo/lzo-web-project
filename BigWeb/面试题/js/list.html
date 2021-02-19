@@ -196,6 +196,19 @@
         作用:服务端设置session，服务器返回给客户端信息，在响应头带着 set-cookie='connect.sid'(客户端与服务端建立唯一标识)
              客户端会把信息种植到本地cookie中httponly(只能看不能改)，
              客户端再次发送请求的时候会默认在请求头cookies中把connect.sid传给服务器
+		流程: 1、用户输入用户名、密码进行登录
+			 2、成功后，后端会存一个session，保存用户信息
+			 3、session值当做cookie内容被种到客户端	
+			 4、cookie会在请求下一个资源时携带
+			 5、后端将cookie内容与session值进行对比，相等通过，不相等不通过
+			 6、缺点:服务器需要存每个用户的session
+
+	token(令牌):
+		流程:1、用户输入用户名、密码进行登录
+			2、后端验证成功后，生成token，返回给前端
+			3、前端将token存起来(localStorage....)
+			4、下次调用接口携带token，后端验证token是否合法有效 
+			
 
 
     userdata(ie):只适用于ie，每个页面只能存储64kb，该域名网站最多存储640kb; 仅做了解
