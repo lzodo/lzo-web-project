@@ -15,7 +15,7 @@ const proxy1 = new Proxy(
 	{
 		get(target, key) {
 			if (Reflect.has(target, key)) {
-				// 新 判断target中是否含有该访问的属性
+				// 新 判断target中是否含有该访问的属性(key)
 				return Reflect.get(target, key); //获取target 的 该属性的值
 			} else {
 				return false;

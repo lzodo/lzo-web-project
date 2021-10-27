@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body></body>
+    <script>
+        // ===========================构造函数
+        function Mycase(name) {
+            this.name = name;
+            this.sta = function (sta) {
+                //每次new都会被重新定义 这个不好
+                console.log(sta);
+            };
+        }
+        Mycase.isMycase = function (obj) {
+            if (obj.constructor == Mycase) {
+                return true;
+            }
+            return false;
+        };
+        Mycase.prototype.say = function (say) {
+            console.log(say + "--in");
+        };
+
+        let op = new Mycase("op");
+        console.log(Mycase.isMycase(op));
+        console.log(op.name);
+        op.say("issay");
+        op.sta();
+
+        console.log(op);
+
+        // 构造函数的原型对象prototype,每一个对象的原型链 __proto__
+        // 原型链总是指向prototype
+
+        // 实例.__proto__ --> 构造函数.prototype
+        console.log(op.__proto__ == Mycase.prototype);
+        // 构造函数.prototype.__proto__ --> Object.prototype
+        console.log(Mycase.prototype.__proto__ == Object.prototype);
+        // 构造函数.__proto__ --> Function.prototype
+        console.log(Mycase.__proto__ == Function.prototype);
+        // Function.prototype.__proto__ --> Object.prototype
+        console.log(Function.prototype.__proto__ == Object.prototype);
+        // Object.prototype.__proto__ --> null
+        console.log(Object.prototype.__proto__ == null);
+
+        // 每个函数都有一个原型对象，该原型对象有一个constructor属性，指向创建对象的函数本身
+        console.log(Mycase.prototype.constructor == Mycase);
+        console.log(Object.prototype.constructor == Object);
+
+        // 实例的constructor 总指向他的构造函数(用作判断数据类型不适合判断null 和 undefined)
+        // constructor 不适合判断null 和 undefined 并且 Mycase.prototype.constructor 指向可被修改
+        console.log(op.constructor == Mycase);
+        console.log(op.constructor == Mycase.prototype.constructor);
+
+        // 运算符constructor判断某个实例是否属于指定构造函数(和Mycase.prototype 原型链上的构造函数)
+        console.log(op instanceof Mycase);
+        console.log(op instanceof Object);
+        console.log(op instanceof Function); //false 因为 Function是Mycase.__proto__ 指向的
+        console.log("str" instanceof String); //false 基本数据类型不适用
+
+        //判断数据类型 还有以下几种方法
+        // 1、typeof 无法判断复杂数据类型
+        // 2、toString是Object原型对象上的一个方法，该方法默认返回其调用者的具体类型,最好的并且可以跨iframe
+        console.log(Object.prototype.toString.call("str"));
+
+        // ===========================new的实现
+        /**
+         *  ! 创建一个新的对象
+         *  todo 继承父类原型上的方法.
+         *  * 添加父类的属性到新的对象上并初始化. 保存方法的执行结果.
+         *  ! 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象。
+         */
+
+        function _new(obj, ...rest) {
+            // 基于obj的原型创建一个新的对象
+            const newObj = Object.create(obj.prototype);
+            // 添加属性到新创建的newObj上, 并获取obj函数执行的结果.
+            const result = obj.apply(newObj, rest);
+            // 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象
+            return typeof result === "object" ? result : newObj;
+        }
+
+        let myNew = _new(Mycase, "op");
+        console.log(myNew);
+
+        // ===========================继承
+        function Child(name) {
+            Mycase.call(this, name); //构造函数继承 无法继承原型上的函数
+        }
+        Child.prototype = new Mycase(); //原型链继承 构造函数的方法与属性 和 prototype的方法一起指向子类prototype
+        Child.prototype.constructor = Child; //重置constructor指向
+
+        let child = new Child("chi");
+        console.log(child);
+        console.log(child.sta("fdsafa"));
+        console.log(child.say("fdsafa"));
+        console.log(child.name);
+        console.log(child.constructor);
+
+        // es6 写法
+        //父类
+        class Mycase6 {
+            //constructor是构造方法
+            constructor(name) {
+                this.name = name;
+            }
+            sta(sta) {
+                console.log(sta);
+            }
+            say(say) {
+                console.log("我是父级方法");
+            }
+        }
+
+        //子类
+        class Child6 extends Mycase6 {
+            constructor(name, age) {
+                //console.log(this);//报错
+                super(name);
+                //super();相当于父类的构造函数
+                //console.log(this);调用super后得到了this，不报错，this指向子类，相当于调用了父类.prototype.constructor.call(this)
+                this.age = age;
+            }
+            aboutMe() {
+                console.log(`${this.name} ${this.age}`);
+            }
+        }
+
+        //调用只能通过new的方法得到实例,再调用里面的方法
+        let obj = new Child6("姓名", "5010");
+        obj.aboutMe();
+        obj.say();
+
+
+        /*
+        原型链：每个实例化对象都是通过构造函数new出来的，构造函数都有原型，当子级寻找一个属性或方法时，自己没有就会去原型中找，如果没有就会再往上找，
+               直到找了或到object为止，就跟作用域链一样自己作用域找不到就往上一个找直到全局的global作用域，类似这种的链式结构，所以叫原型链
+               最顶级是没有东西的，除非null能算
+        */
+
+    </script>
+</html>
+
