@@ -1,126 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Document</title>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
+	<body></body>
+	<script type="text/javascript">
+		let user = {
+			name: "John",
+		};
 
-<body>
-</body>
-<script type="text/javascript">
-let user = {
-    name: "John",
-};
+		//设置属性标志 Object.defineProperty
+		Object.defineProperty(user, "age", {
+			value: 20,
+			writable: true,
+			configurable: true,
+		});
 
+		//设置多个属性标志 Object.defineProperties
+		Object.defineProperties(user, {
+			prop1: { value: "prop1", writable: false },
+			prop2: { value: "prop2", writable: false },
+		});
 
-//设置属性标志 Object.defineProperty
-Object.defineProperty(user, "age", {
-    value: 20,
-    writable: true,
-    configurable: true,
-});
+		//查看属性标志  Object.getOwnPropertyDescriptor
+		let descriptor = Object.getOwnPropertyDescriptor(user, "age");
+		console.log(JSON.stringify(descriptor, null, 2));
 
-//设置多个属性标志 Object.defineProperties
-Object.defineProperties(user, {
-    prop1: { value: "prop1", writable: false },
-    prop2: { value: "prop2", writable: false },
-});
+		//查看所有属性标志 Object.getOwnPropertyDescriptors
+		let descriptorAll = Object.getOwnPropertyDescriptors(user);
+		console.log(JSON.stringify(descriptorAll, null, 2));
 
-//查看属性标志  Object.getOwnPropertyDescriptor
-let descriptor = Object.getOwnPropertyDescriptor(user, 'age');
-console.log(JSON.stringify(descriptor, null, 2));
+		/*
+		{
+		"value": "John",
+		"writable": true,
+		"enumerable": true,
+		"configurable": true
+		}
+		属性三个标志 默认全true
+		writable — 如果为 true，则值可以被修改，否则它是只可读的。
+		enumerable — 如果为 true，则会被在循环中列出，否则不会被列出。
+		configurable — 如果为 true，则此特性可以被删除，这些属性也可以被修改，否则不可以。
+		*/
 
-//查看所有属性标志 Object.getOwnPropertyDescriptors
-let descriptorAll = Object.getOwnPropertyDescriptors(user);
-console.log(JSON.stringify(descriptorAll, null, 2));
+		//其他
 
-/*
-{
-  "value": "John",
-  "writable": true,
-  "enumerable": true,
-  "configurable": true
-}
-属性三个标志 默认全true
-writable — 如果为 true，则值可以被修改，否则它是只可读的。
-enumerable — 如果为 true，则会被在循环中列出，否则不会被列出。
-configurable — 如果为 true，则此特性可以被删除，这些属性也可以被修改，否则不可以。
-*/
+		//禁止继续添加新属性
+		Object.preventExtensions(user);
+		user.newProp = "10";
+		console.log(user); //没有 newProp
 
+		//禁止添加/删除/修改属性。为所有现有的属性设置 configurable: false。
+		Object.seal(user);
 
-//其他 
+		//禁止添加/删除/更改属性。为所有现有的属性设置 configurable: false, writable: false。
+		Object.freeze(user);
 
-//禁止继续添加新属性
-Object.preventExtensions(user)
-user.newProp = '10';
-console.log(user) //没有 newProp
+		//如果添加属性被禁止，则返回 false，否则返回 true。
+		Object.isExtensible(user);
+		//如果添加/删除属性被禁止，并且所有现有的属性都具有 configurable: false则返回 true。
+		Object.isSealed(user);
+		//如果添加/删除/更改属性被禁止，并且所有当前属性都是 configurable: false, writable: false，则返回 true。
+		Object.isFrozen(user);
 
-//禁止添加/删除/修改属性。为所有现有的属性设置 configurable: false。
-Object.seal(user)
+		//====================属性的 getter 和 setter========================
+		/*
+		* 对象中用 get 与 set 表示
+			let obj = {
+				get propName() {
+					// 当读取 obj.propName 时，getter 起作用
+				},
 
-//禁止添加/删除/更改属性。为所有现有的属性设置 configurable: false, writable: false。
-Object.freeze(user)
+				set propName(value) {
+					// 当执行 obj.propName = value 操作时，setter 起作用
+				}
+			};
+		* "_" 开头的属性是内部属性，不应该从对象外部进行访问
+		*/
 
+		let GetSetObj = {
+			name: "John",
+			surname: "Smith",
 
+			get fullName() {
+				return `${this.name} ${this.surname}`;
+			},
+		};
 
+		console.log(GetSetObj.fullName); // John Smith
+		GetSetObj.fullName = 10;
+		console.log(GetSetObj.fullName); // John Smith
 
-//如果添加属性被禁止，则返回 false，否则返回 true。
-Object.isExtensible(user)
-//如果添加/删除属性被禁止，并且所有现有的属性都具有 configurable: false则返回 true。
-Object.isSealed(user)
-//如果添加/删除/更改属性被禁止，并且所有当前属性都是 configurable: false, writable: false，则返回 true。
-Object.isFrozen(user)
+		let getterUser = {
+			get name() {
+				return this._name;
+			},
 
+			set name(value) {
+				if (value.length < 4) {
+					console.log(
+						"Name is too short, need at least 4 characters"
+					);
+					return;
+				}
+				this._name = value;
+			},
+		};
 
-//====================属性的 getter 和 setter========================
-/*
- * 对象中用 get 与 set 表示
-	let obj = {
-	    get propName() {
-	        // 当读取 obj.propName 时，getter 起作用
-	    },
+		getterUser.name = "Pete";
+		console.log(getterUser.name); // Pete
+		console.log(getterUser._name); // Pete
 
-	    set propName(value) {
-	        // 当执行 obj.propName = value 操作时，setter 起作用
-	    }
-	};
- * "_" 开头的属性是内部属性，不应该从对象外部进行访问
- */
-
-let GetSetObj = {
-  name: "John",
-  surname: "Smith",
-
-  get fullName() {
-    return `${this.name} ${this.surname}`;
-  }
-};
-
-console.log(GetSetObj.fullName); // John Smith
-GetSetObj.fullName = 10;
-console.log(GetSetObj.fullName); // John Smith
-
-
-let getterUser = {
-  get name() {
-    return this._name;
-  },
-
-  set name(value) {
-    if (value.length < 4) {
-      console.log("Name is too short, need at least 4 characters");
-      return;
-    }
-    this._name = value;
-  }
-};
-
-getterUser.name = "Pete";
-console.log(getterUser.name); // Pete
-console.log(getterUser._name); // Pete
-
-getterUser.name = ""; // Name 太短了……
-</script>
-
+		getterUser.name = ""; // Name 太短了……
+	</script>
 </html>
