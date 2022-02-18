@@ -16,6 +16,7 @@ console.log(arr.join('_')) //装字符串(如果有子数组用默认逗号相�
 console.log('======改变原数组======')
 console.log(arr.splice(1,2,'c')) //替换原数组 (位置索引,删除长度,插入元素)
 console.log(arr.sort()) //数组排序 改变原数组并返回排序后的数组
+	[{a:1},{a:3},{a:2}].sort((a,b)=>b.a-a.a); //返回值大于0顺序调换
 console.log(arr.push()) //后加并返回长度
 console.log(arr.pop('f')) //后删并返回删除的元素
 console.log(arr.unshift('g')) //前加并返回长度
