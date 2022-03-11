@@ -49,7 +49,9 @@
         console.log(Object.prototype.__proto__ == null);
 
         // 每个函数都有一个原型对象，该原型对象有一个constructor属性，指向创建对象的函数本身
+        console.log(Mycase.prototype.constructor);
         console.log(Mycase.prototype.constructor == Mycase);
+        console.log(Object.prototype.constructor);
         console.log(Object.prototype.constructor == Object);
 
         // 实例的constructor 总指向他的构造函数(用作判断数据类型不适合判断null 和 undefined)
@@ -67,6 +69,7 @@
         // 1、typeof 无法判断复杂数据类型
         // 2、toString是Object原型对象上的一个方法，该方法默认返回其调用者的具体类型,最好的并且可以跨iframe
         console.log(Object.prototype.toString.call("str"));
+        console.log("==============================");
 
         // ===========================new的实现
         /**
@@ -79,6 +82,7 @@
         function _new(obj, ...rest) {
             // 基于obj的原型创建一个新的对象
             const newObj = Object.create(obj.prototype);
+ 
             // 添加属性到新创建的newObj上, 并获取obj函数执行的结果.
             const result = obj.apply(newObj, rest);
             // 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象
