@@ -5,6 +5,35 @@
 	<title>Grid</title>
 </head>
 <body>
-	
+	<ul class="gird-warp">
+		<li class="item">item1</li>
+		<li class="item">item2</li>
+		<li class="item">item3</li>
+		<li class="item">item4</li>
+		<li class="item">item5</li>
+		<li class="item">item6</li>
+		<li class="item">item7</li>
+		<li class="item">item8</li>
+		<li class="item">item9</li>
+	</ul>
 </body>
+<style>
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+}
+.gird-warp{
+	display: grid;
+	grid-template-rows:minmax(100px,200px);
+	grid-template-columns:100px 100px 100px;
+	row-gap:10px;
+	gap:10px;
+}
+.item{
+	border: 1px solid #0ff;
+	text-align: center;
+}
+</style>
 </html>
