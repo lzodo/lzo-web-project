@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<ul>
+			<li>
+				<span></span>
+			</li>
+		</ul>
+	</body>
+	<script>
+		let start = 0; //开始值
+		let end = 900; //结束值
+		let time = 30; //时长大小
+		let beet = Math.floor(end / time); //屏幕刷新率每次增加大小，time越大，滚动月慢
+		beet = beet > 1 ? beet : 1;
+
+		let spanDom = document.querySelector("span");
+		function add() {
+			if (start + beet > end) { //最后一次
+				start = end;
+			} else {
+				start += beet;
+			}
+			spanDom.innerText = start;
+			window.requestAnimationFrame(loop);
+		}
+		function loop() {
+			if (start < end) {
+				window.requestAnimationFrame(add);
+			}
+		}
+		loop();
+	</script>
+	<style></style>
+</html>
