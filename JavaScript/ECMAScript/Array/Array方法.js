@@ -1,6 +1,6 @@
 let arr = ['a','b','c','d','e','f','g','a','b'];
 console.log('======不改变原数组(如果不动遍历第三个原数组参数的话)======')
-console.log(arr.map(item => item + 'a'))  //修改数组中的元素并返回一个新数组，其中每个元素都使用指定函数进行过转换。 
+console.log(arr.map(item => item + 'a'))  //修改数组中的元素并返回一个新数组，其中每个元素都使用指定函数进行过转换。
 console.log(arr.forEach(item => item + 'a'))  //遍历数组 无return,(item,index,原数组) 代替for
 console.log(arr.filter(item => item == 'a'))  //返回一个数组，只有当指定函数返回 true 时，相应的元素才会被包含在这个数组中
 console.log(arr.reduce((fnRetrunNewVal, itema) => { return fnRetrunNewVal + itema},0)) //每一项进行累加
@@ -13,6 +13,10 @@ console.log(arr.some(item=>item == 'a')) //只要有一个满足返回true,否�
 console.log(arr.includes('a')) //判断数中是否包含给定的值
 //console.log(arr.flat()) //数组扁平化(默认展开一层,Infinity展开全部,还能用数字表示)
 console.log(arr.join('_')) //装字符串(如果有子数组用默认逗号相连)
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(ruits.valueOf()); //["Banana", "Orange", "Apple", "Mango"] 回 Array 对象的原始值。
+
 console.log('======改变原数组======')
 console.log(arr.splice(1,2,'c')) //替换原数组 (位置索引,删除长度,插入元素)
 console.log(arr.sort()) //数组排序 改变原数组并返回排序后的数组
@@ -26,7 +30,7 @@ console.log(arr.reverse(arr)) //反转数组
 console.log('======Array方法======')
 Array.from(arr) //将伪数组(有length的)变成数组  || arr = [...str]
 Array.of('1','b','3') //将一组值转为数组
-Array.isArray(arr) //判断一个对象是否为数组 
+Array.isArray(arr) //判断一个对象是否为数组
 console.log('======遍历器========')
 arr.keys() //键
 arr.values() //值
@@ -101,7 +105,7 @@ var wizards = [
   },[])
   console.log(hebin);
 
-    
+
   let hebin2 = wizards.reduce((fnRetrunNewVal, item) => {
 	var name = item.name.replace(" ",'');
 
