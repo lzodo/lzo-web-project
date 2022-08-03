@@ -16,6 +16,7 @@
 			value: 20,
 			writable: true,
 			configurable: true,
+			enumerable: true,
 		});
 
 		//设置多个属性标志 Object.defineProperties
@@ -23,6 +24,8 @@
 			prop1: { value: "prop1", writable: false },
 			prop2: { value: "prop2", writable: false },
 		});
+
+		console.log(user, 1111);
 
 		//查看属性标志  Object.getOwnPropertyDescriptor
 		let descriptor = Object.getOwnPropertyDescriptor(user, "age");
@@ -39,10 +42,12 @@
 		"enumerable": true,
 		"configurable": true
 		}
-		属性三个标志 默认全true
-		writable — 如果为 true，则值可以被修改，否则它是只可读的。
-		enumerable — 如果为 true，则会被在循环中列出，否则不会被列出。
-		configurable — 如果为 true，则此特性可以被删除，这些属性也可以被修改，否则不可以。
+		属性三个标志
+			直接写的参数属性默认为true，Object.defineProperties 定义的属性默认全部false
+
+			writable — 如果为 true，则值可以被修改，否则它是只可读的。
+			enumerable — 如果为 true，则会被在循环中列出，否则不会被列出。(浏览器打印出属性名是否灰色)
+			configurable — 如果为 true，则此特性可以被删除，这些属性也可以被修改，否则不可以。
 		*/
 
 		//其他
@@ -80,22 +85,22 @@
 		* "_" 开头的属性是内部属性，不应该从对象外部进行访问
 		*/
 
-		let GetSetObj = {
-			name: "John",
-			surname: "Smith",
+		// let GetSetObj = {
+		// 	name: "John",
+		// 	surname: "Smith",
 
-			get fullName() {
-				return `${this.name} ${this.surname}`;
-			},
-		};
+		// 	get fullName() {
+		// 		return `${this.name} ${this.surname}`;
+		// 	},
+		// };
 
-		console.log(GetSetObj.fullName); // John Smith
-		GetSetObj.fullName = 10;
-		console.log(GetSetObj.fullName); // John Smith
+		// console.log(GetSetObj.fullName); // John Smith
+		// GetSetObj.fullName = 10;
+		// console.log(GetSetObj.fullName); // John Smith
 
 		let getterUser = {
 			get name() {
-				return this._name;
+				return this._name; // 如果是通过 Object.defineProperty 定义的name属性就不用下划线
 			},
 
 			set name(value) {
@@ -114,5 +119,8 @@
 		console.log(getterUser._name); // Pete
 
 		getterUser.name = ""; // Name 太短了……
+
+
+
 	</script>
 </html>
