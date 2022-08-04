@@ -11,6 +11,9 @@ const proxy1 = new Proxy(
 	{
 		a: 1,
 		c: 3,
+		data:{
+			label:"33"
+		}
 	},
 	{
 		get(target, key) {
@@ -39,6 +42,10 @@ const proxy1 = new Proxy(
 console.log(proxy1.a); //1
 proxy1.d = 10; // 创建新属性
 proxy1.d = 100; // 更新成功
+setTimeout(() => {
+	console.log('无法触发 setting')
+	proxy1.data.label = '12345'
+}, 4000);
 console.log(proxy1.notkey); //false
 console.log(proxy1.d); //100
 console.log("a" in proxy1);
