@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="user"></div>
+		<div id="job"></div>
+	</body>
+	<script>
+		/*
+            vue2 双向绑定 通过 Object.defineProperty()来实现数据劫持的
+            数据变化更新视图，视图变化更新数据
+
+            1、发布订阅模式
+            2、数据劫持
+                访问属性触发getting
+                修改属性触发setting
+        */
+
+		// 发布订阅 -> 订阅器 : 手机订阅者、发布通知
+
+		const obj = {
+			name: "lzo",
+			job: "web",
+		};
+
+		class Dep {
+			constructor() {
+				this.subs = []; // 用来接收订阅者
+			}
+			addsubs(watcher) {
+				// 收集订阅者
+				this.subs.push(watcher);
+			}
+			notify() {
+				// 遍历每一个订阅者
+				this.subs.forEach((watcher) => watcher.update());
+			}
+		}
+
+		// 订阅者
+		class Watcher {
+			constructor(data, key, cb) {
+				this.data = data;
+				this.key = key;
+				this.cb = cb;
+
+				Dep.target = this;
+				data[key]; // 初始访问每个属性镜像getter收集
+				Dep.target = null;
+			}
+			update() {
+				const value = this.data[this.key]; // 获取对象中指定属性的值
+				this.cb(value);
+			}
+		}
+
+		// 创建实例
+		const dep = new Dep();
+
+		// 数据劫持与发布订阅结合，实现双向绑定，访问属性的时候进入get对相关属性进行依赖收集，修改时进入set进行 notify通知，通知订阅者更新数据
+		Object.keys(obj).forEach((key) => {
+			let value = obj[key];
+			console.log(obj, key, 222);
+			Object.defineProperty(obj, key, {
+				get() {
+					console.log(`user get ${value}`);
+					Dep.target && dep.addsubs(Dep.target);
+					return value;
+				},
+				set(nv) {
+					console.log(`user set ${key} = ${nv}`);
+					value = nv;
+					dep.notify();
+				},
+			});
+		});
+
+		// 添加渲染函数
+		function initWather() {
+			Object.keys(obj).forEach((key) => {
+				let value = obj[key];
+				if (key == "name") {
+					// user document.getElementById("user") 的简写
+					user.innerHTML = value;
+				}
+				if (key == "job") {
+					job.innerHTML = value;
+				}
+
+				new Watcher(obj, key, (value) => {
+					if (key == "name") {
+						// user document.getElementById("user") 的简写
+						user.innerHTML = value;
+					}
+					if (key == "job") {
+						job.innerHTML = value;
+					}
+				});
+			});
+		}
+		initWather();
+
+		setTimeout(() => {
+			obj.name = "lzoxun";
+		}, 3000);
+	</script>
+</html>
