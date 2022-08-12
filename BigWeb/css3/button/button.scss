@@ -262,6 +262,67 @@ body {
 	}
 }
 
+// slider============
+
+// 滑块特效
+.two-model{
+	width:100%;
+}
+.item-slider{
+	background: #EDF1F4;
+	width: 500px;
+	height: 170px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	#btnWrapper{
+		position: relative;
+		width: 380px;
+		height: 80px;
+		padding: 12px 16px;
+		border-radius: 12px; // 圆角
+		overflow: hidden; // 超出隐藏
+		background-color: #e2e6eb; // 背景色
+		box-shadow: -10px -10px 15px #f5f9fd, 10px 10px 15px #d8dbe5; // 阴影（阴影可以添加多条，别告诉我你不知道！！）
+		&::before {
+			content: "";
+			position: absolute;
+			// left: 16px; // 要考虑到父盒子的内边距
+			top: 12px; // 同上
+			width: calc(50% - 16px - 8px);
+			height: calc(100% - 24px);
+			border-radius: 12px;
+			box-shadow: inset 8px 8px 6px #d9dce6,
+						inset -5px -5px 15px #f5f9fd,
+						inset -5px -5px 15px #f5f9fd,
+						inset 7px 7px 6px #d9dce6;
+
+			/* ...其他属性 */
+			left: var(--groove-left); // 使用css变量
+			/* ...其他属性 */
+			transition: left 1s cubic-bezier(0.82, 0.12, 0.18, 0.88); // 添加过渡效果，贝塞尔曲线
+		}
+
+		.btn {
+			float: left;
+			display: flex; // 弹性布局
+			align-items: center; // 列居中
+			justify-content: center; // 行居中
+			width: 50%;
+			height: 100%;
+			padding: inherit; // 偷懒内边距继承了父元素，也可以自己修改
+			color: #aaa; // 默认文字颜色是灰色，随便选了个色号
+			cursor: pointer; // 鼠标经过图标为小手
+		}
+		.active {
+			color: #111; // 选中颜色
+		}
+	}
+}
+
+// slider============
+
 @keyframes hvr-ripple-out {
 	0% {
 		top: 0px;
