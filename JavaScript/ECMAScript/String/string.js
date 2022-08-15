@@ -43,3 +43,41 @@ encodeURI("http://www.baidu.com?a=一#cc");
 
 encodeURIComponent("http://www.baidu.com?a=一#cc");
 'http%3A%2F%2Fwww.baidu.com%3Fa%3D%E4%B8%80%23cc'
+
+
+
+function strToHexCharCode(str) {
+    if (str === "") {
+        return "";
+    } else {
+        var hexCharCode = [];
+        hexCharCode.push();
+        for (var i = 0; i < str.length; i++) {
+            hexCharCode.push((str.charCodeAt(i)).toString(16).padStart(4, 0));
+        }
+        return hexCharCode.join("");
+    }
+}
+
+
+function hexCharCodeToStr(hexCharCodeStr) {
+    var trimedStr = hexCharCodeStr.trim();
+    //var rawStr = trimedStr.substr(0, 2).toLowerCase() === "0x" ? trimedStr.substr(2) : trimedStr;
+    var rawStr = trimedStr;
+    var len = rawStr.length;
+    if (len % 4 !== 0) {
+        alert("存在非法字符!");
+        return "";
+    }
+    var curCharCode;
+    var resultStr = [];
+    for (var i = 0; i < len; i = i + 4) {
+        curCharCode = parseInt(rawStr.substr(i, 4), 16);
+        resultStr.push(String.fromCharCode(curCharCode));
+    }
+    return resultStr.join("");
+}
+
+
+console.log(strToHexCharCode("设备名称21"));
+console.log(hexCharCodeToStr("8bbe5907540d79f000320031"));
