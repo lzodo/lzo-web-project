@@ -13,13 +13,18 @@ console.log(str.link("www.baidu.com")) //a标签
 console.log(new String("abc").valueOf()) // 返回指定对象的原始值 abc ,JavaScript 在后台自动调用，并不显式地出现在代码中。
 
 
-// 字符转十进制
+// 字符转十进制(toString 不能将Unicode字符转十六进制，但是可以将Unicode字符对应的十进制转十六进制)
 console.log(str.charCodeAt(0)) // 返回字符串第一个字符的 [0000-FFFF] 范围的 Unicode 编码(十进制值) .toString(16) => 转十六进制
+// 将十进制转Unicode或ascii的十六进制
+Number(95).toString(16)
+// unicode或十六进制  转 十进制
+parseInt("005f",16) // 16代表，005f是十六进制或Unicode
 // 十进制转字符
 console.log(String.fromCharCode(97)); // 十进制 Unicode 转成字符 (\uffff内 的十进制)
-// Uni编码转字符
+
+// unicode或十六进制 直接 转字符
 console.log(JSON.parse('{"char":"\u9fa6"}')); // 字面量 Unicode 转成字符 \uffff内
-// 字符转uni编码[^0-255]
+// 字符转 直接 转Unicode或ascii的十六进制[^0-255]
 console.log(escape("一")) //得到Unicode编码
 
 
