@@ -27,11 +27,14 @@ class Rabbit extends Animal {
 	// }
 	classProp = "Rabbit";
 	constructor(name, earLength) {
-		super(name);
+		super(name); // 继承父级 constructor
 		/*必须调用super
       当通过 new 执行一个常规函数时，它将创建一个空对象，并将这个空对象赋值给 this。
       但是当继承的 constructor 执行时，它不会执行此操作。它期望父类的 constructor 来完成这项工作。
       继承的类没有自己的构造器
+
+      如果假假调用super() ,这边this.name = name; 的话，如果父级 this.name = "xx"+name; 字迹调用方法的时候就找不到了
+      我们要保持与 父级别 constructor 逻辑相同
     */
 		this.earLength = earLength;
 	}
@@ -44,7 +47,7 @@ class Rabbit extends Animal {
 		//重写stop
 		this.speed = 0;
 		console.log(`Rabbit 自己的 stop.`);
-		super.stop(); //super.method(...)  调用父类方法
+		super.stop(); //super.method(...)  调用父类方法，这个super 就是 Animal
 		setTimeout(() => {
 			super.stop();
 		}, 1000);

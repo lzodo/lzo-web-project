@@ -10,7 +10,7 @@ class MyClass {
         console.log(this.name + '2');
     }
 
-    static staticMethod() {
+    static staticMethod() { // MyClass.staticMethod()
         console.log(this === MyClass);
     }
 }
