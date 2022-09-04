@@ -18,12 +18,16 @@
 		<div class="item1 item">
 			<span class="title">伪类与伪元素</span>
 			<ul class="list">
-				伪类:给整个元素添加动作或选择器作用的
-				伪元素:是基于元素的一种元素，可以操作宽高大小
+				伪类:给整个元素添加动作或选择器作用的 (操作对象是具体存在的元素)
+				伪元素:是基于元素的一种元素，可以操作宽高大小 (他操作页面上是不存在的具体标签的，但是可以把某些条件单做标签用，如:元素第一行，元素前面，元素后面等)
 				<li class="itemlist">1、规范中伪类一个冒号表示，伪元素两个冒号，为了兼容有些伪元素也能用单冒号</li>
-				<li class="itemlist">2、常见伪类选择器如 :hover、:first-child、：nth-child(2n)等</li>
+				<li class="itemlist">2、常见伪类选择器如</li>
+				<li class="itemlist">         状态选择器 :hover、:active、:focus、:target等</li>
+				<li class="itemlist">    a伪类标准四状态 :visited 访问过的a、:link 未访问过的a、:hover、:active</li>
+				<li class="itemlist">           元素伪类 :disabled 、:checked 等</li>
+				<li class="itemlist">           结构伪类 :first-child、:nth-child(2n)、:first-child、：nth-child(2n) 、:not()等</li>
 				<li class="itemlist">					:is(.div1,.div2){}、:where(.div1,.div2)与is一样但权重始终最低</li>
-				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::before、E::first-letter等</li>
+				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::before、E::first-line、E::first-letter等</li>
 			</ul>
 		</div>
 		<div class="item2 item">
@@ -43,7 +47,7 @@
 		<div class="item4 item">
 			<span class="title">元素选择符</span>
 			<ul class="list">
-				<li class="itemlist">1、 * div #xxx .xxx 等</li>
+				<li class="itemlist">1、 * div #xxx .xxx div.xxx  div,xxx等</li>
 			</ul>
 		</div>
 	</div>
