@@ -25,8 +25,15 @@
 				<li class="itemlist">         状态选择器 :hover、:active、:focus、:target等</li>
 				<li class="itemlist">    a伪类标准四状态 :visited 访问过的a、:link 未访问过的a、:hover、:active</li>
 				<li class="itemlist">           元素伪类 :disabled 、:checked 等</li>
-				<li class="itemlist">           结构伪类 :first-child、:nth-child(2n)、:first-child、：nth-child(2n) 、:not()</li>
+
+				<li class="itemlist">           结构伪类 :first-child、:first-child、:not()、:nth-child(2n|event|odd) </li>
 				<li class="itemlist">                    :nth-child(-n+3) 前三个、等</li>
+				<li class="itemlist">                    n 代表包括0的任意整数  </li>
+
+				<li class="itemlist">                    :nth-last-child  等于nth-child从后面开始</li>
+				<li class="itemlist">                    :nth-of-type  选择同类型，值计算同类型的 </li>
+				<li class="itemlist">                    :only-child、 :root、:empty 内容为空的元素</li>
+
 				<li class="itemlist">					:is(.div1,.div2){}、:where(.div1,.div2)与is一样但权重始终最低</li>
 				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::before、E::first-line、E::first-letter等</li>
 			</ul>
