@@ -190,6 +190,9 @@
 		}
 		//doIt();
 
+        // async 异步方法，外面调用 doIt2() 时不会阻塞，会继续执行后面的代码
+        // async 内部的await,会等待 函数内部 每一个异步操作返回结果在继续执行函数内部的流程
+        // 
 		async function doIt2() {
 			console.time("doIt");
 			const time1 = 3000;
