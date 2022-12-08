@@ -4,7 +4,7 @@
     can.width = '1000';
     can.height = '150';
     //创建一个画布
-    var ctx = can.getContext('2d');
+    var ctx = can.getContext('2d'); // 2d 或 webgl
     //var canWid = can.width;   //canvas 的宽度
     //var canHei = can.height;   //canvas 的高度
 
