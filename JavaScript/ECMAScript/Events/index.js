@@ -4,7 +4,7 @@ window.addEventListener("load",(e)=>{
 		console.log(e.target)
 		console.log(`clientX ${e.clientX} - ${e.clientY}`)
 		console.log(`pageX ${e.pageX} - ${e.pageY}`)
-		console.log(`screenX ${e.screenX} - ${e.screenY}`)
+		console.log(`screenX ${e.screenX} - ${e.screenY}`) // 相对屏幕的左边位置（包括浏览器之外的屏幕）
 		console.log(`offsetX ${e.offsetX} - ${e.offsetY}`) // 点击位置相对于当前点击的DOM元素左上角的位置
 		console.log(`layerX ${e.layerX} - ${e.layerY}`) // 点击位置，冒泡方向，有position定位元素，定位元素的 offsetX/offsetY 值,否则 == pageX/pageY
 		console.log(`tiltX ${e.tiltX} - ${e.tiltY}`) // 指针（触控笔）的 XZ 平面与屏幕之间的角度,正值 向用户倾斜，不支持位0

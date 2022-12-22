@@ -4,11 +4,14 @@ class MyClass {
     }
 
     sayHi() {
-        console.log(this.name);
+        console.log(this.name+this.#innername);
     }
     sayHi2() {
         console.log(this.name + '2');
     }
+
+	// 私有属性
+	#innername = 'innername'
 
     static staticMethod() { // MyClass.staticMethod()
         console.log(this === MyClass);
@@ -19,7 +22,7 @@ class MyClass {
 // ======================es5 写法=======================================
 
 // var MyClass = function() {
-	
+
 
  //    function MyClass(name) {
  //        this.name = name;
@@ -58,6 +61,7 @@ user.sayHi2();
 
 console.log(typeof MyClass) //function
 
+// 没有 public 这些访问修饰符 ts 中才有
 
 /* new MyClass() 来创建具有上述列出的所有方法的新对象。
 		一个新对象被创建。
