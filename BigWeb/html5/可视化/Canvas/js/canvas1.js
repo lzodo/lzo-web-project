@@ -5,6 +5,9 @@
     can.height = '150';
     //创建一个画布
     var ctx = can.getContext('2d'); // 2d 或 webgl
+
+    // 设置全局透明度,所以填充生效
+    ctx.globalAlpha = 0.3;
     //var canWid = can.width;   //canvas 的宽度
     //var canHei = can.height;   //canvas 的高度
 
@@ -27,12 +30,30 @@
     //清除指定的矩形区域，变为透明
     ctx.clearRect(120, 15, 160, 120);//绘制动态效果时，常用来清除整个画布
     //绘制圆形
-    ctx.arc(900, 75, 70, 0, 2 * Math.PI, false)   //x, y圆心，r半径，start和end是开始和结束角度，false表示顺时针（默认），true表示逆时针。
+    ctx.arc(900, 75, 70, (Math.PI/180)*60, (Math.PI/180)*30, false) // 绘制30deg的圆, 开始弧度大于，结束弧度，沿着顺时针绕一圈
+    // ctx.arc(900, 75, 70, 0, 2 * Math.PI, false)   //x, y圆心，r半径，start和end是开始和结束弧度 ，false表示顺时针（默认），true表示逆时针。
+    
+    // 设置绘图状态
     ctx.setLineDash([10, 5]);  //这个就是设置虚线
     ctx.fillStyle = RadialBg;
     ctx.stroke()
     ctx.setLineDash([]); //清除设置设置虚线
-
+   
+    /**
+     * 弧度
+     *     圆的周长公式：2 * Math.PI * R
+     *     完整的圆角度：360deg
+     *     完整的圆弧度： 弧度是 2 * Math.PI ， 半圆的弧度是 Math.PI
+     *       一单位弧度：圆弧长度等于半经时的圆心角
+     * 
+     * 角度与弧度转换
+     *     角度       弧度
+     *     360 ==> 2 * Math.PI
+     *     180 ==> Math.PI
+     *       1 ==> Math.PI / 180
+     * 
+     *     所以旋转 90deg  ==> 旋转 (Math.PI / 180) * 90
+     */
 
     //========================绘制路径=======================
 
@@ -47,6 +68,8 @@
     ctx.lineTo(595, 5)
     //闭合路径，不是必须的，如果线的终点跟起点一样，会自动闭合。
     ctx.closePath()
+
+    // 设置绘图状态
     ctx.lineWidth = 3;   //线条宽度
     ctx.strokeStyle = '#00ff00'   //针对stroke()有效的颜色，取值同上。
     ctx.lineCap = 'round'  //线段端点显示的样式 butt(默认)'、'round(圆弧)'、'square(方形)
