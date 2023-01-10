@@ -40,31 +40,108 @@
     // requestAnimationFrame(myFun);(请求动画帧,根据一定的时间间隔，会自动执行myFun函数来进行绘制)
     // 刷新率是60Hz屏幕,每秒执行60次，每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms
 
-    // for (var i = 0; i < 60; i++) {
-    //     drawCircles(i)
-    // }
-	var count = 0;
-	drawCircles(count)
-	setInterval(()=>{
-		count++
-		drawCircles(count)
-	},1000 )
+    // function draw() {
+    //     //...
+    //     console.log('draw');
 
-	function drawCircles(i){
-		ctx.save()
+    //     setTimeout(()=>{
+    //         window.requestAnimationFrame(draw) //等到以上操作完成后,再有第二次执行
+    //     },2000)
+    // }
+    // window.requestAnimationFrame(draw)
+
+
+    // let startTime = new Date().getTime();
+    // function draw() {
+    //     let endTime = new Date().getTime();
+    //     if(endTime - startTime > 1000){
+    //         return
+    //     }
+
+    //     console.log('draw'); // 联想 48-50
+    //     window.requestAnimationFrame(draw) 
+    // }
+    // window.requestAnimationFrame(draw)
+
+
+    // 定时器实现
+    // function drawCircles(i){
+    // 	ctx.save()
+    //     ctx.beginPath()
+    //     ctx.translate(1150, 100)
+    // 	ctx.clearRect(-40,-40,80,80)
+    //     ctx.rotate(Math.PI * 2 / 60 * i);
+    //     ctx.moveTo(0,0);
+    //     ctx.lineTo(0,-40);
+    //     // ctx.translate(6 * i, 0);
+    //     // ctx.closePath();
+    // 	ctx.lineCap = 'round';
+    // 	ctx.lineWidth = 4;
+    //     ctx.stroke();
+    //     ctx.restore()
+    // }
+
+    // var count = 0;
+    // drawCircles(count)
+    // setInterval(()=>{
+    // 	count++
+    // 	drawCircles(count)
+    // },1000 )
+
+    // requestAnimationFrame 实现
+    function drawSeconds() {
+        let second = new Date().getSeconds();
+        ctx.save()
         ctx.beginPath()
         ctx.translate(1150, 100)
-		ctx.clearRect(-40,-40,80,80)
-        ctx.rotate(Math.PI * 2 / 60 * i);
-        ctx.moveTo(0,0);
-        ctx.lineTo(0,-40);
-        // ctx.translate(6 * i, 0);
-        // ctx.closePath();
-		ctx.lineCap = 'round';
-		ctx.lineWidth = 4;
+        ctx.clearRect(-40, -40, 80, 80)
+        ctx.rotate(Math.PI * 2 / 60 * second);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -40);
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 4;
         ctx.stroke();
-        ctx.restore()
-	}
+        ctx.restore();
+        requestAnimationFrame(drawSeconds)
+    }
+
+    function drawMin() {
+        let min = new Date().getMinutes();
+
+        ctx.save()
+        ctx.beginPath()
+        ctx.translate(1150, 100)
+        ctx.rotate(Math.PI * 2 / 60 * min);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -35);
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        ctx.restore();
+        requestAnimationFrame(drawMin)
+    }
+
+    function drawHour() {
+        let hour = new Date().getHours();
+
+        ctx.save()
+        ctx.beginPath()
+        ctx.translate(1150, 100)
+        ctx.rotate(Math.PI * 2 / 60 * (hour*5));
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -26);
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        ctx.restore();
+        requestAnimationFrame(drawHour)
+    }
+
+    requestAnimationFrame(drawSeconds)
+    requestAnimationFrame(drawMin)
+    requestAnimationFrame(drawHour)
+
+
 
     // ==========贝塞尔曲线=========
     // 二次贝塞尔: 起始点 ctx.quadraticCurveTo(x1,y1：控制点1,x3,y3:结束点)
