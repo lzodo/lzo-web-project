@@ -59,7 +59,7 @@
     //     }
 
     //     console.log('draw'); // 联想 48-50
-    //     window.requestAnimationFrame(draw) 
+    //     window.requestAnimationFrame(draw)
     // }
     // window.requestAnimationFrame(draw)
 
@@ -99,7 +99,7 @@
         ctx.moveTo(0, 0);
         ctx.lineTo(0, -40);
         ctx.lineCap = 'round';
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 2;
         ctx.stroke();
         ctx.restore();
         requestAnimationFrame(drawSeconds)
@@ -115,7 +115,7 @@
         ctx.moveTo(0, 0);
         ctx.lineTo(0, -35);
         ctx.lineCap = 'round';
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 3;
         ctx.stroke();
         ctx.restore();
         requestAnimationFrame(drawMin)
