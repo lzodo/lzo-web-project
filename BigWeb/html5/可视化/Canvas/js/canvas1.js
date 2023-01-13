@@ -25,33 +25,33 @@
     //填充矩形（x, y是横纵坐标，原点在canvas的左上角）
     ctx.fillStyle = RadialBg;
     ctx.fillRect(5, 5, 190, 140); // x,y,w,h
-    //边框矩形，默认1px 黑色。
+    //边框矩形，默认1px 黑色。   
     ctx.strokeRect(205, 5, 190, 140);
     //清除指定的矩形区域，变为透明
     ctx.clearRect(120, 15, 160, 120);//绘制动态效果时，常用来清除整个画布
     //绘制圆形
     ctx.arc(900, 75, 70, (Math.PI/180)*60, (Math.PI/180)*30, false) // 绘制30deg的圆, 开始弧度大于，结束弧度，沿着顺时针绕一圈
     // ctx.arc(900, 75, 70, 0, 2 * Math.PI, false)   //x, y圆心，r半径，start和end是开始和结束弧度 ，false表示顺时针（默认），true表示逆时针。
-
+    
     // 设置绘图状态
     ctx.setLineDash([10, 5]);  //这个就是设置虚线
     ctx.fillStyle = RadialBg;
     ctx.stroke()
     ctx.setLineDash([]); //清除设置设置虚线
-
+   
     /**
      * 弧度
      *     圆的周长公式：2 * Math.PI * R
      *     完整的圆角度：360deg
      *     完整的圆弧度： 弧度是 2 * Math.PI ， 半圆的弧度是 Math.PI
      *       一单位弧度：圆弧长度等于半经时的圆心角
-     *
+     * 
      * 角度与弧度转换
      *     角度       弧度
      *     360 ==> 2 * Math.PI
      *     180 ==> Math.PI
      *       1 ==> Math.PI / 180
-     *
+     * 
      *     所以旋转 90deg  ==> 旋转 (Math.PI / 180) * 90
      */
 
@@ -91,7 +91,7 @@
         ctx.lineDashOffset = -offset;
         ctx.lineCap = 'square'
         ctx.strokeRect(605, 5, 190, 140);
-
+                                                                                
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
         ctx.shadowBlur = 0;
