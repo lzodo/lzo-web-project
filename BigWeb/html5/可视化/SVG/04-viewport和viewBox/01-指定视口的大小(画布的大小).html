@@ -1,34 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body, ul{
-      margin: 0;
-      padding: 0;
-    }
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			body,
+			ul {
+				margin: 0;
+				padding: 0;
+			}
 
-    body{
-      background-image: url(../images/grid.png);
-    }
-    svg{
-      background-color: rgba(255, 0, 0, 0.1);
-    }
-  </style>
+			body {
+				background-image: url(../images/grid.png);
+			}
+			svg {
+				background-color: rgba(255, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 
+            通过给svg设置 width 和 height 来指定视口的大小(画布的大小)
+            下面指定视口的大小为: 300 * 300
+            设置类宽度和高度，浏览器就会建立 视口坐标系 和 初始用户坐标系 (这时两个坐标系是完全相同的)
 
-</head>
-<body>
+            视口坐标系 (SVG画布的大小)
+                画布 左上角(0,0) X轴正向向右、Y轴正向向下
 
-  <!-- 
-    通过给svg设置 width 和 height 来指定视口的大小(画布的大小)
-    下面指定视口的大小为: 300 * 300
-   -->
-  <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
-    <rect x="10" y="10" width="100" height="100"></rect>
-  </svg>
+            用户坐标系（建立在视口坐标系上）
+                画布 左上角(0,0) X轴正向向右、Y轴正向向下
+                使用 viewBox 属性可以修改初始用户坐标系，使其与视口坐标系不同
+                用户操作是用户坐标系，如果设置 viewBox="0 0 100 100" ，那么放到视口上100宽度的图形，宽度就是整个画布
+                viewBox="0 0 100 100"   ==  viewBox="min-x min-y width height"
+            两个坐标系
+                SVG是矢量图，支持任意缩放，在用户坐标系统绘制图形，最终会参照视口坐标系来进行等比缩放
+        -->
+        
+        <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="100"></rect>
+		</svg>
+        <svg width="300" height="300" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="100"></rect>
+        </svg>
 
-</body>
+        <!-- 偏移10px 再设置width为100，有十分之一跑到画布外面去了，被裁剪了 -->
+        <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="100" height="100"></rect>
+		</svg>
+        <svg width="300" height="300" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="100" height="100"></rect>
+        </svg>
+
+        <!-- 指定viewBox最小的x和y ,告诉浏览器，只显示用户坐标系中(50,50) 正向绘制的部分内容-->
+        <svg width="300" height="300" viewBox="50 50 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="100"></rect>
+        </svg>
+
+        <!-- 不同宽高比时，只会将宽高中更大的方向等比例拉满画布，更小的必定无法拉满，默认居中展示-->
+        <svg width="300" height="300" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="50"></rect>
+        </svg>
+        <!-- preserveAspectRatio="xMinYMin" 用户坐标图形在最小X轴与最小Y轴显示，显示左上角 -->
+        <svg width="300" height="300" viewBox="0 0 100 50"  preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="50"></rect>
+        </svg>
+
+        <!-- preserveAspectRatio="none" 将用户坐标系x,y直接拉满，导致变形 -->
+        <svg width="300" height="300" viewBox="0 0 100 50"  preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="100" height="50"></rect>
+        </svg>
+	</body> 
 </html>

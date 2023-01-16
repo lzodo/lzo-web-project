@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body, ul{
-      margin: 0;
-      padding: 0;
-    }
-    body{
-      background-image: url(../images/grid.png);
-    }
-    svg{
-      background-color: rgba(255, 0, 0, 0.1);
-    }
-  </style>
-
-</head>
-<body>
-
-  <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
-
-    <rect x="0" y="0" width="100" height="50"></rect>
-    
-    <rect x="100" y="100" width="100" height="50" rx="20" ry="20"></rect>
-
-  </svg>
-
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			body,
+			ul {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				background-image: url(../images/grid.png);
+			}
+			svg {
+				background-color: rgba(255, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+			<rect x="0" y="0" width="100" height="50"></rect>
+			<rect
+				x="100"        
+				y="100"
+				width="100"
+				height="50"
+				rx="10"
+				ry="50"
+			></rect>
+            <!--
+                x   x坐标
+                y   y坐标
+                rx  圆角，四个角，向x方向弯曲的大小
+                ry  圆角，四个角，向y方向弯曲的大小
+            -->
+		</svg>
+	</body>
 </html>
