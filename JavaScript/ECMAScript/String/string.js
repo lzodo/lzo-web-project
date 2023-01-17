@@ -30,7 +30,7 @@ console.log(escape("一")) //得到Unicode编码
 
 // 编码
 //不会对ASCII 字母、数字、点、基础标点符号(:=?# 等)进行编码
-escape("一") // '%u4E00' 得到Unicode编码  (0-255 是普通十六进制 如：ÿ -> %FF)
+escape("一") // '%u4E00' 得到Unicode编码  (0-255 是普通十六进制 如：ÿ -> %FF)(大于255 %uxxxx 用于验证中文符号)
 unescape("%u4e00") //解 escape 的编码
 
 //不会对ASCII 字母、数字、点、基础标点符号(:=?# 等)进行编码
