@@ -29,20 +29,31 @@
 			<!-- 1.在svg中绘制一个文字 -->
 			<!-- <text x="100" y="100" font-size="50" fill="red">Ay</text> -->
 
-			<!-- 2.文本的对齐方式 -->
+			<!-- 2.文本的左右对齐方式 -->
 			<!-- <text x="100" y="100" text-anchor="middle"  font-size="50" fill="red">Ay</text> -->
 
-			<!-- 3.基线对齐方式 :
+			<!-- 3.基线(上下)对齐方式 :
                     有 auto 、middle 或 hanging 值, 默认值：auto
             -->
 			<text
-				x="100"
-				y="100"
+				x="150"
+				y="150"
 				dominant-baseline="middle"
+                text-anchor="middle"
 				font-size="50"
 				fill="red"
 			>
 				Ay
+			</text>
+
+            <text
+				x="200"
+				y="100"
+				dominant-baseline="bottom"
+				font-size="30"
+				fill="#000"
+			>
+				Lzo
 			</text>
 		</svg>
 	</body>
