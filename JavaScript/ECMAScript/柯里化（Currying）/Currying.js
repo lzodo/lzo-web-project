@@ -46,4 +46,4 @@ console.log(curriedSum2(1)(2)(6)); // 3
 
 // lodash方法
 let curriedSum3 = _.curry(sum2);
-console.log(curriedSum3(1)(2)); // 3
+console.log(curriedSum3(1)(2)(2)); // 3
