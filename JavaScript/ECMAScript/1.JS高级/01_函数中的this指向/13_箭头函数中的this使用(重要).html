@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 1.普通函数中是有this的标识符,
+			function foo() {
+				console.log("foo", this);
+			}
+
+			foo();
+			foo.apply("aaa");
+
+			// 2.箭头函数作用域中, 压根没有this,如果使用this，会去外层作用域找
+			var bar = () => {
+				console.log("bar:", this);
+			};
+			bar();
+			//通过apply调用时, 也是没有this，是无效的
+			bar.apply("aaaa");
+
+			// console.log("全局this:", this)
+			// var message = "global message"
+
+			// 3.this的查找规则
+			// var obj = {
+			// 	name: "obj",
+			// 	foo: function () {
+			// 		var bar = () => {
+			// 			console.log("bar:", this);
+			// 		};
+			// 		return bar;
+			// 	},
+			// };
+			// var fn = obj.foo(); // 直接执行,所以绑定了this obj （触发this隐式绑定）
+			// fn.apply("bbb");
+
+			// var obj = {
+			// 	name: "obj",
+			// 	foo: function () {
+			// 		var bar = () => {
+			// 			console.log("bar:", this);
+			// 		};
+			// 		return bar;
+			// 	},
+			// };
+			// var fn = obj.foo; // 这样才是把 foo 拿出来，在 window 调用
+			// fn()();
+
+			var obj = {
+				name: "obj",
+				foo: () => {
+					var bar = () => {
+						console.log("bar:", this);
+					};
+					return bar;
+				},
+			};
+			var fn = obj.foo(); // 如果foo普通函数，就会触发this隐式绑定，所以fn的作用域是 window
+			fn();
+		</script>
+	</body>
+</html>
