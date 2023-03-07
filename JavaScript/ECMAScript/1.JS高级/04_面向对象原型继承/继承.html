@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 父级
+			function Parent(name) {
+				this.name = name;
+			}
+			Parent.prototype.msg = "父级 msg";
+			Parent.prototype.go1 = function () {
+				console.log("go1");
+			};
+
+			// 子集
+			function Subset(name) {
+				Parent.call(this, name); // 属性继承
+			}
+			// 如果不想直接用 __proto__，执行需要继承那个类的实例，这个实例，自然能通过__proto__指向 Parent.prototype
+			// Subset.prototype = new Parent("父级name");
+			// Subset.prototype.__proto__ = Parent.prototype; // 方法继承
+			Object.setPrototypeOf(Subset.prototype, Parent.prototype);
+
+			Subset.prototype.go2 = function () {
+				console.log("go2");
+			};
+
+			let sub = new Subset("sub1");
+			sub.go2();
+			console.log(sub.name);
+			console.log(sub.msg);
+		</script>
+	</body>
+</html>

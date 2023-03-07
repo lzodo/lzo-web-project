@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var name = "window";
+			var ob = {
+				name: "obj",
+			};
+
+			function getName(age) {
+				console.log(age);
+				console.log(this.name);
+				console.log(this);
+			}
+
+			Function.prototype.MyCall = function (obj, ...args) {
+				obj = obj == null || obj == undefined ? window : Object(obj);
+				obj.fn = this; // 这样简洁，但是用户到时会看到fn函数
+				obj.fn(...args);
+			};
+			Function.prototype.MyApply = function (obj, args) {
+				obj = obj == null || obj == undefined ? window : Object(obj);
+				obj.fn = this;
+				obj.fn(...args);
+			};
+			Function.prototype.MyBind = function (obj, ...beforeArgs) {
+				obj = obj == null || obj == undefined ? window : Object(obj);
+				obj.fn = this;
+				return function (...afterArgs) {
+					let args = [...beforeArgs, ...afterArgs];
+					obj.fn(...args);
+				};
+			};
+
+			getName.MyCall(ob, 18);
+			getName.MyApply(ob, [18]);
+
+			let bindGetName = getName.MyBind(ob);
+			bindGetName(19);
+			bindGetName(20);
+		</script>
+	</body>
+</html>
