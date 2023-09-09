@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<input class="file" type="file" />
+		<button class="upload">上传文件</button>
 
-  <input class="file" type="file">
-  <button class="upload">上传文件</button>
-  
-  <script>
+		<script>
+			// xhr/fetch
 
-    // xhr/fetch
+			const uploadBtn = document.querySelector(".upload");
+			uploadBtn.onclick = function () {
+				// 1.创建对象
+				const xhr = new XMLHttpRequest();
 
-    const uploadBtn = document.querySelector(".upload")
-    uploadBtn.onclick = function() {
-      // 1.创建对象
-      const xhr = new XMLHttpRequest()
+				// 2.监听结果
+				xhr.onload = function () {
+					console.log(xhr.response);
+				};
 
-      // 2.监听结果
-      xhr.onload = function() {
-        console.log(xhr.response)
-      }
+				xhr.onprogress = function (event) {
+					console.log(event);
+				};
 
-      xhr.onprogress = function(event) {
-        console.log(event)
-      }
-      
+				// xhr.responseType = "json";
+				// xhr.open("post", "http://123.207.32.32:1888/02_param/upload");
+				xhr.open("post", "http://localhost:8778/uploads/40/picture");
+				xhr.setRequestHeader(
+					"token",
+					"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTYsIm5hbWUiOiJhZG1pbiIsIm9wZW5JZCI6bnVsbCwiaWF0IjoxNjgwNTY3NTYyfQ.ZtsJsiyzOWshZylVL5e6PvVjtRXx_2dSso0zMjvbyTvP2GrdFlEnAKjgsovKkrzTcCWd2WyjCHHWztCWW_HA0BkVvM9RvUtjBUvliNZYcbDXfy-kY44r4jsGktkD5n8oEC_Kh2edX3priGc4VlRiNHlz4-tNnBdCY7nHX7cB47k"
+				);
 
-      xhr.responseType = "json"
-      xhr.open("post", "http://123.207.32.32:1888/02_param/upload")
+				// 表单
+				const fileEl = document.querySelector(".file");
+				const file = fileEl.files[0];
 
-      // 表单
-      const fileEl = document.querySelector(".file")
-      const file = fileEl.files[0]
+				const formData = new FormData();
+				formData.append("files", file);
 
-      const formData = new FormData()
-      formData.append("avatar", file)
-
-      xhr.send(formData)
-    }
-  </script>
-
-</body>
+				xhr.send(formData);
+			};
+		</script>
+	</body>
 </html>
