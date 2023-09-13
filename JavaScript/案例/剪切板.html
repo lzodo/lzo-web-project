@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>测试浏览器控制台</title>
+  </head>
+  <body>
+    <h1>单机复制，双击粘贴</h1>
+    <ul>
+      <li class="my-li">带类名的子节点0001</li>
+      <li class="my-li">带类名的子节点0002</li>
+      <li class="my-li">带类名的子节点0003</li>
+      <li class="my-li">带类名的子节点0004</li>
+      <li class="my-li">带类名的子节点0005</li>
+      <li class="my-li">带类名的子节点0006</li>
+    </ul>
+    <hr />
+
+    <script>
+      const list = document.getElementsByClassName('my-li');
+      var click_store = null;
+
+      Array.from(list).forEach(node => {
+        node.addEventListener('click', e => {
+          // 1、通过创建input方式复制
+          //   const _ = document.createElement('input');
+          //   _.setAttribute('value', e.target.innerText);
+          //   document.getElementsByTagName('body')[0].appendChild(_);
+          //   _.select();
+          //   if (document.execCommand('copy')) {
+          //     document.execCommand('copy');
+          //     console.log('ok');
+          //   }
+          //   document.getElementsByTagName('body')[0].removeChild(_);
+
+          // 2、navigator.clipboard 方式复制
+          copy(e.target);
+        });
+        node.addEventListener('dblclick', e => {
+          paste(e.target);
+        });
+      });
+
+      // 1、 vue input 复制
+      //   this.inputvmodel = 'xxxxxx';
+      //   this.$nextTick(() => {
+      //     this.$refs.inputref.select();
+      //     document.execCommand('copy'); //只能复制显示的input
+      //   });
+
+      /**
+       * 2、 直接复制元素内容
+       *  getSelection 表示用户选择的文本范围或光标的当前位置
+       *  selectAllChildren 选中 操作元素所有子节点的innerHTML
+       *  document.execCommand 即将废弃 用 clipboard 代替
+       *
+       */
+      function copy(target) {
+        click_store = setTimeout(() => {
+          if (navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(target.innerText); // 复制，写入剪切板
+            console.log('clipboard 复制成功');
+          } else {
+            window.getSelection().selectAllChildren(target);
+            document.execCommand('copy');
+            //console.log(window.getSelection().toString()); // 获取选择内容
+            window.getSelection().removeAllRanges(); //清除选择的内容
+            console.log('execCommand');
+          }
+        }, 300);
+      }
+
+      function paste(target) {
+        clearTimeout(click_store); // 单双击事件冲突问题
+        // 粘贴
+        navigator.clipboard
+          .readText()
+          .then(clipText => (target.innerText = clipText));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>clip-path、js设置css变量</title>
+	</head>
+	<body>
+		<div class="circle"></div>
+	</body>
+	<script>
+		let client = document.documentElement;
+		// 鼠标在文档上移动时动态设置 x 与 y 变量
+		client.addEventListener("mousemove", (e) => {
+			client.style.setProperty("--x", e.clientX + "px");
+			client.style.setProperty("--y", e.clientY + "px");
+		});
+	</script>
+	<style>
+		:root {
+			--x: 100px;
+			--y: 100px;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			width: 100%;
+			height: 100vh;
+			background: url(../../static/image/bg1.jpg) no-repeat center/100%
+				100%;
+			overflow: hidden;
+		}
+		.circle {
+			width: 100%;
+			height: 100%;
+			background: url(../../static/image/bg.png) no-repeat center/100%
+				100%;
+			cursor: pointer;
+
+			/* 区域内80像素显示，区域外隐藏 */
+			/* 使用默认值：圆形使用80px作为半径，圆形位于元素的中心 */
+			/* clip-path: circle(80px at 300px 300px); */
+			clip-path: circle(80px at var(--x) var(--y));
+			/* filter: blur(7px); */
+		}
+
+		.circle:active {
+			transition: 1s;
+
+			clip-path: circle(100px at var(--x) var(--y));
+		}
+	</style>
+</html>

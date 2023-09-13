@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>背面隐藏功能</title>
+	</head>
+	<body>
+		<div class="warp">
+			<div class="face">正向</div>
+			<div class="back">背面</div>
+		</div>
+	</body>
+	<style>
+		.warp {
+			width: 100px;
+			height: 100px;
+			position: relative;
+			perspective: 500;
+		}
+		.warp > div {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			line-height: 100px;
+			text-align: center;
+		}
+
+		.face {
+			transform: rotateY(0); /* 不翻转，代表元素正面 */
+			transition: all 0.5s;
+			backface-visibility: hidden; /* 元素翻转180度后 == 背面时 == 此时将元素隐藏 */
+		}
+		.warp:hover .face {
+			transform: rotateY(180deg);
+		}
+
+		.back {
+			transform: rotateY(180deg); /* 背面默认旋转了180度 代表元素背面 */
+			transition: all 0.5s;
+			backface-visibility: hidden;
+		}
+		.warp:hover .back {
+			transform: rotateY(0); /* 变成了正面，使back 的 backface属性失效 */
+		}
+	</style>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>三角函数、弧度转换、keyframes动画的使用</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="item">
+				<img src="../../../static/image/p1.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p2.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p3.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p4.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p5.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p6.png" alt="" />
+			</div>
+			<div class="item">
+				<img src="../../../static/image/p7.png" alt="" />
+			</div>
+		</div>
+	</body>
+	<script>
+		window.onload = () => {
+			// 得到每一个子元素
+			let items = document.querySelectorAll(".container .item");
+			// 得到容器半径
+			let r = document.querySelector(".container").clientWidth / 2;
+			// 得到选择对象的数量
+			let count = items.length;
+			// 计算平均分布角度
+			let deg = 360 / count;
+
+			for (let i = 0; i < count; i++) {
+				// 计算每一个图片旋转的角度
+				let t = i * deg;
+				// 角度转弧度公式 弧度 = π/180×角度 （因为 Math.sin 数学函数使用的是弧度）
+				ht = (Math.PI / 180) * t;
+				// 得到 xy 定位位置
+				const x = Math.sin(ht) * r;
+				const y = -Math.cos(ht) * r;
+
+				console.log(x, y);
+
+				// items[i].style.transform = `translate(${x}px ${y}px)`;
+				items[i].style.transform = `translate(${x}px, ${y}px)`;
+			}
+		};
+	</script>
+	<style>
+		.container {
+			width: 300px;
+			height: 300px;
+			position: relative;
+			background-color: #ccc;
+			margin: 100px auto;
+			border-radius: 50%;
+
+			/* 全部定位到最中间 */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			animation: rotate linear infinite 20s; /* 应用rotate动画 匀速 无限次 每次时间*/
+		}
+		.container .item {
+			width: 60px;
+			position: absolute;
+			border-radius: 50%;
+			overflow: hidden;
+		}
+		.container .item img {
+			width: 100%;
+			height: 100%;
+			animation: rotate 20s linear infinite reverse; /* 反向旋转 保持正立 */
+		}
+
+		/* 旋转360度的动画 */
+		@keyframes rotate {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+</html>

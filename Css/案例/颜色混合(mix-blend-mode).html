@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>颜色混合，文字特效</title>
+	</head>
+	<body>
+		<div class="warp">
+			<div class="font">透明文字</div>
+		</div>
+	</body>
+	<style>
+		.warp {
+			width: 700px;
+			height: 400px;
+			background: url(../../static/image/bg.png) no-repeat center/cover;
+			margin: 100px auto;
+		}
+		.font {
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			font-weight: bold;
+			font-size: 80px;
+			color: #000;
+			line-height: 400px;
+			text-align: center;
+			mix-blend-mode: screen; /* screen 使黑色文字呈现底层图片或视频的颜色，白色背景忍让是白丝 */
+		}
+	</style>
+</html>
