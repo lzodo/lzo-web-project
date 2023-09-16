@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>filter:hue-rotate</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="inner">
+				<input type="text" required />
+				<label class="label"
+					>A&nbsp;self&nbsp;placeholder&nbsp;animate</label
+				>
+			</div>
+		</div>
+	</body>
+	<script>
+		window.onload = function () {
+			let label = document.querySelector(".label");
+			label.innerHTML = label.innerText
+				.split("")
+				.map((item, i) => {
+					return `<span class='font' style='transition-delay: ${
+						i * 30
+					}ms;filter:hue-rotate(${i * 20}deg)'>${item}</span>`;
+				})
+				.join("");
+		};
+		/**
+		 * 重点
+		 *   innerText 不会包含 &nbsp;
+		 *   filter:hue-rotate() 改变整体色调
+		 *   css input:valid 和 标签的 required 使用户离开焦点，如果有输入不下移
+		 * 		1、:valid 用于匹配输入值为合法的元素
+		 *		2、required 属性规定必需在提交之前填写输入字段(有了required，那么离开时如果没填就不合法，就不会触发input:valid)
+		 *
+		 *   扩展:
+		 *      1、:invalid 用于匹配输入值为非法的元素
+		 */
+	</script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			background-color: #29313a;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		/* 容器 */
+		.container {
+			height: 100%;
+			width: 320px;
+			height: 300px;
+		}
+		.container .inner {
+			position: relative;
+		}
+		.container .inner input {
+			width: 100%;
+			background: transparent; /* 透明 */
+			height: 35px;
+			border: none;
+			outline: none;
+			color: #fff;
+			padding: 15px 0;
+			border-bottom: 2px solid #999;
+			font-size: 1.25em;
+			transform: 0.5s;
+		}
+		.container .inner label {
+			position: absolute;
+			left: 0;
+			top: 2px;
+			font-size: 1.2em;
+			pointer-events: none;
+			color: #666;
+		}
+		.container .inner label span {
+			position: relative;
+			display: inline-block;
+			transition: 0.25s cubic-bezier(0.77, 0, 0.36, 1);
+			letter-spacing: 0.5px;
+			flex-direction: row;
+		}
+		.container .inner input:valid ~ label span,
+		.container .inner input:focus ~ label span {
+			transform: translateY(-30px);
+			color: #0f0;
+			text-shadow: 0 0 5px, 0 0 15px, 0 0 30px;
+		}
+
+		.container .inner input:valid,
+		.container .inner input:focus {
+			border-bottom: 2px solid #fff;
+		}
+	</style>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>user-select、filter: blur(0)、pointer-events: none;</title>
+	</head>
+	<body>
+		<div class="container">
+			很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的句子
+		</div>
+	</body>
+	<script>
+		let con = document.querySelector(".container");
+		con.innerHTML = con.innerHTML.replace(
+			/./g,
+			(item) => `<span class='font'>${item}</span>`
+		);
+
+		let spanList = document.querySelectorAll(".font");
+		for (let i = 0; i < spanList.length; i++) {
+			spanList[i].addEventListener("mouseenter", function (e) {
+				// if (e.buttons === 1) {
+				// console.log("鼠标左键被按下了");
+				this.classList.add("active");
+				// }
+			});
+		}
+
+		/**
+		 * 重点：
+		 *
+		 *
+		 * 扩展：
+		 *    blur()：模糊图像
+		 *	  brightness() ：让图像更明亮或更暗淡
+		 *	  contrast()：增加或减少图像的对比度
+		 *	  drop-shadow()：在图像后方应用投影
+		 *	  grayscale()：将图像转为灰度图
+		 *	  hue-rotate()：改变图像的整体色调
+		 *	  invert()：反转图像颜色
+		 *	  opacity()：改变图像透明度
+		 *	  saturate()：超饱和或去饱和输入的图像
+		 *	  sepia()：将图像转为棕褐色
+		 */
+	</script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+		}
+		body {
+			background-color: #111;
+			display: flex;
+			overflow: hidden;
+		}
+		.container {
+			width: 980px;
+			margin: auto;
+			color: #fff;
+			line-height: 25px;
+			letter-spacing: 1px;
+			user-select: none; /* 禁止选中文字 */
+		}
+		.container span {
+			cursor: pointer;
+			position: relative;
+			display: inline-block;
+		}
+		.container span.active {
+			animation: smoke 2s linear forwards; /* forwards停在动画最后的的那个画面 */
+			/* transform-origin: bottom; */
+		}
+
+		@keyframes smoke {
+			0% {
+				opacity: 1;
+				filter: blur(0);
+				transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+			}
+			50% {
+				opacity: 1;
+				/* color: rgb(146, 103, 2); */
+				pointer-events: none; /* 让元素忽略鼠标操作，不会挡住鼠标操作其他元素 */
+			}
+			100% {
+				opacity: 0;
+				filter: blur(20px);
+				transform: translateX(300px) translateY(-300px) rotate(720deg)
+					scale(6);
+				/* color: #f00; */
+			}
+		}
+	</style>
+</html>
