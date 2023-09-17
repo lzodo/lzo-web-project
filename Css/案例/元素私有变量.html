@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="inner" style="--i:0"></div>
+		<div class="inner" style="--i:1"></div>
+		<div class="inner" style="--i:2"></div>
+		<div class="inner" style="--i:3"></div>
+		<div class="inner" style="--i:4"></div>
+		<div class="inner" style="--i:5"></div>
+		<div class="inner" style="--i:6"></div>
+		<div class="inner" style="--i:7"></div>
+		<div class="inner" style="--i:8"></div>
+		<div class="inner" style="--i:9"></div>
+	</div>
+</body>
+<script>
+	window.onload = function () { };
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+		background-color: #000;
+		display: flex;
+		overflow: hidden;
+	}
+
+	/* 容器 */
+	.container {
+		width: 300px;
+		height: 300px;
+		margin: auto;
+		position: relative;
+	}
+
+	/* .container:hover .inner::before {
+		transform-origin: 300px;
+		box-shadow: 0 0 20px rgb(235, 81, 9), -200px -200px 0px yellow, -200px -200px 20px yellow, 200px 200px 0px yellow, 200px 200px 20px yellow, 200px -200px 0px yellow, 200px -200px 20px yellow, -200px 200px 0px yellow, -200px 200px 20px yellow;
+	} */
+
+	.container:hover .inner::before {
+		transform-origin: 300px;
+		animation: animate 2s linear infinite;
+		box-shadow: 0 0 20px rgb(235, 81, 9), -200px -200px 0px yellow, -200px -200px 20px yellow, 200px 200px 0px yellow, 200px 200px 20px yellow, 200px -200px 0px yellow, 200px -200px 20px yellow, -200px 200px 0px yellow, -200px 200px 20px yellow;
+	}
+
+	.container .inner {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		transform: rotate(calc(36deg*var(--i)));
+	}
+
+	.container .inner::before {
+		content: "";
+		width: 25px;
+		height: 25px;
+		position: absolute;
+		border-radius: 50%;
+		background-color: transparent;
+		border: 2px solid yellow;
+		box-shadow: 0 0 20px rgb(235, 81, 9), -30px -30px 0px yellow, -30px -30px 20px yellow, 30px 30px 0px yellow, 30px 30px 20px yellow, 30px -30px 0px yellow, 30px -30px 20px yellow, -30px 30px 0px yellow, -30px 30px 20px yellow;
+
+		/* transform-origin: 20px; */
+		transition: 2s ease;
+		animation: animate 5s linear infinite;
+		animation-delay: calc(0.25s*var(--i));
+	}
+
+	@keyframes animate {
+		0% {
+			transform: rotate(0deg);
+			filter: hue-rotate(0);
+		}
+
+		100% {
+			transform: rotate(360deg);
+			filter: hue-rotate(3600deg)
+		}
+	}
+</style>
+
+</html>

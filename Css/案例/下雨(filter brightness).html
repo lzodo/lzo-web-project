@@ -1,130 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-	</head>
-	<body>
-		<div class="container">
-			<div class="cloud"></div>
-		</div>
-	</body>
-	<script>
-		function rain() {
-			let cloud = document.querySelector(".cloud");
-			let water = document.createElement("div");
-			water.classList.add("drop");
-			cloud.appendChild(water);
 
-			let direction = Math.random() * 2;
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
 
-			water.style.left = Math.floor(Math.random() * 310) + "px";
-			water.style.width = Math.floor(Math.random() * 8) + "px";
-			water.style.height = Math.floor(Math.random() * 40) + "px";
-			water.style.animationDirection = 1 + direction + "s";
-			water.style.borderRadius = "2px";
+<body>
+	<div class="container">
+		<div class="cloud"></div>
+	</div>
+</body>
+<script>
+	let cloud = document.querySelector(".cloud");
+	function rain() {
+		let water = document.createElement("div");
+		water.classList.add("drop");
+		cloud.appendChild(water);
 
-			window.requestAnimationFrame(rain);
-			// 两秒后删除
-			setTimeout(() => {
-				cloud.removeChild(water);
-			}, 1000);
-		}
+		let direction = Math.random() * 2;
+
+		water.style.left = Math.floor(Math.random() * 310) + "px";
+		water.style.width = Math.floor(Math.random() * 8) + "px";
+		water.style.height = Math.floor(Math.random() * 40) + "px";
+		water.style.animationDirection = 1 + direction + "s";
+		water.style.borderRadius = "2px";
 
 		window.requestAnimationFrame(rain);
-		// setInterval(() => {
-		// 	rain();
-		// }, 20);
-	</script>
-	<style>
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
+		// 两秒后删除
+		setTimeout(() => {
+			cloud.removeChild(water);
+		}, 1000);
+	}
+	window.requestAnimationFrame(rain);
+
+
+	// 给云层加上拖拽
+	let startX = 0; // 获取鼠标到云层左边的距离
+	cloud.addEventListener('mousedown', function (e) {
+		let translateX = 0
+		// 拿到translateX 已有的值
+		if (cloud.style.transform) {
+			translateX = /.*translateX\((.*)px\).*/.exec(cloud.style.transform)[1]
+		};
+		// 鼠标的位置 = 元素offsetLeft 加上
+		startX = e.clientX - cloud.offsetLeft - translateX;
+	})
+	cloud.addEventListener('mousemove', function (e) {
+		if (e.buttons === 1) {
+			// 需要 translate 移动的距离，不减 startX ，云层左边位置会与鼠标对齐
+			cloud.style.transform = `translateX(${e.clientX - cloud.offsetLeft - startX}px)`
 		}
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			background: #1b1b1b;
-		}
-		.container {
-			width: 100%;
-			height: 400px;
-			position: relative;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-			display: flex;
-			justify-content: center;
-		}
-		.cloud {
-			position: relative;
-			width: 320px;
-			height: 100px;
-			background: #fff;
-			border-radius: 100px;
-			filter: drop-shadow(8px 8px 0 #0005);
-			animation: animateCloud 2s steps(1) infinite; /*steps(1) 逐帧动画 跟时钟秒针一样卡顿的感觉*/
-		}
-		.cloud::after {
-			content: "";
-			position: absolute;
-			width: 110px;
-			height: 110px;
-			border-radius: 50%;
-			left: 40px;
-			top: -50px;
-			background-color: #484f59;
-			box-shadow: 90px -10px 0 30px #484f59;
-		}
-		.cloud::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background-color: #484f59;
-			border-radius: 100px;
+	})
+</script>
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		background: #1b1b1b;
+		overflow: hidden;
+	}
+
+	.container {
+		width: 100%;
+		height: 400px;
+		position: relative;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		display: flex;
+		justify-content: center;
+	}
+
+	.cloud {
+		position: relative;
+		width: 320px;
+		height: 100px;
+		background: #fff;
+		border-radius: 100px;
+		filter: drop-shadow(8px 8px 0 #0005);
+		/* animation: animateCloud 2s steps(1) infinite, trans 5s linear infinite; */
+		animation: animateCloud 2s steps(1) infinite;
+		/*steps(1) 逐帧动画 跟时钟秒针一样卡顿的感觉*/
+	}
+
+	.cloud::after {
+		content: "";
+		position: absolute;
+		width: 110px;
+		height: 110px;
+		border-radius: 50%;
+		left: 40px;
+		top: -50px;
+		background-color: #484f59;
+		box-shadow: 90px -10px 0 30px #484f59;
+	}
+
+	.cloud::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-color: #484f59;
+		border-radius: 100px;
+	}
+
+	.cloud .drop {
+		position: absolute;
+		top: 40px;
+		background-color: #05a2eb;
+		width: 2px;
+		height: 10px;
+		transform-origin: bottom;
+		animation: animateWater 1s linear infinite;
+		z-index: -1;
+	}
+
+	@keyframes animateCloud {
+
+		/* 0表示亮度为0，显示黑色，0.5表示亮度为原图的一半，1表示原图亮度，数值大于1表示亮度加强。 */
+		0% {
+			filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 #fff) brightness(1);
 		}
 
-		.cloud .drop {
-			position: absolute;
-			top: 40px;
-			background-color: #05a2eb;
-			width: 2px;
-			height: 10px;
-			transform-origin: bottom;
-			animation: animateWater 1s linear infinite;
-			z-index: -1;
+		95% {
+			/*留一点点闪烁时间*/
+			filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 50px #fff5) brightness(10);
+		}
+	}
+
+	@keyframes animateWater {
+		0% {
+			transform: translateY(0) scaleY(1);
 		}
 
-		@keyframes animateCloud {
-			/* 0表示亮度为0，显示黑色，0.5表示亮度为原图的一半，1表示原图亮度，数值大于1表示亮度加强。 */
-			0% {
-				filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 #fff)
-					brightness(1);
-			}
-			95% {
-				/*留一点点闪烁时间*/
-				filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 50px #fff5)
-					brightness(10);
-			}
+		70% {
+			transform: translateY(360px) scaleY(1);
 		}
 
-		@keyframes animateWater {
-			0% {
-				transform: translateY(0) scaleY(1);
-			}
-			70% {
-				transform: translateY(360px) scaleY(1);
-			}
-			80% {
-				transform: translateY(360px) scaleY(0.1);
-			}
-			100% {
-				transform: translateY(360px) scaleY(0.1) scaleX(15);
-			}
+		80% {
+			transform: translateY(360px) scaleY(0.1);
 		}
-	</style>
+
+		100% {
+			transform: translateY(360px) scaleY(0.1) scaleX(15);
+		}
+	}
+
+	@keyframes trans {
+		0% {
+			transform: translateX(0);
+		}
+
+		25% {
+
+			transform: translateX(50%);
+		}
+
+		50% {
+			transform: translateX(0);
+		}
+
+		75% {
+			transform: translateX(-50%);
+		}
+
+		100% {
+			transform: translateX(0);
+		}
+	}
+</style>
+
 </html>
 <!-- animation: name duration timing-function delay iteration-count direction fill-mode; -->
 <!-- animation: 动画名 持续时间  定时函数         延迟   迭代次数         方向       填充模式; -->

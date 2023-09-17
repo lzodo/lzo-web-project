@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="inner">这是一段内容，鼠标移入下划线从左边出现，鼠标移出下划线从右边隐藏</div>
+	</div>
+</body>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+		display: flex;
+	}
+
+	/* 容器 */
+	.container {
+		height: auto;
+		width: 300px;
+		margin: auto;
+	}
+
+	.container .inner {
+		cursor: pointer;
+		background: linear-gradient(to right, #242222, #111) no-repeat right bottom/0 2px;
+		transition: background-size .6s;
+		display: inline;
+		padding-bottom: 3px;
+	}
+
+	.container .inner:hover {
+		background-position-x: left;
+		background-size: 100% 2px;
+	}
+</style>
+
+</html>

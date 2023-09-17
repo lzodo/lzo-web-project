@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>选择器总结</title>
 	<link rel="stylesheet" href='../../../static/style/reset.css' />
 </head>
 <style>
-	li[class*='baohan']{
-		color:#fa0;
+	li[class*='baohan'] {
+		color: #fa0;
 	}
 </style>
+
 <body>
 	<!-- div.CellTitle{标题}+div.CellWarp>div.item.item$*3>span.title+(ul.list>li.itemlist+li.itemchild) -->
 	<!--==========================选择器================================-->
@@ -22,23 +24,23 @@
 				伪元素:是基于元素的一种元素，可以操作宽高大小 (他操作页面上是不存在的具体标签的，但是可以把某些条件单做标签用，如:元素第一行，元素前面，元素后面等)
 				<li class="itemlist">1、规范中伪类一个冒号表示，伪元素两个冒号，为了兼容有些伪元素也能用单冒号</li>
 				<li class="itemlist">2、常见伪类选择器如</li>
-				<li class="itemlist">         状态选择器 :hover、:active、:focus、:target等</li>
-				<li class="itemlist">    a伪类标准四状态 :visited 访问过的a、:link 未访问过的a、:hover、:active</li>
-				<li class="itemlist">           元素伪类 :disabled 、:checked 等</li>
+				<li class="itemlist"> 状态选择器 :hover、:active、:focus、:target等</li>
+				<li class="itemlist"> a伪类标准四状态 :visited 访问过的a、:link 未访问过的a、:hover、:active</li>
+				<li class="itemlist"> 元素伪类 :disabled 、:checked 等</li>
 
-				<li class="itemlist">           结构伪类 :first-child、:first-child、:not()、:nth-child(2n|event|odd) </li>
-				<li class="itemlist">                    :nth-child(-n+3) 前三个、等</li>
-				<li class="itemlist">                    n 代表包括0的任意整数  </li>
+				<li class="itemlist"> 结构伪类 :first-child、:first-child、:not()、:nth-child(2n|event|odd) </li>
+				<li class="itemlist"> :nth-child(-n+3) 前三个、等</li>
+				<li class="itemlist"> n 代表包括0的任意整数 </li>
 
-				<li class="itemlist">                    :nth-last-child  等于nth-child从后面开始</li>
-				<li class="itemlist">                    :nth-of-type  选择同类型，值计算同类型的 </li>
-				<li class="itemlist">                    :only-child、 :root、:empty 内容为空的元素</li>
+				<li class="itemlist"> :nth-last-child 等于nth-child从后面开始</li>
+				<li class="itemlist"> :nth-of-type 选择同类型，值计算同类型的 </li>
+				<li class="itemlist"> :only-child、 :root、:empty 内容为空的元素</li>
 
-				<li class="itemlist">					:is(.div1,.div2){}、:where(.div1,.div2)与is一样但权重始终最低</li>
+				<li class="itemlist"> :is(.div1,.div2){}、:where(.div1,.div2)与is一样但权重始终最低</li>
 				<li class="itemlist">3、常见伪元素选择器如 E::selection、E::after、E::before、E::first-line、E::first-letter等</li>
 			</ul>
 		</div>
-		<div class="item2 item"> 
+		<div class="item2 item">
 			<span class="title">属性选择器</span>
 			<ul class="list">
 				<li class="itemlist">1、与正则类似、用中括号</li>
@@ -55,7 +57,7 @@
 		<div class="item4 item">
 			<span class="title">元素选择符</span>
 			<ul class="list">
-				<li class="itemlist">1、 * div #xxx .xxx div.xxx  div,xxx等</li>
+				<li class="itemlist">1、 * div #xxx .xxx div.xxx div,xxx等</li>
 			</ul>
 		</div>
 	</div>
@@ -66,15 +68,15 @@
 			<span class="title">颜色表示方法</span>
 			<ul class="list">
 				<li class="itemlist">
-				p{color:green;}<br/>
-				p{color:#ff0000;}<br/>
-				p{color:rgb(0,0,0);}<br/>
+					p{color:green;}<br />
+					p{color:#ff0000;}<br />
+					p{color:rgb(0,0,0);}<br />
 
-				下面的IE8一下不支持<br/>
-				p{color:rgba(0,0,0,.5);}<br/>
-				p{color:hsl(240,50%,50%);} 色调、饱和度、亮度<br/>
-				p{color:hsla(240,50%,50%,.5);}<br/>
-				p{color:transparent;} 透明色
+					下面的IE8一下不支持<br />
+					p{color:rgba(0,0,0,.5);}<br />
+					p{color:hsl(240,50%,50%);} 色调、饱和度、亮度<br />
+					p{color:hsla(240,50%,50%,.5);}<br />
+					p{color:transparent;} 透明色
 				</li>
 			</ul>
 		</div>
@@ -89,18 +91,18 @@
 			<span class="title">text-overflow文本溢出省略号</span>
 			<ul class="list">
 				<li class="itemlist">
-					/*单行*/<br/>
-					overflow: hidden;<br/>
-					text-overflow: ellipsis;<br/>
-					white-space:nowrap;<br/>
+					/*单行*/<br />
+					overflow: hidden;<br />
+					text-overflow: ellipsis;<br />
+					white-space:nowrap;<br />
 				</li>
 				<li class="itemlist">
-					/*多行溢出省略号显示 不支持火狐*/<br/>
-					overflow: hidden;<br/>
-					text-overflow: ellipsis;<br/>
-					display: -webkit-box;<br/>
-					-webkit-line-clamp: 1;<br/>
-					-webkit-box-orient: vertical;<br/>
+					/*多行溢出省略号显示 不支持火狐*/<br />
+					overflow: hidden;<br />
+					text-overflow: ellipsis;<br />
+					display: -webkit-box;<br />
+					-webkit-line-clamp: 1;<br />
+					-webkit-box-orient: vertical;<br />
 				</li>
 			</ul>
 		</div>
@@ -188,12 +190,15 @@
 			<span class="title">gradien 渐变</span>
 			<ul class="list">
 				<li class="itemlist">1、一般用于background-image，border-image等</li>
-				<li class="itemlist">2、线性渐变 linear-gradient(to left,#fff,#000 20%,#f00); 方向(不写默认上到下),颜色n n%时开始显示这个颜色</li>
+				<li class="itemlist">2、线性渐变 linear-gradient(to left,#fff,#000 20%,#f00); 方向(不写默认上到下),颜色n n%时开始显示这个颜色
+				</li>
 				<li class="itemlist">3、线性渐变 linear-gradient(0deg,#fff,#000); 从对面到 0度(十二点方向),颜色n</li>
 				<li> |</li>
-				<li class="itemlist">4、径向渐变 radial-gradients(#fff,#000 20%,#f00)</li>
-				<li class="itemlist">5、径向渐变 radial-gradients(设置圆形椭圆 渐变到哪里,#fff,#000 20%,#f00);如:circle closest-side</li>
-				<li class="itemlist">6、径向渐变 radial-gradients(100px at 50ox 50px,#fff,#000 20%,#f00);设置渐变半径 at 圆心坐标</li>
+				<li class="itemlist">4、径向渐变 radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); ellipse/circle
+					椭圆/圆 </li>
+				<li class="itemlist">4、径向渐变 radial-gradient(#fff,#000 20%,#f00)</li>
+				<li class="itemlist">5、径向渐变 radial-gradient(设置圆形椭圆 渐变到哪里,#fff,#000 20%,#f00);如:circle closest-side</li>
+				<li class="itemlist">6、径向渐变 radial-gradient(100px at 50ox 50px,#fff,#000 20%,#f00);设置渐变半径 at 圆心坐标</li>
 				<li> |</li>
 				<li class="itemlist">7、重复渐变 repeating-radial-gradient(#fff,#000 5px,#f00 5px)</li>
 				<li class="itemlist">8、重复渐变 repeating-linear-gradient(#fff,#000 5px,#f00 5px);斑马纹效果</li>
@@ -327,10 +332,11 @@
 		<div class="item item5">
 			<span class="title">3D坐标系</span>
 			<ul class="list">
-				<li class="itemlist">1、比2D多了Z轴，Z轴从XY交叉中心点穿过;增加属性:transform:translate3d(x,y,z) 或 transform:translateZ(z</li>
+				<li class="itemlist">1、比2D多了Z轴，Z轴从XY交叉中心点穿过;增加属性:transform:translate3d(x,y,z) 或 transform:translateZ(z
+				</li>
 				<li class="itemlist">2、用户面对页面:上(-Y)、下(+Y)、左(-X)、右(+X)、前(+Z)、后(-Z)</li>
 				<li class="itemlist">3、实现: 设置视距(用户眼睛离屏幕的距离)</li>
-				<li class="itemlist">transform:perspective(1000px)  translate3d(10px,10px,100px)</li>
+				<li class="itemlist">transform:perspective(1000px) translate3d(10px,10px,100px)</li>
 				<li class="itemlist">眼睛距离屏幕1000,Z轴使页面向用户移动100px</li>
 				<li class="itemlist">4、父级:perspective:1000px;transform-style: preserve-3d;3d环境</li>
 				<li class="itemlist">5、有时间实现一下两个3d案例</li>
@@ -404,7 +410,8 @@
 		<div class="item item5">
 			<span class="title">多重背景</span>
 			<ul class="list">
-				<li class="itemlist">background:url(test1.jpg) no-repeat scroll 10px 20px,url(test2.jpg) no-repeat scroll 50px 60px</li>
+				<li class="itemlist">background:url(test1.jpg) no-repeat scroll 10px 20px,url(test2.jpg) no-repeat
+					scroll 50px 60px</li>
 				<li class="itemlist">用逗号隔开,颜色无法设置多重</li>
 				<li class="itemlist">拆分方式也是用逗号隔开</li>
 			</ul>
@@ -537,11 +544,13 @@ body{font-family:'YH';}
 				<li class="itemlist">
 
 					<a href="https://www.xp.cn/css3/" target="_break">css参考手册</a>
-					<a href="https://lhammer.cn/You-need-to-know-css/#/zh-cn/extended-bg-position" target="_break">You-need-to-know</a>
+					<a href="https://lhammer.cn/You-need-to-know-css/#/zh-cn/extended-bg-position"
+						target="_break">You-need-to-know</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 
 </body>
+
 </html>

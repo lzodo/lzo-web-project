@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="inner left">
+			<!-- div[style=--i:$]*20 -->
+			<div style="--i:1"></div>
+			<div style="--i:2"></div>
+			<div style="--i:3"></div>
+			<div style="--i:4"></div>
+			<div style="--i:5"></div>
+			<div style="--i:6"></div>
+			<div style="--i:7"></div>
+			<div style="--i:8"></div>
+			<div style="--i:9"></div>
+			<div style="--i:10"></div>
+			<div style="--i:11"></div>
+			<div style="--i:12"></div>
+			<div style="--i:13"></div>
+			<div style="--i:14"></div>
+			<div style="--i:15"></div>
+			<div style="--i:16"></div>
+			<div style="--i:17"></div>
+			<div style="--i:18"></div>
+			<div style="--i:19"></div>
+			<div style="--i:20"></div>
+		</div>
+		<div class="inner right">
+			<div style="--i:1"></div>
+			<div style="--i:2"></div>
+			<div style="--i:3"></div>
+			<div style="--i:4"></div>
+			<div style="--i:5"></div>
+			<div style="--i:6"></div>
+			<div style="--i:7"></div>
+			<div style="--i:8"></div>
+			<div style="--i:9"></div>
+			<div style="--i:10"></div>
+			<div style="--i:11"></div>
+			<div style="--i:12"></div>
+			<div style="--i:13"></div>
+			<div style="--i:14"></div>
+			<div style="--i:15"></div>
+			<div style="--i:16"></div>
+			<div style="--i:17"></div>
+			<div style="--i:18"></div>
+			<div style="--i:19"></div>
+			<div style="--i:20"></div>
+		</div>
+	</div>
+</body>
+<script>
+	window.onload = function () { };
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #111;
+	}
+
+	/* 容器 */
+	.container {
+		width: 343px;
+		height: 150px;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.container .inner {
+		width: 150px;
+		height: 150px;
+
+		position: relative;
+		animation: color 2s linear infinite;
+	}
+
+	.container .inner>div {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		transform: rotate(calc(18deg*var(--i)));
+	}
+
+	.container .inner>div::before {
+		content: "";
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: #41ec0d;
+		box-shadow: 0px 0px 20px 2px #41ec0d, 0px 0px 40px #41ec0d, 0px 0px 60px 2px #41ec0d;
+		transform: scale(.1);
+
+	}
+
+	.container .inner.right {
+		transform: rotate(290deg)
+	}
+
+	.container .inner.left {
+		transform: rotate(142deg)
+	}
+
+	.container .inner.right>div::before {
+		animation: animate 4s linear infinite;
+		animation-delay: calc(-0.1s*var(--i));
+	}
+
+	.container .inner.left>div::before {
+		animation: animate 4s linear infinite;
+		animation-delay: calc(.1s*var(--i));
+	}
+
+	@keyframes animate {
+
+		0% {
+			transform: scale(1);
+		}
+
+		50%,
+		100% {
+			transform: scale(.1);
+		}
+
+	}
+
+	@keyframes color {
+		0% {
+
+			filter: hue-rotate(0);
+		}
+
+		100% {
+			filter: hue-rotate(360deg);
+		}
+	}
+</style>
+
+</html>

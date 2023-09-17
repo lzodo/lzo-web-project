@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="inner">wen&nbsp;zi&nbsp;liu&nbsp;dong</div>
+	</div>
+</body>
+<script>
+	let text = document.querySelector('.inner');
+	let splitTest = text.innerText.split('');
+	// 越前面延迟越多，越后进入场景
+	text.innerHTML = splitTest.map((item, i) => {
+		return `<span class='font' style='animation-delay: ${(splitTest.length - i) * 400
+			}ms' style='--i:${i}'>${item}</span>`;
+	})
+		.join("");
+
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+		background-color: #111;
+		display: flex;
+	}
+
+	/* 容器 */
+	.container {
+		height: 100px;
+		width: 80%;
+		line-height: 100px;
+		text-align: center;
+		margin: auto;
+		position: relative;
+	}
+
+	.container .inner {
+		color: #a17400;
+		font-size: 25px;
+		letter-spacing: 2px;
+	}
+
+	.container .inner .font {
+		display: inline-block;
+		animation: move 1s linear forwards, color 10s linear infinite 10s;
+		transform-origin: center;
+		opacity: 0;
+	}
+
+	@keyframes move {
+		0% {
+			opacity: 0;
+			transform: translateX(-500px) rotate(0)
+		}
+
+		45%,
+		50% {
+			opacity: 1;
+			transform: translateX(-250px) rotate(360deg);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateX(0px) rotate(720deg);
+
+		}
+	}
+
+	@keyframes color {
+		0% {
+			filter: hue-rotate(0);
+		}
+
+		100% {
+			filter: hue-rotate(720deg);
+
+		}
+	}
+</style>
+
+</html>
