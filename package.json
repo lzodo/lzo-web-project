@@ -23,11 +23,13 @@
     "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.1.0",
     "gulp-terser": "^2.1.0",
+    "gulp-typescript": "6.0.0-alpha.1",
     "gulp-webserver": "^0.9.1",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "postcss": "^8.4.31",
     "postcss-preset-env": "^9.1.4",
-    "sass": "^1.68.0"
+    "sass": "^1.68.0",
+    "typescript": "^5.2.2"
   }
 }

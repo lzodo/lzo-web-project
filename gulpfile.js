@@ -4,7 +4,8 @@ const babel = require("gulp-babel");
 const terser = require("gulp-terser");
 const scss = require("gulp-sass")(require("sass"));
 const browserSync = require("browser-sync");
-var postcss = require("gulp-postcss");
+const postcss = require("gulp-postcss");
+const ts = require("gulp-typescript");
 // const htmlreplace = require("gulp-html-replace");
 const { Tools } = require("./gulpfile-tool.js");
 
@@ -20,6 +21,17 @@ const jsTask = () => {
 		.pipe(babel({ presets: ["@babel/preset-env"] })) // 经过插件处理
 		.pipe(terser()) // 经过插件压缩
 		.pipe(dest("./dist")); // 一步步处理后再输出
+};
+
+const tsTask = () => {
+	return src("./src/**/*.ts")
+		.pipe(
+			ts({
+				noImplicitAny: true,
+				// outFile: "output.js",
+			})
+		) // 经过插件处理
+		.pipe(dest("./dist"));
 };
 
 const cssTask = () => {
@@ -58,7 +70,14 @@ const serve = () => {
 // 获取常用工具
 
 // 多个任务并行执行
-const parallelTask = parallel(htmlTask, jsTask, cssTask, imageTask, scssTask);
+const parallelTask = parallel(
+	htmlTask,
+	jsTask,
+	cssTask,
+	imageTask,
+	scssTask,
+	tsTask
+);
 // 启动服务服务
 const serveTask = series(parallelTask, serve);
 // 获取工具库
