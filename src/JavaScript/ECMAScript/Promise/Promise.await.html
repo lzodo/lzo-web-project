@@ -1,0 +1,83 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Promise</title>
+	</head>
+
+	<body></body>
+	<script async>
+		const asyncDemoRes = async()=>{
+			const demo = async () => {
+				let result = await new Promise((resolve, reject) => {
+					console.log("await内部先");
+					setTimeout(() => resolve("2000++"), 2000);
+				});
+				console.log(
+					"我由于上面的程序还没执行完，先不执行“等待一会”" + result
+				);
+				return result;
+			};
+			const res = await demo();
+			console.log("输出", res);
+			console.log('等待 demo 结束')
+		}
+		asyncDemoRes();
+
+
+
+		//直接用Promise 与 async/await
+
+		function takeLongTime(n) {
+			return new Promise((resolve) => {
+				setTimeout(() => resolve(n + 2000), n);
+			});
+		}
+
+		function step1(n) {
+			console.log(`step1 with ${n}`);
+			return takeLongTime(n);
+		}
+
+		function step2(n) {
+			console.log(`step2 with ${n}`);
+			return takeLongTime(n);
+		}
+
+		function step3(n) {
+			console.log(`step3 with ${n}`);
+			return takeLongTime(n);
+		}
+
+		function doIt() {
+			console.time("doIt");
+			const time1 = 3000;
+			step1(time1)
+				.then((time2) => step2(time2))
+				.then((time3) => step3(time3))
+				.then((result) => {
+					console.log(`result is ${result}`);
+				});
+		}
+		//doIt();
+
+		async function doIt2() {
+			console.time("doIt");
+			const time1 = 3000;
+			const time2 = await step1(time1); //在这里step1没执行完成是不好走下一步的
+			const time3 = await step2(time2);
+			const result = await step3(time3);
+			await new Promise((resolve) => {
+				setTimeout(() => {
+					console.log("先执行");
+					resolve();
+				}, 5000);
+			});
+			console.log("后执行");
+			console.log(`result is ${result}`);
+		}
+		// doIt2();
+		// console.log(
+		// 	"doIt2 是异步行数，所有这里先走，不需要等待 doIt2 内部结束, 除非当前位置也在async函数中，并且doIt2返回的是promise，前面也加await"
+		// );
+	</script>
+</html>
