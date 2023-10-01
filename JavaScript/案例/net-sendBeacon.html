@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <button class="send">发送</button>
+    </body>
+    <script>
+        const send = document.querySelector(".send");
+        send.addEventListener("click", () => {
+            const obj = { hello: "world" };
+            const blob = new Blob([JSON.stringify(obj, null, 2)], {
+                type: "application/json",
+            });
+            let res = navigator.sendBeacon(
+                "http://localhost:8778/study/api/sendBeacon",
+                new String("A String object")
+            );
+            console.log(res);
+        });
+    </script>
+</html>

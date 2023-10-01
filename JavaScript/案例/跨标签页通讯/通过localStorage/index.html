@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<a href="./update.html" target="_blank">跳转</a>
+		<div class="inner">
+			默认数据
+		</div>
+	</div>
+</body>
+<script>
+	let Inner = document.querySelector(".inner")
+	let listenMsg = (handler) => {
+		const storeHandler = e => {
+			let newData = JSON.parse(e.newValue);
+			handler(newData)
+		}
+
+		// 2、监听store变化执行 handler
+		window.addEventListener('storage', storeHandler)
+	}
+
+	// 1、执行
+	listenMsg((newData) => {
+		Inner.innerText = newData
+	})
+</script>
+
+</html>

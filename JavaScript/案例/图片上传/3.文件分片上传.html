@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.2/spark-md5.js"></script>
+	<script src="./static/spark-md5.js"></script>
+</head>
+
+<body>
+	<input id='fileInput' type="file" accept="image/*" name="file" />
+	<div class="container">
+		<div class="inner"></div>
+	</div>
+</body>
+<script>
+	/**
+	 * 1、将 file 文件 通过 slice 进行切片生成很多个小的 blob 对象
+	 * 2、获取文件 hash，作为文件的唯一识别码，下次传的时候，询问后端这个hash的文件传到哪里，后端返回一个编号，前端继续从这个切片位置续传
+	 * 		2-1、可以通过 spark-md5 生成文件hash
+	 *      2-2、npm install --save spark-md5 或 cdn 安装
+	 */
+	window.onload = function () {
+		let input = document.querySelector("#fileInput")
+		input.addEventListener('change', handleFile)
+	};
+
+	async function handleFile(e) {
+		let file = [...e.target.files][0];
+		if (!file) return
+
+		// 得到所有切片
+		let chunks = pieceChunks(file, 20000);
+
+		// 计算hash
+		let hash = await getHash(chunks)
+		console.log(hash, 2)
+
+		// 可以用web worker 单独开一个线程避免浏览器卡死
+
+		// 创建 FormData 通过接口提交给后端
+		// let fileData = new FormData();
+		// fileData.append('files', file);
+
+
+		// uploadFile(fileData)
+
+	}
+
+	// 切片函数
+	function pieceChunks(file, chunkSize) {
+		console.log(file);
+
+		let result = []
+		for (let i = 0; i < file.size; i += chunkSize) {
+			// 拿到 0-99 个字节的切片，得到一个blob对象
+			// const piece = file.slice(0, 100)
+			let piece = file.slice(i, i + chunkSize);
+			result.push(piece)
+		}
+		return result
+	}
+
+	// 计算 hash，增量风快计算，计算完一块，从内存中清除，再计算下一块
+
+	function getHash(chunks) {
+		return new Promise((resolve, reject) => {
+			var spark = new SparkMD5();
+			// 读取切片
+			function _read(i) {
+				// 递归终止条件
+				if (i >= chunks.length) {
+					// 全部执行完成之后
+					resolve(spark.end())
+					return;
+				}
+				// 拿到分块
+				const blob = chunks[i]
+
+				// 读取分块字节数组
+				const reader = new FileReader()
+				reader.readAsArrayBuffer(blob)
+				reader.onload = e => {
+					// 得到该分片的二进制字节数组
+					const bytes = e.target.result;
+					// 将结果push到 spark-md5 的 spark中
+					spark.append(bytes)
+					// 递归调用自生
+					_read(i + 1)
+				}
+			}
+
+			// 从第0个开始递归读取
+			_read(0)
+		})
+	}
+
+	//api 提交上传
+	function uploadFile(fileData) {
+		fetch('http://localhost:8778/uploads/uploadFileTest', {
+			method: 'post',
+			body: fileData,
+		})
+			.then(function (response) {
+				return response.json();
+			})
+			.then(function (data) {
+				console.log(data);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 容器 */
+	.container {
+		height: 100%
+	}
+
+	.container .inner {}
+</style>
+
+</html>

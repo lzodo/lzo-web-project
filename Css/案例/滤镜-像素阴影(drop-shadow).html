@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="item item1">
+		<img src="../../static/image/icon1.png" />
+	</div>
+	<div class="item item2">
+		<img src="../../static/image/icon1.png" />
+	</div>
+	<div class="tips"></div>
+</body>
+<script>
+		/**
+		 * 滤镜：把原来像素点的颜色，经过一套或多套算法，转换为新的一套像素点颜色
+		 * 滤镜提供的算法
+		 *	  hue-rotate()：改变图像的整体色调
+		 *	  drop-shadow()：在图像后方应用投影
+
+		 *	  grayscale()：将图像转为灰度图
+		 * 	  blur(10px)：模糊图像,参考方圆10px的像素点进行模糊计算
+		 * 			毛玻璃：backdrop-filter:blur(10px) 不模糊元素，而是模糊半透明元素背后的像素点
+		 *	  contrast()：增加或减少图像的对比度，接受一个数值，越大与背景对比越明显，越小，越不明显
+		 			融合效果：子元素设置模糊，作用是变的不明显，同时在父级设置很大比度，作用是变明显，配合过度，这时就会产生融合效果
+
+		 *	  brightness() ：让图像更明亮或更暗淡
+		 *	  invert()：反转图像颜色
+		 *	  opacity()：改变图像透明度
+		 *	  saturate()：超饱和或去饱和输入的图像
+		 *	  sepia()：将图像转为棕褐色
+		 *
+		 *
+		 * /
+</script>
+<style>
+	.item {
+		width: 150px;
+		height: 150px;
+	}
+
+	.item1 img {
+		width: 100%;
+		height: 100%;
+		box-shadow: 0px 0px 10px rgb(3, 85, 179);
+	}
+
+	.item2 img {
+		width: 100%;
+		height: 100%;
+		filter: drop-shadow(0px 0px 2px rgb(3, 85, 179));
+	}
+
+	.tips {
+		width: 150px;
+		height: 40px;
+		background-color: rgb(56, 130, 248);
+		position: relative;
+		top: 50px;
+		left: 50px;
+		border-radius: 5px;
+		filter: drop-shadow(0px 0px 2px rgb(3, 85, 179));
+	}
+
+	.tips::before {
+		content: "";
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		left: -5px;
+		top: 15px;
+		background-color: rgb(56, 130, 248);
+		transform: rotate(45deg);
+	}
+</style>
+
+</html>

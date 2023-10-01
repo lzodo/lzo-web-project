@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>不是通过锚点的跳转</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .section{
+            height: 500px;
+            width: 100%;
+        }
+        .nav1 {
+            display: block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            background: #eee;
+            margin: 10px 0;
+        }
+        .current {
+            color: #fff;
+            background: red;
+        }
+        .title{
+            width:100%;height:100%;font-size:30px;text-align:center;font-weight:bold;color:#fff;
+        }
+    </style>
+    <div class="container">
+        <div class="wrapper">
+            <div class="section" v-for="(item, index) in list" :key="index" :style="{'height':index==0||index==4?'1000px':'500px'}">
+                <div class="title" :style="{'background':item.backgroundcolor}">{{item.name}}</div>
+            </div>
+        </div>
+
+        <nav style="position:fixed;right:30px;top:300px;">
+            <a class="nav1" v-for="(item, index) in navList" :key="index" @click="jump(index)"
+                :class="index==0?'current':''">{{item}}</a>
+        </nav>
+    </div>
+    <script>
+        new Vue({
+            el: ".container",
+            data() {
+                return {
+                    scroll: '',
+                    list: [{
+                        name: "第一条",
+                        backgroundcolor: "#90B2A3"
+                    }, {
+                        name: "第二条",
+                        backgroundcolor: "#A593B2"
+                    }, {
+                        name: "第三条",
+                        backgroundcolor: "#A7B293"
+                    }, {
+                        name: "第四条",
+                        backgroundcolor: "#0F2798"
+                    }, {
+                        name: "第五条",
+                        backgroundcolor: "#0A464D"
+                    }],
+                    navList: [1, 2, 3, 4, 5]
+                }
+            },
+            methods: {
+                dataScroll: function () {
+                    this.scroll = document.documentElement.scrollTop || document.body.scrollTop;
+                    console.log(this.scroll)
+                },
+                jump(index) {
+                    let jump = document.getElementsByClassName('section');
+                    // 获取需要滚动的距离
+                    let total = jump[index].offsetTop;
+                    // Chrome
+                    document.body.scrollTop = total;
+                    // Firefox
+                    document.documentElement.scrollTop = total;
+                    // Safari
+                    window.pageYOffset = total;
+                    // $('html, body').animate({
+                    // 'scrollTop': total
+                    // }, 400);
+                },
+                loadSroll: function () {
+                    var self = this;
+                    var $navs = $(".nav1");
+                    console.log($navs);
+                    var sections = document.getElementsByClassName('section');
+                    console.log(sections);
+                    for (var i = sections.length - 1; i >= 0; i--) {
+                        if (self.scroll >= sections[i].offsetTop) {
+                            $navs.eq(i).addClass("current").siblings().removeClass("current")
+                            break;
+                        }
+                    }
+                }
+            },
+            watch: {
+                scroll: function () {
+                    this.loadSroll()
+                }
+            },
+            mounted() {
+                window.addEventListener('scroll', this.dataScroll);
+            }
+        })
+    </script>
+</body>
+</html>

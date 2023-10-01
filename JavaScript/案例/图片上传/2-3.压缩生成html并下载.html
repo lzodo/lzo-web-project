@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<input id='fileInput' type="file" accept="image/*" multiple name="file" />
+	<div class="container">
+		<div class="inner"></div>
+	</div>
+</body>
+<script>
+	window.onload = function () {
+		let input = document.querySelector("#fileInput")
+
+		console.log(164);
+
+		input.addEventListener('change', handleFile)
+	};
+
+	function handleFile(e) {
+		// 类数组
+		console.log(111);
+		[...e.target.files].forEach(async file => {
+			// 拿到 file 后先进行压缩得到，base64 或 blob
+			try {
+				console.log(111);
+				let res = await fileToCompressBase64AndBlob(file, 0.1);
+				await compressImgCreateHtml(...res);
+			} catch (error) {
+			}
+		});
+
+	}
+
+
+	/**
+	 * 获取到的二进制文件 转 base64文件
+	 * @param file
+	 * @param scale ----压缩比例
+	 * @param callback ---回调函数
+	 */
+	function fileToCompressBase64AndBlob(file, scale) {
+		const reader = new FileReader();
+		reader.readAsDataURL(file); // 添加二进制文件
+		return new Promise((resolve, reject) => {
+			reader.onload = function (event) {
+				console.log('转换成功');
+				const base64 = event.target.result;
+				resolve([base64, scale])
+			};
+			//转 失败
+			reader.onerror = function (error) {
+				console.log('转换失败');
+				reject();
+			};
+		})
+	}
+
+	/**
+	 * 压缩图片方法
+	 * @param base64  ----baser64文件
+	 * @param scale ----压缩比例 画面质量0-9，数字越小文件越小画质越差
+	 * @param callback ---回调函数
+	 */
+	function compressImgCreateHtml(base64, scale) {
+		console.log(`缩放比例 ${scale}`);
+
+		// 处理缩放，转换格式
+		const img = new Image();
+		img.src = base64;
+		return new Promise((resolve, reject) => {
+			img.onload = function () {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				canvas.setAttribute('width', img.width);
+				canvas.setAttribute('height', img.height);
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// 绘制白底（png图片默认黑底）
+				ctx.fillStyle = '#fff';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				// 绘制图片
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+				// 转成base64 文件, png 图片无效（可以用 canvas-png-compression）
+				// let base64 = canvas.toDataURL('image/jpeg');
+				let base64 = canvas.toDataURL('image/jpeg');
+				// 方案1、直接用传入的压缩比例
+				base64 = canvas.toDataURL('image/jpeg', scale);
+				const arr = base64.split(',');
+				const mime = arr[0].match(/:(.*?);/)[1];
+				const bytes = atob(arr[1]);
+				const bytesLength = bytes.length;
+				const u8arr = new Uint8Array(bytesLength);
+				for (let i = 0; i < bytes.length; i++) {
+					u8arr[i] = bytes.charCodeAt(i);
+				}
+				const blob = new Blob([u8arr], { type: mime });
+				// 新增部分，获取canvas的位图
+				const bmp = ctx.getImageData(0, 0, img.width, img.height).data;
+				const html = createHtml(img.width, img.height, bmp)
+				download(html)
+
+				// 回调函数
+				resolve([blob, base64, bpm])
+			};
+			img.onerror = function () {
+				console.log('图片加载失败');
+				reject()
+			}
+		})
+	}
+
+	/**
+	 * 创建html
+	 */
+	function createHtml(width, height, bmp) {
+		const shadowList = [] // 阴影 css 片段
+		const shadowCSSHover = [] // 鼠标移入的css阴影
+		// 读取每个位图像素点
+		for (let r = 0; r < height; r++) {
+			for (let c = 0; c < width; c++) {
+
+				const i = r * width + c;
+				// 从位图中获取每个像素点，颜色与透明度
+				const R = bmp[i * 4]
+				const G = bmp[i * 4 + 1]
+				const B = bmp[i * 4 + 2]
+				const A = bmp[i * 4 + 3] / 255;
+
+				// 创建阴影
+				shadowList.push(`${c + 1}px ${r}px rgba(${R},${G},${B},${A})`);
+				// hover 时给一个相反的颜色
+				shadowCSSHover.push(`${c + 1}px ${r}px rgba(${255 - R},${255 - G},${255 - B},${A})`)
+			}
+		}
+
+		return `
+			<!DOCTYPE html>
+			<html lang="en">
+				<head>
+					<meta charset="UTF-8">
+					<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					<title>Document</title>
+					<style>
+						.shadow-img{
+							width:${width}px;
+							height:${height}px;
+						}
+						.shadow-img .inner{
+							width:1px;
+							height: 1px;
+							box-shadow: ${shadowList.join(',')};
+						}
+						.shadow-img:hover .inner{
+							width:1px;
+							height: 1px;
+							box-shadow: ${shadowCSSHover.join(',')};
+						}
+					</style>
+				</head>
+				<abody>
+					<div class="shadow-img">
+						<div class="inner"></div>
+					</div>
+				</abody>
+			</html>
+		`;
+	}
+
+	/**
+	 * 下载
+	 */
+	function download(html) {
+		const blob = new Blob([html], { type: 'text/html' });
+		let url = window.URL.createObjectURL(blob);
+		let a = document.createElement('a')
+		a.href = url;
+		a.style.display = 'none';
+		a.download = 'demo.html';
+		a.click()
+	}
+
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 容器 */
+	.container {
+		height: 100%
+	}
+
+	.container .inner {}
+</style>
+
+</html>

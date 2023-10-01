@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.5.0/axios.js"></script>
+</head>
+
+<body>
+	<input id='fileInput' type="file" accept="*" multiple name="file" />
+	<div class="container">
+		<div class="inner"></div>
+	</div>
+</body>
+<script>
+	window.onload = function () {
+		let input = document.querySelector("#fileInput")
+		input.addEventListener('change', handleFile)
+	};
+
+	function handleFile(e) {
+		// 类数组
+		// file 和 blob 都只是保存文件的基本信息，通过 FileReader 或 FormData读取出文件数据
+		[...e.target.files].forEach(file => {
+			// 创建 FormData 通过接口提交给后端
+			let fileData = new FormData();
+			fileData.append('files', file);
+
+
+			uploadFile(fileData)
+		});
+
+	}
+
+	//api 提交上传
+	// xhr.upload.addEventListener("progress", (e) => {}); xhr可以直接监听progress事件
+	async function uploadFile(fileData) {
+		axios({
+			method: 'post',
+			url: 'http://192.168.203.132:8778/uploads/uploadFileTest',
+			data: fileData,
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			onDownloadProgress(ProgressEvent) {
+				console.log('进度事件', ProgressEvent);
+			}
+		}).then(function (response) {
+			console.log(response, 222);
+		})
+	}
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 容器 */
+	.container {
+		height: 100%
+	}
+
+	.container .inner {}
+</style>
+
+</html>

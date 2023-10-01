@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<input id='fileInput' type="file" accept="image/*" multiple name="file" />
+	<div class="container">
+		<div class="inner"></div>
+	</div>
+</body>
+<script>
+	window.onload = function () {
+		let input = document.querySelector("#fileInput")
+		input.addEventListener('change', handleFile)
+	};
+
+	function handleFile(e) {
+		// 类数组
+		[...e.target.files].forEach(async file => {
+			getObjectUrl(file)
+			// 拿到 file 后先进行压缩得到，base64 或 blob
+			try {
+				let res = await fileToCompressBase64AndBlob(file, 0.6);
+				let [blob, base64] = await compressImg(...res);
+				console.log(blob, base64);
+				selectCompressUpload(blob, file.name);
+
+			} catch (error) {
+				selectCompressUpload(file);
+			}
+		});
+
+	}
+
+	/**
+	 *  @param file 压缩成功后的blob或不压缩的原始file文件对象
+	 */
+	function selectCompressUpload(file, fileName) {
+		// 创建 FormData 通过接口提交给后端
+		let fileData = new FormData();
+		if (fileName) {
+			// 如果是blob就传入名称
+			fileData.append('files', file, fileName);
+		} else {
+			fileData.append('files', file);
+		}
+
+
+		uploadFile(fileData)
+	}
+
+	//api 提交上传
+	// Content-Type:multipart/form-data;
+	function uploadFile(fileData) {
+		fetch('http://localhost:8778/uploads/uploadFileTest', {
+			method: 'post',
+			body: fileData,
+		})
+			.then(function (response) {
+				return response.json();
+			})
+			.then(function (data) {
+				console.log(data);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
+	/**
+	 * 获取到的二进制文件 转 base64文件
+	 * @param file
+	 * @param scale ----压缩比例
+	 * @param callback ---回调函数
+	 */
+	function fileToCompressBase64AndBlob(file, scale) {
+		const reader = new FileReader();
+		reader.readAsDataURL(file); // 添加二进制文件
+		return new Promise((resolve, reject) => {
+			reader.onload = function (event) {
+				console.log('转换成功');
+				const base64 = event.target.result;
+				resolve([base64, scale])
+			};
+			//转 失败
+			reader.onerror = function (error) {
+				console.log('转换失败');
+				reject();
+			};
+		})
+	}
+
+	/**
+	 * 压缩图片方法
+	 * @param base64  ----baser64文件
+	 * @param scale ----压缩比例 画面质量0-9，数字越小文件越小画质越差
+	 * @param callback ---回调函数
+	 */
+	function compressImg(base64, scale) {
+		console.log(`缩放比例 ${scale}`);
+
+		// 处理缩放，转换格式
+		const img = new Image();
+		img.src = base64;
+		return new Promise((resolve, reject) => {
+			img.onload = function () {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				canvas.setAttribute('width', img.width);
+				canvas.setAttribute('height', img.height);
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// 绘制白底（png图片默认黑底）
+				ctx.fillStyle = '#fff';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				// 绘制图片
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+				// 转成base64 文件, png 图片无效（可以用 canvas-png-compression）
+				// let base64 = canvas.toDataURL('image/jpeg');
+				let base64 = canvas.toDataURL('image/jpeg');
+				// 方案1、直接用传入的压缩比例
+				base64 = canvas.toDataURL('image/jpeg', scale);
+				// 方案2、限制图片最大为3M
+				// while (base64.length > 1024 * 1024 * 3) {
+				//   scale -= 0.01;
+				//   base64 = canvas.toDataURL('image/jpeg', scale);
+				// }
+				// baser64 TO blob
+				const arr = base64.split(',');
+				const mime = arr[0].match(/:(.*?);/)[1];
+				const bytes = atob(arr[1]);
+				const bytesLength = bytes.length;
+				const u8arr = new Uint8Array(bytesLength);
+				for (let i = 0; i < bytes.length; i++) {
+					u8arr[i] = bytes.charCodeAt(i);
+				}
+				const blob = new Blob([u8arr], { type: mime });
+				// 回调函数
+				resolve([blob, base64])
+			};
+			img.onerror = function () {
+				console.log('图片加载失败');
+				reject()
+			}
+		})
+	}
+
+	/**
+	 * 通过FileReader.readAsDataURL(file)可以获取一段data:base64的字符串
+	 * 通过URL.createObjectURL(blob)可以获取当前文件的一个内存URL(立即的可以直接赋值到src中访问)
+	 * @ params file 可以是文件对象，也可以是blob
+	 */
+	function getObjectUrl(file) {
+		let url = URL.createObjectURL(file);
+		console.log(url);
+	}
+
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 容器 */
+	.container {
+		height: 100%
+	}
+
+	.container .inner {}
+</style>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="inner"><img src="../../static/image/p1.png" /></div>
+		<div class="inner"><img src="../../static/image/p2.png" /></div>
+		<div class="inner"><img src="../../static/image/p3.png" /></div>
+		<div class="inner"><img src="../../static/image/p4.png" /></div>
+		<div class="inner"><img src="../../static/image/p5.png" /></div>
+	</div>
+</body>
+<script>
+	/**
+	 * 重点：
+	 *	1、倒影 box-reflect
+	 *	  box-reflect:方向 与对象间隔
+		  direction：生成倒影的方向
+					above：指定倒影在对象的上边 below：指定倒影在对象的下边 left：指定倒影在对象的左边 right：指定倒影在对象的右边
+		  offset：图片与倒影间隔
+
+	 *  2、3d样式 transform-style: preserve-3d;
+	 */
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+		background: #111;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	/* 容器 */
+	.container {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform-style: preserve-3d;
+	}
+
+	.container .inner {
+		position: relative;
+		width: 120px;
+		height: 120px;
+		box-shadow: 0 0 3px #0005;
+		transition: .5s;
+		-webkit-box-reflect: below 10px linear-gradient(transparent, #0002);
+		margin: 0 2px;
+		animation: rotate 3s linear infinite;
+	}
+
+	.container .inner img {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* filter: drop-shadow(0 0 5px #3da9f1); */
+	}
+
+	/* .container:hover>.inner {
+		animation-play-state: paused;
+	} */
+
+	.container:hover> :not(:hover) {
+		margin: 0 -20px;
+		transform: perspective(500px) rotateY(45deg) scale(.85);
+	}
+
+
+	.container .inner:hover~.inner {
+		transform: perspective(500px) rotateY(-45deg) scale(.85);
+	}
+
+	.container .inner:hover {
+		transform: perspective(500px) rotateY(0) scale(1.2);
+		z-index: 1000;
+	}
+
+
+	/* @keyframes rotate {
+		0% {
+			transform: perspective(500px) rotateY(0);
+		}
+
+		100% {
+			transform: perspective(500px) rotateY(360deg);
+		}
+	} */
+</style>
+
+</html>
