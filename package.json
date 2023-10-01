@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx gulp serveTask"
   },
   "keywords": [],
   "author": "",
@@ -13,13 +13,21 @@
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.22.20",
     "browser-sync": "^2.29.3",
+    "dayjs": "^1.11.10",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-connect": "^5.7.0",
+    "gulp-html-replace": "^1.6.2",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-inline-css": "^4.0.0",
+    "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.1.0",
     "gulp-terser": "^2.1.0",
     "gulp-webserver": "^0.9.1",
+    "jquery": "^3.7.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.31",
+    "postcss-preset-env": "^9.1.4",
     "sass": "^1.68.0"
   }
 }
