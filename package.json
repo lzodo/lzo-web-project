@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx gulp serveTask"
+    "dev": "npx gulp serveTask",
+    "tool": "npx gulp toolTask"
   },
   "keywords": [],
   "author": "",
@@ -27,9 +28,14 @@
     "gulp-webserver": "^0.9.1",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
+    "lzo-js-tools": "^1.1.7",
     "postcss": "^8.4.31",
     "postcss-preset-env": "^9.1.4",
     "sass": "^1.68.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.5",
+    "vue": "^3.3.4"
   }
 }

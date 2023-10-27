@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>vue</title>
+	<script src="../static/js/vue.global.3.3.4.js"></script>
+</head>
+
+<body>
+	<div>普通div</div>
+	<div id="app"></div>
+</body>
+<script>
+	let app = Vue.createApp({
+		template: `<div>vue template</div>`
+	})
+
+	app.mount('#app')
+</script>
+
+</html>

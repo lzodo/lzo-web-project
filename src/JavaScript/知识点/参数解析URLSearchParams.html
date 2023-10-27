@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+	let searchParam = new URLSearchParams("a=1&b=2#ccc")
+	console.log(searchParam.get('a'));//获取单个字段的值
+	console.log(searchParam.has('a'));//判断字段是否存在
+	console.log(searchParam.append('c', "3"));//添加字段
+	console.log(searchParam.delete('a'));//删除字段
+	console.log(searchParam.set('a', "5"));//重写字段
+	console.log(searchParam.toString());//转化为字符串
+</script>
+
+</html>

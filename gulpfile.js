@@ -6,8 +6,9 @@ const scss = require("gulp-sass")(require("sass"));
 const browserSync = require("browser-sync");
 const postcss = require("gulp-postcss");
 const ts = require("gulp-typescript");
+const shell = require("shelljs");
 // const htmlreplace = require("gulp-html-replace");
-const { Tools } = require("./gulpfile-tool.js");
+const { Tools } = require("./gulpfile.tool.js");
 
 const htmlTask = () => {
 	return src("./src/**/*.html").pipe(dest("./dist"));
@@ -46,6 +47,11 @@ const scssTask = () => {
 		.pipe(dest("./dist"));
 };
 
+const clear = (cb) => {
+	shell.rm("-rf", "dist/*");
+	cb();
+};
+
 // 开启本地服务
 const bs = browserSync.create();
 const serve = () => {
@@ -79,7 +85,7 @@ const parallelTask = parallel(
 	tsTask
 );
 // 启动服务服务
-const serveTask = series(parallelTask, serve);
+const serveTask = series(clear, parallelTask, serve);
 // 获取工具库
 const toolTask = parallel(...Tools());
 

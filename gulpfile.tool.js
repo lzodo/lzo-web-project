@@ -20,8 +20,19 @@ const getDayjs = () => {
 		.pipe(dest("src/static/js"));
 };
 
+const getVue = () => {
+	return src("./node_modules/vue/dist/vue.global.js").pipe(
+		dest("src/static/js")
+	);
+};
+
+const getMyTools = () => {
+	return src("./node_modules/lzo-js-tools/dist/lzojstools.js")
+		.pipe(terser())
+		.pipe(dest("src/static/js"));
+};
 const Tools = () => {
-	return [getJquery, getLodash, getDayjs];
+	return [getJquery, getLodash, getDayjs, getMyTools, getVue];
 };
 
 module.exports = {
