@@ -46,6 +46,9 @@ const scssTask = () => {
 		.pipe(postcss([require("postcss-preset-env")]))
 		.pipe(dest("./dist"));
 };
+const audioTask = () => {
+	return src("./src/**/*.mp3").pipe(dest("./dist"));
+};
 
 const clear = (cb) => {
 	shell.rm("-rf", "dist/*");
@@ -82,7 +85,8 @@ const parallelTask = parallel(
 	cssTask,
 	imageTask,
 	scssTask,
-	tsTask
+	tsTask,
+	audioTask
 );
 // 启动服务服务
 const serveTask = series(clear, parallelTask, serve);

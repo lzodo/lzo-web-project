@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		.item {
+			width: 100%;
+			height: 30vh;
+			background: rgb(2, 141, 196);
+			margin-bottom: 20px;
+			color: #fff;
+			font-size: 30px;
+			font-weight: bold;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.item img {
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- data-* 属性用于储存自定义数据。data-开头的属性会被浏览器忽略 -->
+	<div class="item"><img src="" data-src="../../../static/image/bg.png" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/bg1.jpg" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/bg2.jpg" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/bg3.png" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/bg4.jpg" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/p1.png" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/p2.png" /></div>
+	<div class="item"><img src="" data-src="../../../static/image/p3.png" /></div>
+
+</body>
+<script>
+	window.onload = function () {
+		isToScreen()
+	}
+	window.onscroll = function () {
+		isToScreen()
+	}
+	let count = 0; // 已经加载了图片的索引
+	function isToScreen() {
+		let imgs = document.querySelectorAll('img')
+		let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+		imgs.forEach((item, index) => {
+			// 如果图片进入可视区
+			if (item.offsetTop <= window.innerHeight + scrollTop && index >= count) {
+				count = index; // 已经加载过的就不要进来了
+				// 并且没有src地址时
+				if (!item.getAttribute('src')) {
+					item.setAttribute('src', item.getAttribute('data-src'))
+				}
+
+			}
+		})
+
+
+
+
+	}
+</script>
+
+</html>

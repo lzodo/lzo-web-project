@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="../../../static/js/highlight/highlight.min.js"></script>
+	<link rel="stylesheet" href="../../../static/js/highlight/highlight.css" />
+	<script>hljs.highlightAll();</script>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			/* position: relative; */
+			height: 1000px;
+		}
+
+		.box {
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			background-color: #058cda;
+		}
+
+		.box2 {
+			width: 200px;
+			height: 600px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="box" draggable='true'></div>
+	<div class="box2"></div>
+</body>
+<script>
+	const box = document.querySelector('.box')
+	const box2 = document.querySelector('.box2')
+
+	let offsetLeft, offsetTop;
+	box.ondrag = function (e) {
+		// console.log('ondrag 拖拽过程中');
+		box.style.left = e.pageX - offsetLeft + 'px'
+		box.style.top = e.pageY - offsetTop + 'px'
+
+	}
+	box.ondragstart = function (e) {
+		console.log('dragstart 开始拖拽');
+		offsetLeft = e.offsetX;
+		offsetTop = e.offsetY
+	}
+	box.ondragend = function (e) {
+		console.log('ondragend 拖拽结束');
+		box.style.left = e.pageX - offsetLeft + 'px'
+		box.style.top = e.pageY - offsetTop + 'px'
+	}
+
+	box2.ondragover = function (e) {
+		// console.log('ondragover 可释放目标中移动');
+	}
+	box2.ondragenter = function (e) {
+		console.log('ondragenter 进入可释放目标');
+	}
+	box2.ondragleave = function (e) {
+		console.log('dragleave 离开可释放目标');
+	}
+	box2.ondrop = function (e) {
+		console.log('ondrop 可释放目标中释放');
+	}
+</script>
+
+</html>

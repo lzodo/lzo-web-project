@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="warp">
+		文字描边测试
+	</div>
+</body>
+<style>
+	/*
+		-webkit-text-stroke webkit内核使用已废弃
+		text-stroke 标准属性(测试阶段)
+
+		使用 text-shadow 阴影实现，限制多不够圆滑
+	*/
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	.warp {
+		width: 500px;
+		height: 400px;
+		position: relative;
+		background-color: #0ff;
+		font-size: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: bold;
+		/* -webkit-text-stroke: 1px red; */
+
+		text-shadow:
+			-1px -1px 0 red,
+			1px -1px 0 red,
+			-1px 1px 0 red,
+			1px 1px 0 red;
+		/* 阴影设置，可以根据需要调整大小和颜色 */
+	}
+</style>
+
+</html>

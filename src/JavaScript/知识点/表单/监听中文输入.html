@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<input type="text" />
+</body>
+<script>
+	let input = document.querySelector('input')
+	let isComposition = false;
+	input.addEventListener('input', function (e) {
+		if (!isComposition) {
+			console.log(e.target.value);
+		}
+	})
+	input.addEventListener('compositionstart', function (e) { // composition 组合物
+		console.log('中文输入法，开始输入字符');
+		isComposition = true
+	})
+	input.addEventListener('compositionend', function (e) {
+		console.log('中文输入法，开始输入字符');
+		isComposition = false
+		console.log(e.target.value);
+	})
+
+</script>
+
+</html>

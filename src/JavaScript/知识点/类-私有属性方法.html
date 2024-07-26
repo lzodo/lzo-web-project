@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<style>
+	/*
+		1、之前构造函数或es6列不支持私有属性方法的
+		2、ES11 新增类的私有属性，通过#声明
+    */
+</style>
+
+<body>
+	<script>
+		class A {
+			#age; // 运行时生效，ts 通过 private 实现的只是类型检查
+			constructor(age, name) {
+				this.#age = age
+				this.name = name
+			}
+			getAge() {
+				console.log(this.#age)
+			}
+		}
+		let a = new A(18, 'lzo')
+		a.getAge()
+		console.log(a.name, 'name');
+		// console.log(a.#age, 'age'); 报错
+
+	</script>
+</body>
+
+
+</html>

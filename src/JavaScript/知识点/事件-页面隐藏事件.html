@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<style>
+	/*
+		1、页面隐藏，浏览器优化机制，定时器会自动设置为最大时间（最好页面隐藏式暂停动画）
+    */
+</style>
+
+<body>
+	<script>
+		document.addEventListener('visibilitychange', function () {
+			if (document.visibilityState == 'hidden') {
+				console.log('页面隐藏')
+			} else {
+				console.log('页面显示');
+
+			}
+		})
+	</script>
+</body>
+
+
+</html>
