@@ -9,13 +9,18 @@
 
 <body>
 	<input type="text" />
+	<div class="content"></div>
 </body>
 <script>
 	let input = document.querySelector('input')
 	let isComposition = false;
+	let data = {
+		textValue: ""
+	}
+
 	input.addEventListener('input', function (e) {
 		if (!isComposition) {
-			console.log(e.target.value);
+			changeValue(e.target.value);
 		}
 	})
 	input.addEventListener('compositionstart', function (e) { // composition 组合物
@@ -25,7 +30,26 @@
 	input.addEventListener('compositionend', function (e) {
 		console.log('中文输入法，开始输入字符');
 		isComposition = false
-		console.log(e.target.value);
+		changeValue(e.target.value);
+	})
+
+	function changeValue(val) {
+		console.log(val);
+		data.textValue = val
+
+		console.log(data, 222);
+
+	}
+
+	let iv = data.textValue;
+	Object.defineProperty(data, 'textValue', {
+		get() {
+			return iv
+		},
+		set(val) {
+			document.querySelector('.content').innerHTML = val;
+			iv = val;
+		}
 	})
 
 </script>

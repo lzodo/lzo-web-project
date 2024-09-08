@@ -1,218 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-	</head>
 
-	<body></body>
-	<script>
-		//=======================对象基础=========================||
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
 
-		let obja = {},
-			objb = "0",
-			objc = 0;
-		obja[objb] = "val1";
-		obja[objc] = "val2";
-		console.log(obja[objb]); //val2 对象的key中 "0" 和 0 是一样的
+<body></body>
+<script>
+	//=======================对象基础=========================||
 
-		// ====================
+	let obja = {},
+		objb = "0",
+		objc = 0;
+	obja[objb] = "val1";
+	obja[objc] = "val2";
+	console.log(obja[objb]); //val2 对象的key中 "0" 和 0 是一样的
 
-		let a = {},
-			b = {
-				bb: "1",
-			},
-			c = {
-				cc: "2",
-			};
+	// ====================
 
-		a[b] = 1; // a["[object object]"] = 1 所有对象做为key都会被转 [object object]
-		a[c] = 2;
-		console.log(a[b]); //2
-
-		//=============js将对象自动转字符串的过程========
-		let obj = {
-			a: 4,
-			toString() {
-				return "aaa";
-			},
-		};
-		console.log(obj); //可以打印任何书籍类型
-		//alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
-
-		function Myobj(name) {
-			this.name = name;
-			this.toString = function () {
-				return "bbb";
-			};
-		}
-		Myobj.prototype.toString = function () {
-			return "ccc";
-		};
-		let obj1 = new Myobj("obj1");
-		// alert(obj1)
-
-		//=============怎么能让a==1&&a==2&&a==3  ========
-		/*
-			对象 == 字符串 对象.toString()转字符串
-			null == undefined 但是和其他值比较就不相等了
-			NaN == NaN 不相等
-			其他比较都转数字
-		*/
-		// 方法1 重写对象toString,valueOf方法
-		var objdxxx = {
-			val: 1,
-			toString() {
-				//valueOf也可以
-				return this.val++;
-			},
+	let a = {},
+		b = {
+			bb: "1",
+		},
+		c = {
+			cc: "2",
 		};
 
-		//方法2 使用数据劫持实现
-		var obje = 1;
-		Object.defineProperty(window, "objd", {
-			get() {
-				return obje++;
+	a[b] = 1; // a["[object object]"] = 1 所有对象做为key都会被转 [object object]
+	a[c] = 2;
+	console.log(a[b]); //2
+
+	//=============js将对象自动转字符串的过程========
+	let obj = {
+		a: 4,
+		toString() {
+			return "aaa";
+		},
+	};
+	console.log(obj); //可以打印任何书籍类型
+	//alert(obj) //只能打印字符串. 自身优先 -> 构造函数prototype -> Object的toString [object object]
+
+	function Myobj(name) {
+		this.name = name;
+		this.toString = function () {
+			return "bbb";
+		};
+	}
+	Myobj.prototype.toString = function () {
+		return "ccc";
+	};
+	let obj1 = new Myobj("obj1");
+	// alert(obj1)
+
+	//=============怎么能让a==1&&a==2&&a==3  ========
+	/*
+		对象 == 字符串 对象.toString()转字符串
+		null == undefined 但是和其他值比较就不相等了
+		NaN == NaN 不相等
+		其他比较都转数字
+	*/
+	// 方法1 重写对象toString,valueOf方法
+	var objdxxx = {
+		val: 1,
+		toString() {
+			//valueOf也可以
+			return this.val++;
+		},
+	};
+
+	//方法2 使用数据劫持实现
+	var obje = 1;
+	Object.defineProperty(window, "objd", {
+		get() {
+			return obje++;
+		},
+	});
+
+	if (objd == 1 && objd == 2 && objd == 3) {
+		console.log("可以");
+	}
+
+	//=======================运行机制=========================||
+
+	/*
+执行上下文:
+函数外
+	定义var变量与函数(函数名与变量名相同会被覆盖)
+	主线程执行程序
+函数中
+	形参赋值
+	定义变量与函数
+	主线程执行程序
+
+浏览器线程-任务列队-事件循环:
+浏览器多线程，只会给js一个线程,所有js是单线程
+运行首先执行主线程，当遇到Promise或定时器时会丢到任务列队(Event Quque)里,继续执行主线程的内容
+主线程完了才会走任务列队的微任务(await，Promise等)，再走宏任务(Ajax、定时器,事件绑定等),宏任务完了就运行结束了
+主线程执行完后去找一个个的微宏任务，找到一个拿到主线程继续执行执行完再去找。。。，就叫做Event Loop事件循环
+*/
+
+	//=======================闭包=========================||
+
+	/*
+闭包
+闭包就是外层函数中return 出新函数,使新函数通过外层函数在外面可以使用，新函数中可以使用外层函数中定义的变量
+*/
+	function fun(n, o) {
+		console.log(n, o);
+		return {
+			fun2: function (m) {
+				return fun(m, n);
 			},
-		});
+		};
+	}
 
-		if (objd == 1 && objd == 2 && objd == 3) {
-			console.log("可以");
+	var a = fun(0); // ?0
+	a.fun2(1); // ?
+	a.fun2(2); // ?
+	a.fun2(3).fun2(4); // ?
+
+	var b = fun(0).fun2(1).fun2(2).fun2(3); // ?
+	var c = fun(0).fun2(1); // ?
+	c.fun2(2); // ?
+	c.fun2(3);
+
+	//=======================跨域=========================||
+	/*
+http 默认 80, https 默认 443, ftp 默认 21
+协议域名端口号都要相同
+浏览器同源策略，不同源之间不能进行访问(前后端分离之前情况不多，分离后前端开发时开的服务一般与后端或线上的域不一样，导致跨域普遍增多)
+
+阶段一：jsonp
+使用script标签无跨域原理，通过get请求，与后端协商在传的src路经上指定一个我页面上本存在的方法，引入时直接调用，页面直接可以拿到传来的数据了
+服务端接到src时，开始准备数据，通过说好的方法如:　'func({...})' 返回过来，浏览器会直接把这个执行
+缺点: get不安全、有缓存、大小限制、后端支持
+
+阶段二: iframe 也很不方便不好
+
+阶段三: CORS跨域资源共享(设置CORS与客户端关系不大)
+后端开启资源共享，但是会设置类似token的东西,保证获取数据的安全，不会别人调用
+前端:
+	准备好baseURL、请求头信息等准备发送请求
+	请求拦截器:在登入成功后,服务端通过算法(如JWT)生成token，返回前端存到本地储存或store存起来，发送请求的时候都要带上(可以在请求拦截中设置)
+			  axios.interceptors.request.use...
+			  后端拿到token后再经过同样的方法生成token哪里对比，一样合法则可以通过
+	相应拦截器:拿到数据后在这里出来，调用错误，或可以调用状态不对，直接提示问题,成功则通过返回到页面
+
+服务器:
+	设置*允许所有源访问(不好尽量不要用*)、指定某个源访问(http://localhost:8080)、允许指定请求方式(POST)、允许指定请求头等操作
+	OPTIONS:试探性请求; 一般CORS跨域请求时，在我们调用接口请求时浏览器会帮我们发一个OPTIONS试探性请求，试探一下能不能连上服务器，能连上才会发正常的请求
+
+阶段四: 基于http proxy实现
+	原理:服务器请求服务器没有跨域问题，用本地页面请求本地服务器,本地服务器在去访问跨域的接口
+	客户端:webpack有一个devServer提供proxy实现
+		// vue.config.js
+		module.exports = {
+			devServer:{
+				proxy:{
+					//为所有的服务器接口起一个别名前缀，为了和vue脚手架中其他页面的路由地址区分
+					'/api':{
+						target:'http://localhost:3000/'//自己的服务器端口3000
+						changeOrigin:true //打开跨域
+						pathRewrite:{
+							"^/api":""
+							//因为真实的服务器端的地址中不包含/api ，所以应该将程序中的、api删除（替换空字符串），再和target中的基础路径拼接起来作为发送到服务器端的最终请求地址
+						}
+					}
+				}
+			}
 		}
+		//main.js
+		axios.defalts.baseURL = "/api"
+		// 然后重启脚手架（记得打开服务器）
 
-		//=======================运行机制=========================||
+	服务端:打包后不存在webpage了，服务端要做反向到了(nginx)才能正常运行
 
-		/*
-    执行上下文:
-    函数外
-        定义var变量与函数(函数名与变量名相同会被覆盖)
-        主线程执行程序
-    函数中
-        形参赋值
-        定义变量与函数
-        主线程执行程序
-
-    浏览器线程-任务列队-事件循环:
-    浏览器多线程，只会给js一个线程,所有js是单线程
-    运行首先执行主线程，当遇到Promise或定时器时会丢到任务列队(Event Quque)里,继续执行主线程的内容
-    主线程完了才会走任务列队的微任务(await，Promise等)，再走宏任务(Ajax、定时器,事件绑定等),宏任务完了就运行结束了
-    主线程执行完后去找一个个的微宏任务，找到一个拿到主线程继续执行执行完再去找。。。，就叫做Event Loop事件循环
-*/  
-
-		//=======================闭包=========================||
-
-		/*
-    闭包
-    闭包就是外层函数中return 出新函数,使新函数通过外层函数在外面可以使用，新函数中可以使用外层函数中定义的变量
-*/
-		function fun(n, o) {
-			console.log(n, o);
-			return {
-				fun2: function (m) {
-					return fun(m, n);
-				},
-			};
-		}
-
-		var a = fun(0); // ?0
-		a.fun2(1); // ?
-		a.fun2(2); // ?
-		a.fun2(3).fun2(4); // ?
-
-		var b = fun(0).fun2(1).fun2(2).fun2(3); // ?
-		var c = fun(0).fun2(1); // ?
-		c.fun2(2); // ?
-		c.fun2(3);
-
-		//=======================跨域=========================||
-		/*
-    http 默认 80, https 默认 443, ftp 默认 21
-    协议域名端口号都要相同
-    浏览器同源策略，不同源之间不能进行访问(前后端分离之前情况不多，分离后前端开发时开的服务一般与后端或线上的域不一样，导致跨域普遍增多)
-
-    阶段一：jsonp
-    使用script标签无跨域原理，通过get请求，与后端协商在传的src路经上指定一个我页面上本存在的方法，引入时直接调用，页面直接可以拿到传来的数据了
-    服务端接到src时，开始准备数据，通过说好的方法如:　'func({...})' 返回过来，浏览器会直接把这个执行
-    缺点: get不安全、有缓存、大小限制、后端支持
-
-    阶段二: iframe 也很不方便不好
-
-    阶段三: CORS跨域资源共享(设置CORS与客户端关系不大)
-    后端开启资源共享，但是会设置类似token的东西,保证获取数据的安全，不会别人调用
-    前端:
-        准备好baseURL、请求头信息等准备发送请求
-        请求拦截器:在登入成功后,服务端通过算法(如JWT)生成token，返回前端存到本地储存或store存起来，发送请求的时候都要带上(可以在请求拦截中设置)
-                  axios.interceptors.request.use...
-                  后端拿到token后再经过同样的方法生成token哪里对比，一样合法则可以通过
-        相应拦截器:拿到数据后在这里出来，调用错误，或可以调用状态不对，直接提示问题,成功则通过返回到页面
-
-    服务器:
-        设置*允许所有源访问(不好尽量不要用*)、指定某个源访问(http://localhost:8080)、允许指定请求方式(POST)、允许指定请求头等操作
-        OPTIONS:试探性请求; 一般CORS跨域请求时，在我们调用接口请求时浏览器会帮我们发一个OPTIONS试探性请求，试探一下能不能连上服务器，能连上才会发正常的请求
-
-    阶段四: 基于http proxy实现
-        原理:服务器请求服务器没有跨域问题，用本地页面请求本地服务器,本地服务器在去访问跨域的接口
-        客户端:webpack有一个devServer提供proxy实现
-            // vue.config.js
-            module.exports = {
-                devServer:{
-                    proxy:{
-                        //为所有的服务器接口起一个别名前缀，为了和vue脚手架中其他页面的路由地址区分
-                        '/api':{
-                            target:'http://localhost:3000/'//自己的服务器端口3000
-                            changeOrigin:true //打开跨域
-                            pathRewrite:{
-                                "^/api":""
-                                //因为真实的服务器端的地址中不包含/api ，所以应该将程序中的、api删除（替换空字符串），再和target中的基础路径拼接起来作为发送到服务器端的最终请求地址
-                            }
-                        }
-                    }
-                }
-            }
-            //main.js
-            axios.defalts.baseURL = "/api"
-            // 然后重启脚手架（记得打开服务器）
-
-        服务端:打包后不存在webpage了，服务端要做反向到了(nginx)才能正常运行
-
-    。。
+。。
 */
 
-		//=======================数据存储=========================||
-		/*
-    vuex(vue):
-        特点:vue中使用,数据变换会直接带动页面的变化
-    localStorage(h5):
-        特点：存储的值是字符串格式，大小一般在5mb左右，能永久性存储
-    sessionStorage(h5):
-        特点：(临时保存同一窗口或标签页)的数据，在关闭窗口或标签页之后将会删除这些数据
-             value的值必须为字符串类型(true值会转换为"true")
-    cookie:
-        特点:
-            可设置有效期
-            大小一般4kb(与浏览器有关)
-            可与服务器传来传去
-        作用:服务端设置session，服务器返回给客户端信息，在响应头带着 set-cookie='connect.sid'(客户端与服务端建立唯一标识)
-             客户端会把信息种植到本地cookie中httponly(只能看不能改)，
-             客户端再次发送请求的时候会默认在请求头cookies中把connect.sid传给服务器
-		流程: 1、用户输入用户名、密码进行登录
-			 2、成功后，后端会存一个session，保存用户信息
-			 3、session值当做cookie内容被种到客户端	
-			 4、cookie会在请求下一个资源时携带
-			 5、后端将cookie内容与session值进行对比，相等通过，不相等不通过
-			 6、缺点:服务器需要存每个用户的session
+	//=======================数据存储=========================||
+	/*
+vuex(vue):
+	特点:vue中使用,数据变换会直接带动页面的变化
+localStorage(h5):
+	特点：存储的值是字符串格式，大小一般在5mb左右，能永久性存储
+sessionStorage(h5):
+	特点：(临时保存同一窗口或标签页)的数据，在关闭窗口或标签页之后将会删除这些数据
+		 value的值必须为字符串类型(true值会转换为"true")
+cookie:
+	特点:
+		可设置有效期
+		大小一般4kb(与浏览器有关)
+		可与服务器传来传去
+	作用:服务端设置session，服务器返回给客户端信息，在响应头带着 set-cookie='connect.sid'(客户端与服务端建立唯一标识)
+		 客户端会把信息种植到本地cookie中httponly(只能看不能改)，
+		 客户端再次发送请求的时候会默认在请求头cookies中把connect.sid传给服务器
+	流程: 1、用户输入用户名、密码进行登录
+		 2、成功后，后端会存一个session，保存用户信息
+		 3、session值当做cookie内容被种到客户端
+		 4、cookie会在请求下一个资源时携带
+		 5、后端将cookie内容与session值进行对比，相等通过，不相等不通过
+		 6、缺点:服务器需要存每个用户的session
 
-	token(令牌):
-		流程:1、用户输入用户名、密码进行登录
-			2、后端验证成功后，生成token，返回给前端
-			3、前端将token存起来(localStorage....)
-			4、下次调用接口携带token，后端验证token是否合法有效 
-			
+token(令牌):
+	流程:1、用户输入用户名、密码进行登录
+		2、后端验证成功后，生成token，返回给前端
+		3、前端将token存起来(localStorage....)
+		4、下次调用接口携带token，后端验证token是否合法有效
 
 
-    userdata(ie):只适用于ie，每个页面只能存储64kb，该域名网站最多存储640kb; 仅做了解
-    更多存储方式在f12 Application中有很多，当一般localStorage和cookies用的较多，其他不太常用
+
+userdata(ie):只适用于ie，每个页面只能存储64kb，该域名网站最多存储640kb; 仅做了解
+更多存储方式在f12 Application中有很多，当一般localStorage和cookies用的较多，其他不太常用
 */
-	</script>
+</script>
+
 </html>

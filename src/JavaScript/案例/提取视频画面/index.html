@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<input type="file" />
+	<div id="images"></div>
+</body>
+<script>
+	let input = document.querySelector('input')
+	input.onchange = async function (e) {
+		let container = document.querySelector('#images')
+
+		let i = 0
+		async function rander() {
+			let img = document.createElement('img')
+			let { url } = await captureFrame(e.target.files[0], i * 1000)
+			img.src = url;
+			container.appendChild(img)
+			if (++i < 100) {
+				requestAnimationFrame(rander)
+			}
+		}
+		requestAnimationFrame(rander)
+	}
+	/**
+	 * 获取视频文件的某一帧
+	 */
+	function captureFrame(file, time = 0) {
+		return new Promise((resove) => {
+			// 1、将文件变为video元素
+			let vdo = document.createElement('video')
+			// 2、将video元素跳到指定时间点
+			vdo.currentTime = time; // 跳转指定时间点
+			vdo.muted = true; // 关闭声音
+			vdo.autoplay = true; // 自动播放跳到指定时间后没挂到页面上不会往后走的，但是这边有可能会被一些浏览器限制
+			// file转base64太大了不好，object url（生成blob协议开头可以临时访问本地资源的地址，关闭网页就没了）
+			vdo.src = URL.createObjectURL(file);
+			// document.body.appendChild(vdo)
+			// 当可以播放的时候
+			vdo.oncanplay = function () {
+				// 3、将这个时间的的画面画到canvas（可以很轻松得到画布的二进制数据以及生成的地址）
+				let canvas = document.createElement('canvas')
+				canvas.width = vdo.videoWidth;
+				canvas.height = vdo.videoHeight;
+				let ctx = canvas.getContext('2d')
+				ctx.drawImage(vdo, 0, 0, canvas.width, canvas.height)
+				// let imgURI = ctx.toDataURL("image/png");
+				// canvas画布转二进制
+				canvas.toBlob((blob) => {
+					let url = URL.createObjectURL(blob)
+					resove({
+						url: url, // 返回图片的url地址用于预览
+						blob: blob,// 图片的二进制数据，上传到服务器
+					})
+				})
+
+			}
+		})
+	}
+</script>
+
+</html>

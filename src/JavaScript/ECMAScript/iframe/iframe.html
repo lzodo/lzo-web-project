@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        外部页面
-        <!-- src="http://localhost:8081/#/login" -->
-        <!--
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	外部页面
+	<!-- src="http://localhost:8081/#/login" -->
+	<!--
             let iframe = document.getElementById("iframe");
 
             1.iframe引入一些网站需要关闭 高级 > 隐私设置和安全性 > 内容设置 > Cookie > 阻止第三方Cookie
@@ -83,33 +85,29 @@
 
                 a 标签
             -->
-            <iframe
-            name="iframePage2"
-            src="./iframeChild.html"
-            style="background: #fff; width: 100%; height: 500px"
-            frameborder="0"
-            id="insPage2"
-        ></iframe>
-    </body>
-    <script>
-        let iframe = document.getElementById("insPage2");
-        iframe.onload = function() {
-            // const iframeWin = iframe.contentWindow
-            // iframeWin.postMessage('初始化值', '*')
+	<iframe name="iframePage2" src="./iframeChild.html" style="background: #fff; width: 100%; height: 500px"
+		frameborder="0" id="insPage2"></iframe>
+</body>
+<script>
+	let iframe = document.getElementById("insPage2");
+	iframe.onload = function () {
+		// const iframeWin = iframe.contentWindow
+		// iframeWin.postMessage('初始化值', '*')
 
-            console.log(window.frames['iframePage2'] === iframe.contentWindow)
-            // setTimeout(()=>{
-                iframe.contentWindow.postMessage('MessageFromIndex1','*');
-                // console.log(iframe.contentWindow)
-                // console.log(iframe.contentDocument.getElementById('submit'));
-                // console.log(iframe.contentDocument.getElementById('submit').click());
-            // },3000)
+		console.log(window.frames['iframePage2'] === iframe.contentWindow)
+		// setTimeout(()=>{
+		iframe.contentWindow.postMessage('MessageFromIndex1', '*');
+		// console.log(iframe.contentWindow)
+		// console.log(iframe.contentDocument.getElementById('submit'));
+		// console.log(iframe.contentDocument.getElementById('submit').click());
+		// },3000)
 
-            // data传递的参数   *写成子页面的域名或者是ip
-        }
-        function ifrmLoaded(data){
-            console.log('接收子页面操作'+ data)
-        }
-        window.addEventListener("message",(data)=>{console.log(data)}, false);
-    </script>
+		// data传递的参数   *写成子页面的域名或者是ip
+	}
+	function ifrmLoaded(data) {
+		console.log('接收子页面操作' + data)
+	}
+	window.addEventListener("message", (data) => { console.log(data) }, false);
+</script>
+
 </html>

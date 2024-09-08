@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<style>
+	/*
+		1、class不能直接调用，只能通过new调用
+		2、class的方法不能被枚举
+		3、class中的方法只能调用，不能被new
+
+		问题: class 的继承传构造函数是有点问题的，构造函数的继承用call的时候肯能需要直接调用
+    */
+</style>
+
+<body>
+	<script>
+		function A(age, name) {
+			// 普通调用不存在new.target 会直接报错，（有继承的话，需要先禁用—）
+			// if (!new.target) {
+			// 	throw new TypeError("Class constructor A cannot be invoked without 'new '")
+			// }
+			this._age = age
+			this.name = name;
+
+			var _age = this._age;
+			Object.defineProperty(this, '_age', {
+				get: function () {
+					return _age
+				},
+				set: function (val) {
+					_age = val;
+				},
+				enumerable: false
+			})
+		}
+
+		// 定义静态方法
+		A.staticPerson = function () {
+			console.log('静态方法');
+		}
+
+		// 不能直接定义，需要禁止枚举
+		Object.defineProperty(A.prototype, 'getAge', {
+			value: function () {
+				// ES6 的class 这个方法是不能被new 的
+				if (new.target) {
+					throw new TypeError("Class constructor A cannot be invoked without 'new '")
+				}
+				console.log(this._age);
+			},
+			enumerable: false
+		})
+
+		// 继承：定义B方法
+		function B(age, name, height) {
+			// 1、继承构造函数属性
+			A.call(this, age, name);
+			this.height = height
+		}
+		// 2、继承原型链
+		B.prototype = Object.create(A.prototype)
+
+		// 3、继承静态方法
+		B.staticPerson = A.staticPerson;
+
+		// 4、修正 constructor
+		B.prototype.constructor = B;
+
+		Object.defineProperty(B.prototype, 'getHeight', {
+			value: function () {
+				// ES6 的class 这个方法是不能被new 的
+				if (new.target) {
+					throw new TypeError("Class constructor A cannot be invoked without 'new '")
+				}
+				console.log(this.height);
+			},
+			enumerable: false
+		})
+
+		console.log('======== A使用 =======');
+		var a = new A(18, 'lzo')
+		// 调用原型方法
+		a.getAge()
+
+		// 静态方法，通过类名调用
+		A.staticPerson()
+
+		console.log(a.name, 'name');
+		// console.log(a._age, 'age'); // 暂时无法报错，目标要使其报错
+
+		console.log('======== B使用 =======');
+		var b = new B(19, 'xun', 1.78)
+		// 调用原型方法
+		b.getAge()
+		b.getHeight()
+
+		// 静态方法，通过类名调用
+		B.staticPerson()
+
+		console.log(b.name, 'name');
+
+		console.log('=======for in ========');
+
+		for (const key in a) {
+			console.log(key);
+		}
+
+	</script>
+</body>
+
+
+</html>

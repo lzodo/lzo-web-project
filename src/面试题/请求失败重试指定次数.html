@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		/**
+		 * 发出请求返回Promise
+		 * @param {*} url
+		 * @param {*} maxCount  重试最大次数
+		 */
+
+		function require(url, maxCount = 5) {
+			return fetch(url).catch((err) => (maxCount <= 0 ? Promise.reject(err) : require(url, maxCount - 1)))
+		}
+
+		require('https://i0.hdslb.com1/bfs/archive/c8fd97a40bf79f03e7b76cbc87236f612caef7b2.png').then(
+			(res) => {
+				console.log(res, 1)
+			},
+			(err) => {
+				console.log('重试请求后，请求失败')
+			},
+		)
+
+	</script>
+</body>
+
+</html>

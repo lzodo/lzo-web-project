@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		console.log('网络状态 navigator.connection:', navigator.connection);
+		console.log('是否在线 navigator.onLine:', navigator.onLine);
+
+		window.addEventListener('online', function () {
+			console.log('触发了 online 网络离线到在线');
+		})
+		window.addEventListener('offline', function () {
+			console.log('触发了 offline 网络从在线到离线');
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		/**
+		 * 属性描述符中 enumrable 为 false 的属性是不能被foin遍历到的
+		 */
+
+		var obj = {
+			name: "why",
+			age: 18,
+		};
+
+		// 1.获取属性描述符
+		console.log(Object.getOwnPropertyDescriptor(obj, "name"), 'obj.name');
+		console.log(Object.getOwnPropertyDescriptors(obj), 'obj');
+
+		// 2.阻止对象的扩展
+		Object.preventExtensions(obj);
+		obj.address = "广州市";
+		console.log(obj, '阻止对象的扩展后，不能添加新属性，可删除、可写入');
+
+		// 3.密封对象(不能进行配置)
+		Object.seal(obj);
+		delete obj.name;
+		console.log(obj, '密封对象,不能进行添加、删除，可写入');
+
+		// 4.冻结对象(不能进行写入)
+		Object.freeze(obj);
+		obj.name = "kobe";
+		console.log(obj, '冻结对象,不能进行添加、删除、写入');
+	</script>
+</body>
+
+</html>

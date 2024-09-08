@@ -21,6 +21,27 @@
 	 * 2、获取文件 hash，作为文件的唯一识别码，下次传的时候，询问后端这个hash的文件传到哪里，后端返回一个编号，前端继续从这个切片位置续传
 	 * 		2-1、可以通过 spark-md5 生成文件hash
 	 *      2-2、npm install --save spark-md5 或 cdn 安装
+	 *
+	 * 概念
+	 *   File，文件类型input可以得到一组文件对象files，这个类数组每一项都是一个File对象，存储着我们选择的文件
+	 *   Blob，表示二进制数据，File的父类，
+	 *   FormData，存储文件信息，通过二进制形式传递给后端
+	 *
+	 * 前端发起上传后，后端部分：
+	 *   1、后端根据前端的md5前面查询文件是否存在
+	 * 		-	存在-- 实现秒传
+	 *      -   部分存在-- 上传不存在的切片（断点续传）
+	 *      -   不存在 -- 切片上传
+	 *   2、后端拿到上传的文件(片)
+	 *      -   计算文件（片）数据
+	 *      -   存储文件（片）（本地存储，或第三方存储库）
+	 *   3、判断是否存储成功
+	 *      -   成功 -- 保存文件（片）信息
+	 *      -   失败 -- 提示失败
+	 *    4、如果存储成功了，判断是否是最后一片
+	 *      -   是 -- 合并文件 -- 保存完整文件信息，提示成功，结束流程
+	 *      -   否 -- 继续上传
+	 *
 	 */
 	window.onload = function () {
 		let input = document.querySelector("#fileInput")
@@ -33,12 +54,21 @@
 
 		// 得到所有切片
 		let chunks = pieceChunks(file, 20000);
+		console.log(chunks, 111);
+
 
 		// 计算hash
 		let hash = await getHash(chunks)
-		console.log(hash, 2)
+		console.log(hash, 222)
 
-		// 可以用web worker 单独开一个线程避免浏览器卡死
+		// 需要的话，可以用web worker 单独开一个线程避免浏览器卡死（这边先不用）
+		chunks.map(item => {
+			const formData = new FormData();
+			formData.append('files', item);
+			formData.append('hash', hash);
+			// formData.append('filename', fileName);
+			uploadFile(formData) // 后端接口还没写
+		})
 
 		// 创建 FormData 通过接口提交给后端
 		// let fileData = new FormData();
@@ -64,10 +94,10 @@
 	}
 
 	// 计算 hash，增量风快计算，计算完一块，从内存中清除，再计算下一块
-
+	// 计算这个文件的hash值
 	function getHash(chunks) {
 		return new Promise((resolve, reject) => {
-			var spark = new SparkMD5();
+			var spark = new SparkMD5(); // 将任何数据换算成一个固定长度的字符串
 			// 读取切片
 			function _read(i) {
 				// 递归终止条件
@@ -79,13 +109,15 @@
 				// 拿到分块
 				const blob = chunks[i]
 
-				// 读取分块字节数组
-				const reader = new FileReader()
+				// 读取分块字节数组,FileReader可以这阵的读取出分片文件数据，用这个生产hash确保唯一性
+				const reader = new FileReader();
 				reader.readAsArrayBuffer(blob)
 				reader.onload = e => {
 					// 得到该分片的二进制字节数组
 					const bytes = e.target.result;
-					// 将结果push到 spark-md5 的 spark中
+					console.log(bytes, 'bytes');
+
+					// 将结果push到 spark-md5 的 spark中（只是加入计算的作用）
 					spark.append(bytes)
 					// 递归调用自生
 					_read(i + 1)
@@ -99,7 +131,7 @@
 
 	//api 提交上传
 	function uploadFile(fileData) {
-		fetch('http://localhost:8778/uploads/uploadFileTest', {
+		fetch('http://localhost:8778/uploads/chunks', {
 			method: 'post',
 			body: fileData,
 		})

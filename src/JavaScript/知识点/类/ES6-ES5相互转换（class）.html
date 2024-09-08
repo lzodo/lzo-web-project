@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<style>
+	/*
+		1、class不能直接调用，只能通过new调用
+		2、class的方法不能被枚举
+    */
+</style>
+
+<body>
+	<script>
+		class A {
+			#age; // 运行时生效，ts 通过 private 实现的只是类型检查
+			constructor(age, name) {
+				this.#age = age
+				this.name = name
+			}
+
+			// 原型方法
+			getAge() {
+				console.log(this.#age)
+			}
+
+			// 类方法(静态方法)
+			static staticPerson() {
+				console.log('静态方法');
+			}
+		}
+
+		class B extends A {
+			constructor(age, name, height) {
+				super(age, name)
+				this.height = height
+			}
+
+			// 子类方法
+			getHeight() {
+				console.log(this.height);
+			}
+		}
+
+		console.log('======== A使用 =======');
+		let a = new A(18, 'lzo')
+		// 调用原型方法
+		a.getAge()
+
+		// 静态方法，通过类名调用
+		A.staticPerson()
+
+		console.log(a.name, 'name');
+		// console.log(a.#age, 'age'); // 报错
+
+		console.log('======== B使用 =======');
+		let b = new B(19, 'xun', 1.78)
+		// 调用原型方法
+		b.getAge()
+		b.getHeight()
+
+		// 静态方法，通过类名调用
+		B.staticPerson()
+
+		console.log(b.name, 'name');
+
+		console.log('=======for in ========');
+		for (const key in a) {
+			console.log(key);
+		}
+
+	</script>
+</body>
+
+
+</html>

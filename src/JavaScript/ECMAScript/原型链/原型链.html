@@ -66,7 +66,7 @@
 	console.log(op.constructor == Mycase);
 	console.log(op.constructor == Mycase.prototype.constructor);
 
-	// 运算符constructor判断某个实例是否属于指定构造函数(和Mycase.prototype 原型链上的构造函数)
+	// 运算符instanceof判断某个实例是否属于指定构造函数(和Mycase.prototype 原型链上的构造函数)
 	console.log(op instanceof Mycase);
 	console.log(op instanceof Object);
 	console.log(op instanceof Function); //false 因为 Function是Mycase.__proto__ 指向的
