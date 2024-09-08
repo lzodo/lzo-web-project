@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<button class="cache_control">Cache_Control</button>
+	<button class="expires">Expires</button>
+	<button class="cache_expires">Expires End Cache_Control</button>
+	<br />
+	<button class="etag">Etag/If-None-Match</button>
+	<button></button>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.7.7/axios.js"></script>
+<script>
+	/**
+	 * 1、Cache-Control
+	 * 2、Expires
+	 * 3、ETag / If-None-Match
+	 * 4、Last-Modified / If-Modified-Since
+	 *
+	 * */
+
+	// 强缓存（服务端设置多久具多久，不论资源有没变化）
+	document.querySelector('.cache_control').onclick = function () {
+		// 第一次正常请求，10秒内再次请求 Size 都是 disk cache，表示缓存成功，不再去服务器拿数据
+		fetch("http://localhost:8778/tests/cache_control_test").then(res => res.text()).then(res => {
+			console.log(res);
+		})
+	}
+
+	document.querySelector('.expires').onclick = function () {
+		// 一样，第一次正常请求，10秒内再次请求 Size 都是 disk cache，表示缓存成功，不再去服务器拿数据
+		fetch("http://localhost:8778/tests/expires_test").then(res => res.text()).then(res => {
+			console.log(res);
+		})
+	}
+
+	document.querySelector('.cache_expires').onclick = function () {
+		// 两个同时设置，cache_control 到期就到期了，优先级高
+		fetch("http://localhost:8778/tests/cache_control_expires_test").then(res => res.text()).then(res => {
+			console.log(res);
+		})
+	}
+
+	// 弱缓存
+	document.querySelector('.etag').onclick = function () {
+		// 前端请求带上If-Modified-Since后端根据签名进行验证，如果一样表示资源没变，返回304，如果有变返回新数据（有个协商过程）
+		fetch("http://localhost:8778/tests/etag_test").then(res => res.text()).then(res => {
+			console.log(res);
+		})
+	}
+</script>
+
+</html>

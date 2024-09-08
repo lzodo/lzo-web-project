@@ -1,19 +1,19 @@
 {
-	"liveServer.settings.port": 5665,
-	"svg.preview.background": "editor",
+  "liveServer.settings.port": 5731,
+  "svg.preview.background": "editor",
 
-	"liveSassCompile.settings.formats": [
-		{
-			"format": "expanded", // compressed压缩
-			"extensionName": ".css",
-			"savePath": "~/css" //当前scss文件css文件夹下生成css文件
-		}
-	],
-	"liveSassCompile.settings.excludeList": [
-		"**/node_modules/**",
-		".vscode/**",
-		"/**/var.scss" // 排除当前文件同级的var.scss
-	],
-	"liveSassCompile.settings.generateMap": true,
-	"liveSassCompile.settings.autoprefix": ["> 1%", "last 3 versions"]
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "expanded", // compressed压缩
+      "extensionName": ".css",
+      "savePath": "~/css" //当前scss文件css文件夹下生成css文件
+    }
+  ],
+  "liveSassCompile.settings.excludeList": [
+    "**/node_modules/**",
+    ".vscode/**",
+    "/**/var.scss" // 排除当前文件同级的var.scss
+  ],
+  "liveSassCompile.settings.generateMap": true,
+  "liveSassCompile.settings.autoprefix": ["> 1%", "last 3 versions"]
 }
