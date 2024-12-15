@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>indexDB</title>
+</head>
+
+<body>
+
+</body>
+<script>
+	/**
+	 * 连接：https://juejin.cn/post/7221531861737357368?searchId=202410171445164D3D4D4FC5511B748AD1
+	 * 创建数据库
+	 */
+
+	// 数据库对象
+	let db = null
+	// 数据库名称（自定义）
+	const dbName = "my-database-3";
+	// 要操作的表名
+	const storeName = 'my-first-store2'
+	// 数据库版本号（自定义）
+	const dbVersion = 1;
+	// 打开一个数据库并获取其reques对象
+	const request = indexedDB.open(dbName, dbVersion);
+
+	/**
+	 * 监听事件
+	 * onerror	会在打开或创建数据库出错时触发
+	 * onsuccess	会在成功打开或创建数据库时触发
+	 * onupgradeneeded	则会在数据库版本发生变化时触发
+	 */
+
+	request.onerror = (event) => {
+		console.error("打开数据库失败！", event.target.error);
+	};
+
+	request.onsuccess = (event) => {
+		// db 是数据库对象，可以简单理解为就是一个数据库，之后数据都是在这个数据库里储存的
+		db = event.target.result;
+		console.log("打开数据库成功", db);
+		// 不能写在这
+		// createDataStore()
+	};
+
+	request.onupgradeneeded = (event) => {
+		db = event.target.result;
+		console.log("数据库版本变更时会触发", db.version);
+		createDataStore(storeName)
+	};
+
+	/**
+	 * 创建对象仓库（表）
+	 */
+	function createDataStore(storeName) {
+		// 创建一个名为 ${ storeName } 数据库对象仓库（创建一个数据表）{ keyPath: "id" } 不用修改
+		// storeName 不存在则创建
+		if (!db.objectStoreNames.contains(storeName)) {
+			const objectStore = db.createObjectStore(storeName, { keyPath: "id" });
+			// 创建索引（字段）
+			objectStore.createIndex('name', 'name', { unique: false })
+		}
+	}
+
+	// 后期异步数据操作（通过事务 transaction 操作数据）
+	setTimeout(() => {
+
+		// 增加数据
+		// 要储存的信息
+		const user = { id: 666, name: "漩涡鸣人" };
+		// 通过事务（transaction）来打开 ${storeName} 对象仓库,返回可操作的transaction实例
+		// 事务对象 指定表格名称和操作模式（"只读"或"读写"）
+		const transaction = db.transaction([storeName], "readwrite");
+
+		// 获取可以进行数据增删改查的objectStore对象
+		const objectStore = transaction.objectStore(storeName);
+		console.log(objectStore, '原型上有各种数据操作方法');
+
+		// =========================
+
+		// 【获取 get】
+		let userId = 666
+		let userGetRequest = objectStore.get(userId);
+		userGetRequest.onsuccess = (event) => {
+			console.log(event.target.result, 'objectStore.get');
+			if (event.target.result) {
+				// 【修改 put】
+				objectStore.put({ id: 666, name: "漩涡鸣人-put33" });
+
+				// 【删除 delete】
+				// objectStore.delete(userId);
+			} else {
+				// 【新增 add】
+				const userAddRequest = objectStore.add(user);
+				userAddRequest.onsuccess = (event) => {
+					console.log("User 添加成功");
+				};
+				userAddRequest.onerror = (event) => {
+					console.error("User 添加失败", event.target.error);
+				};
+			}
+
+		}
+		userGetRequest.onerror = (event) => { }
+
+
+		//【查询所有数据】
+		const userRequest = objectStore.openCursor();
+		// 查询成功
+		userRequest.onsuccess = (event) => {
+			const cursor = event.target.result;
+			if (cursor) {
+				console.log(cursor.value, 'objectStore.openCursor');
+				cursor.continue();
+			}
+		};
+
+	}, 1000)
+
+	// 功能
+	setTimeout(() => {
+		console.log(db.objectStoreNames, 'db.objectStoreNames 获取数据库中已存在的仓库（表）名');
+	}, 2000);
+
+
+</script>
+
+</html>

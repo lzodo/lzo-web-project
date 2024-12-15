@@ -1,25 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        <button class="send">发送</button>
-    </body>
-    <script>
-        const send = document.querySelector(".send");
-        send.addEventListener("click", () => {
-            const obj = { hello: "world" };
-            const blob = new Blob([JSON.stringify(obj, null, 2)], {
-                type: "application/json",
-            });
-            let res = navigator.sendBeacon(
-                "http://localhost:8778/study/api/sendBeacon",
-                new String("A String object")
-            );
-            console.log(res);
-        });
-    </script>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<button class="send">发送</button>
+</body>
+<script>
+	const send = document.querySelector(".send");
+	send.addEventListener("click", () => {
+		// const obj = { hello: "world" };
+		// const blob = new Blob([JSON.stringify(obj, null, 2)], {
+		// 	type: "application/json",
+		// });
+
+		const blob = new Blob(['user=gqk'], { type: 'text/plain' });
+		let res = navigator.sendBeacon(
+			"http://localhost:8778/study/api/sendBeacon",
+			blob
+		);
+		console.log(res);
+	});
+
+
+	// 页面性能监控
+	function winUnload() {
+		var data = {
+			loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
+			userAgent: navigator.userAgent
+		};
+		navigator.sendBeacon('http://localhost:8778/study/api/sendBeacon', JSON.stringify(data));
+	}
+	// window.addEventListener('unload', winUnload)
+	// setTimeout(winUnload, 3000)
+
+
+	// 错误监控
+
+	function winError(event) {
+		var data = {
+			message: event.message,
+			source: event.filename,
+			lineno: event.lineno,
+			colno: event.colno,
+			error: event.error.toString()
+		};
+		navigator.sendBeacon('http://localhost:8778/study/api/sendBeacon', JSON.stringify(data));
+	}
+	window.addEventListener('error', winError);
+	setTimeout(function () {
+		throw new Error('测试异常')
+	}, 3000)
+
+</script>
+
 </html>

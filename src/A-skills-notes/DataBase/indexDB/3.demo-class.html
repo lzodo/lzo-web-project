@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>indexDB</title>
+</head>
+
+<body>
+
+</body>
+<script src="./IndexDB.js"></script>
+<script>
+	const store2 = new IndexDB('my-database', 'store3', 44)
+	setTimeout(() => {
+		store2.addData({ id: Math.floor(Math.random() * 1000), name: 'lzo11' })
+		store2.getData(416).then(event => {
+			console.log(event.target.result, '通过实例获取 get');
+		})
+
+		store2.updataData({ id: 416, name: '3344' })
+		store2.openCursor().then(dataList => {
+			console.log(dataList, '通过实例获取 openCursor');
+		})
+		store2.deleteData(400)
+
+	}, 1000)
+
+</script>
+
+</html>

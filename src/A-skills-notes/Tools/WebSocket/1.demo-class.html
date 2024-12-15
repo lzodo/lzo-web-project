@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>WebSocket Chat</title>
+</head>
+
+<body>
+	<div id="state"></div>
+	<div id="chat"></div>
+	<input type="text" id="messageInput" placeholder="Type your message">
+	<button onclick="sendMessage()">Send</button>
+
+	<script>
+		const state = document.querySelector('#state')
+
+		class Socket {
+			ws;
+			startHeartbeatTime; // 心跳包每次间隔时长
+			resCumulative = 0; // 累计时长
+			url;
+			constructor(url, startHeartbeatTime) {
+				this.url = url;
+				this.ws = new WebSocket(url);
+				this.startHeartbeatTime = startHeartbeatTime;
+
+				this.init(this.ws)
+			}
+
+			init(ws) {
+				ws.onopen = (event) => {
+					console.log('onopen 连接成功:', event);
+					// 连接打开后，开始定时发送心跳包
+					this.startHeartbeat();
+					state.innerHTML = '连接成功'
+				};
+
+				ws.onmessage = (event) => {
+					state.innerHTML = '连接正常'
+					this.resCumulative = 0; // 正常接收消息，清零
+					// 如果是心跳响应，则处理
+					if (event.data === 'ok') {
+						// 处理心跳响应
+					} else {
+						// 处理其他消息
+						const messageDiv = document.getElementById('chat');
+						const messageParagraph = document.createElement('p');
+						messageParagraph.textContent = event.data;
+						messageDiv.appendChild(messageParagraph);
+					}
+				};
+
+				ws.onclose = (event) => {
+					console.log('WebSocket 连接关闭:', event);
+					state.innerHTML = '连接关闭'
+				};
+				ws.onerror = (event) => {
+					console.log('WebSocket 连接异常:', event);
+					state.innerHTML = '连接异常'
+
+				};
+			}
+
+			// 定时发送心跳包的函数
+			startHeartbeat() {
+				// 定义心跳间隔
+				setInterval(() => {
+					this.resCumulative += this.startHeartbeatTime
+					console.log(this.resCumulative);
+					console.log(this.startHeartbeatTime * 2 + 1);
+
+					if (this.resCumulative > this.startHeartbeatTime * 2 + 1) {
+						// 按需求，这边表示两次心跳包未返回
+						state.innerHTML = '连接异常'
+						// this.ws.close();
+						// this.ws = new WebSocket(this.url);
+					} else {
+						// 如果连接还开着，就发送一个心跳包
+						console.log(WebSocket.OPEN); // 固定值1
+						if (this.ws.readyState === WebSocket.OPEN) {
+							this.ws.send('heartbeat');
+						}
+					}
+				}, this.startHeartbeatTime);
+
+			}
+
+			// 消息发送
+			sendMessage() {
+				const messageInput = document.getElementById('messageInput');
+				const message = messageInput.value;
+				this.ws.send(message);
+				messageInput.value = '';
+			}
+		}
+		let ws1 = new Socket("ws://localhost:8282/1", 2000)
+
+
+
+
+
+
+	</script>
+</body>
+
+</html>

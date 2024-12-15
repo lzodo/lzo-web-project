@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>WebSocket Chat</title>
+</head>
+
+<body>
+	<div id="state"></div>
+	<div id="chat"></div>
+	<input type="text" id="messageInput" placeholder="Type your message">
+	<button onclick="sendMessage()">Send</button>
+
+	<script>
+		const state = document.querySelector('#state')
+		const ws = new WebSocket('ws://localhost:8282/1');
+		const startHeartbeatTime = 2000
+		let resCumulative = 0; // 累计时长
+
+
+		ws.onopen = (event) => {
+			console.log('onopen 连接成功:', event);
+			// 连接打开后，开始定时发送心跳包
+			startHeartbeat();
+			state.innerHTML = '连接成功'
+		};
+
+		// 定时发送心跳包的函数
+		function startHeartbeat() {
+
+			// 定义心跳间隔
+			setInterval(function () {
+				resCumulative += startHeartbeatTime
+				if (resCumulative > startHeartbeatTime * 2 + 1) {
+					// 按需求，这边表示两次心跳包未返回
+					state.innerHTML = '连接异常'
+					// ws.close();
+					// ws = new WebSocket('ws://localhost:8282/1');
+				} else {
+					// 如果连接还开着，就发送一个心跳包
+					console.log(WebSocket.OPEN); // 固定值1
+					if (ws.readyState === WebSocket.OPEN) {
+						ws.send('heartbeat');
+					}
+				}
+			}, 2000);
+
+		}
+
+		ws.onmessage = (event) => {
+			state.innerHTML = '连接正常'
+			resCumulative = 0; // 正常接收消息，清零
+			// 如果是心跳响应，则处理
+			if (event.data === 'ok') {
+				// 处理心跳响应
+			} else {
+				// 处理其他消息
+				const messageDiv = document.getElementById('chat');
+				const messageParagraph = document.createElement('p');
+				messageParagraph.textContent = event.data;
+				messageDiv.appendChild(messageParagraph);
+			}
+		};
+
+		ws.onclose = (event) => {
+			console.log('WebSocket 连接关闭:', event);
+			state.innerHTML = '连接关闭'
+		};
+		ws.onerror = (event) => {
+			console.log('WebSocket 连接异常:', event);
+			state.innerHTML = '连接异常'
+
+		};
+
+		function sendMessage() {
+			const messageInput = document.getElementById('messageInput');
+			const message = messageInput.value;
+			ws.send(message);
+			messageInput.value = '';
+		}
+	</script>
+</body>
+
+</html>

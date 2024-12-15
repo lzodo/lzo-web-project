@@ -2,58 +2,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
 </head>
 
 <body>
-    <div class="box">
-        <div id="message">1</div>
-    </div>
+	<div class="box">
+		<div id="message">1</div>
+	</div>
 </body>
 <script>
-    let sse = null;
-    document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 13) {
-            // 按下回车键开始连接sse
-            // sse = new EventSource("http://localhost:8778/study/api/sse");
-            sse = new EventSource("http://192.168.203.132:8778/study/api/sse");
-            showStatus();
+	let sse = null;
+	document.addEventListener("keydown", (e) => {
+		if (e.keyCode == 13) {
+			// 按下回车键开始连接sse
+			// sse = new EventSource("http://localhost:8778/study/api/sse");
+			sse = new EventSource("http://192.168.203.132:8778/study/api/sse");
+			showStatus();
 
-            // sse 接收到消息
-            sse.addEventListener("res", (e) => {
-                console.log(e.data);
-            });
+			// sse 接收到消息
+			sse.addEventListener("res", (e) => {
+				console.log(e.data);
+			});
 
-            // 连接事件回调
-            sse.onopen = function (event) {
-                console.log("连接成功！", event);
-                showStatus();
-            };
+			// 连接事件回调
+			sse.onopen = function (event) {
+				console.log("连接成功！", event);
+				showStatus();
+			};
 
-            // 连接错误事件回调
-            sse.onerror = function (event) {
-                console.log("发生错误：", event);
-            };
+			// 连接错误事件回调
+			sse.onerror = function (event) {
+				console.log("发生错误：", event);
+			};
 
-            // 关闭
-            setTimeout(() => {
-                sse.close();
-                showStatus();
-            }, 5000);
-        }
-    });
-    function showStatus() {
-        // readyState 监听sse连接状态
-        if (sse.readyState === EventSource.CONNECTING) {
-            console.log("正在连接服务器...");
-        } else if (sse.readyState === EventSource.OPEN) {
-            console.log("已经连接上服务器！");
-        } else if (sse.readyState === EventSource.CLOSED) {
-            console.log("连接已经关闭。");
-        }
-    }
+			// 关闭
+			// setTimeout(() => {
+			//     sse.close();
+			//     showStatus();
+			// }, 5000);
+		}
+	});
+	function showStatus() {
+		// readyState 监听sse连接状态
+		if (sse.readyState === EventSource.CONNECTING) {
+			console.log("正在连接服务器...");
+		} else if (sse.readyState === EventSource.OPEN) {
+			console.log("已经连接上服务器！");
+		} else if (sse.readyState === EventSource.CLOSED) {
+			console.log("连接已经关闭。");
+		}
+	}
 </script>
 
 </html>

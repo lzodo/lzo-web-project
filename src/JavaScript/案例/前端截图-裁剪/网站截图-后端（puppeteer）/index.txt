@@ -1,0 +1,1 @@
+http://localhost:8778/extend/screenshot  // 截图保存成功，暂时无法显示到浏览器

@@ -1,157 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-	</head>
-	<body>
-		<input type="text" value="" id="input" />
-		<div id="user"></div>
-		<div id="job"></div>
-		<div id="data"></div>
-		<div id="arr"></div>
-	</body>
-	<script>
-		/*
-            vue2 双向绑定 通过 Object.defineProperty()来实现数据劫持的
-            数据变化更新视图，视图变化更新数据
 
-            1、发布订阅模式
-            2、数据劫持
-                访问属性触发getting
-                修改属性触发setting
-        */
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
 
-		// 发布订阅 -> 订阅器 : 手机订阅者、发布通知
+<body>
+	<input type="text" value="" id="input" />
+	<div id="user"></div>
+	<div id="job"></div>
+	<div id="data"></div>
+	<div id="arr"></div>
+</body>
+<script>
+	/*
+		vue2 双向绑定 通过 Object.defineProperty()来实现数据劫持的
+		数据变化更新视图，视图变化更新数据
 
-		class Dep {
-			constructor() {
-				this.subs = []; // 用来接收订阅者
-			}
-			addsubs(watcher) {
-				// 收集订阅者
-				this.subs.push(watcher);
-			}
-			notify() {
-				// 遍历每一个订阅者
-				console.log("12345");
-				this.subs.forEach((watcher) => watcher.update());
-			}
+		1、发布订阅模式
+		2、数据劫持
+			访问属性触发getting
+			修改属性触发setting
+	*/
+
+	// 发布订阅 -> 订阅器 : 手机订阅者、发布通知
+
+	class Dep {
+		constructor() {
+			this.subs = []; // 用来接收订阅者
 		}
-
-		// 订阅者
-		class Watcher {
-			constructor(data, key, cb) {
-				this.data = data;
-				this.key = key;
-				this.cb = cb;
-
-				Dep.target = this; // 将this 存到Dep.target 中，getter 才能收集到
-				data[key]; // getter 初始访问每个属性镜像getter收集
-				Dep.target = null;
-			}
-			update() {
-				const value = this.data[this.key]; // 获取对象中指定属性的值
-				this.cb(value);
-			}
+		addsubs(watcher) {
+			// 收集订阅者
+			this.subs.push(watcher);
 		}
-
-		// 创建实例
-		const dep = new Dep();
-
-		// const obj = new Proxy( // v3  ?? 对象数组里面值变化不会触发setting
-		// 	{
-		// 		name: "lzo",
-		// 		job: "web",
-		// 		arr:[1,2,3],
-		// 		data: {
-		// 			label: "1234",
-		// 		},
-		// 	},
-		// 	{
-		// 		get(target, key) {
-		// 			// 新 判断target中是否含有该访问的属性(key)
-		// 			if (Reflect.has(target, key)) {
-		// 				let res = Reflect.get(target, key);
-		// 				Dep.target && dep.addsubs(Dep.target);
-		// 				return res; //获取target 的 该属性的值
-		// 			} else {
-		// 				return false;
-		// 			}
-		// 		},
-		// 		set(target, key, val) {
-		// 			if (!Reflect.has(target, key)) {
-		// 				console.log("创建新属性");
-		// 				return Reflect.set(target, key, val);
-		// 			} else {
-		// 				console.log("更新成功");
-		// 				let res = Reflect.set(target, key, val);
-		// 				dep.notify();
-		// 				return res;
-		// 			}
-		// 		},
-		// 	}
-		// );
-		function _proxy(object) {
-			return new Proxy( // v3  ?? 对象数组里面值变化不会触发setting
-				object,
-				{
-					get(target, key) {
-						// 新 判断target中是否含有该访问的属性(key)
-						if (Reflect.has(target, key)) {
-							let res = Reflect.get(target, key);
-							Dep.target && dep.addsubs(Dep.target);
-							return res; //获取target 的 该属性的值
-						} else {
-							return false;
-						}
-					},
-					set(target, key, val) {
-						if (!Reflect.has(target, key)) {
-							console.log("创建新属性");
-							return Reflect.set(target, key, val);
-						} else {
-							console.log("更新成功");
-							let res = Reflect.set(target, key, val);
-							dep.notify();
-							return res;
-						}
-					},
-				}
-			);
+		notify() {
+			// 遍历每一个订阅者
+			console.log("12345");
+			this.subs.forEach((watcher) => watcher.update());
 		}
-		const obj = _proxy({
-			name: "lzo",
-			job: "web",
-			arr:[1,2,3],
-			data: {
-				label: "1234",
-			},
-		});
+	}
 
-		// 数据劫持与发布订阅结合，实现双向绑定，访问属性的时候进入get对相关属性进行依赖收集，修改时进入set进行 notify通知，通知订阅者更新数据
-		// Object.keys(obj).forEach((key) => {   // v2
-		// 	let value = obj[key];
-		// 	Object.defineProperty(obj, key, {
-		// 		get() {
-		// 			console.log(`user get ${value}`);
-		// 			Dep.target && dep.addsubs(Dep.target);
-		// 			return value;
-		// 		},
-		// 		set(nv) {
-		// 			console.log(`user set ${key} = ${nv}`);
-		// 			value = nv;
-		// 			dep.notify();
-		// 		},
-		// 	});
-		// });
+	// 订阅者
+	class Watcher {
+		constructor(data, key, cb) {
+			this.data = data;
+			this.key = key;
+			this.cb = cb;
 
-		// 添加渲染函数
-		function initWather() {
-			Object.keys(obj).forEach((key) => {
-				let value = obj[key];
+			Dep.target = this; // 将this 存到Dep.target 中，getter 才能收集到
+			data[key]; // getter 初始访问每个属性镜像getter收集
+			Dep.target = null;
+		}
+		update() {
+			const value = this.data[this.key]; // 获取对象中指定属性的值
+			this.cb(value);
+		}
+	}
+
+	// 创建实例
+	const dep = new Dep();
+
+	// const obj = new Proxy( // v3  ?? 对象数组里面值变化不会触发setting
+	// 	{
+	// 		name: "lzo",
+	// 		job: "web",
+	// 		arr:[1,2,3],
+	// 		data: {
+	// 			label: "1234",
+	// 		},
+	// 	},
+	// 	{
+	// 		get(target, key) {
+	// 			// 新 判断target中是否含有该访问的属性(key)
+	// 			if (Reflect.has(target, key)) {
+	// 				let res = Reflect.get(target, key);
+	// 				Dep.target && dep.addsubs(Dep.target);
+	// 				return res; //获取target 的 该属性的值
+	// 			} else {
+	// 				return false;
+	// 			}
+	// 		},
+	// 		set(target, key, val) {
+	// 			if (!Reflect.has(target, key)) {
+	// 				console.log("创建新属性");
+	// 				return Reflect.set(target, key, val);
+	// 			} else {
+	// 				console.log("更新成功");
+	// 				let res = Reflect.set(target, key, val);
+	// 				dep.notify();
+	// 				return res;
+	// 			}
+	// 		},
+	// 	}
+	// );
+	function _proxy(object) {
+		return new Proxy( // v3  ?? 对象数组里面值变化不会触发setting
+			object,
+			{
+				get(target, key) {
+					// 新 判断target中是否含有该访问的属性(key)
+					if (Reflect.has(target, key)) {
+						let res = Reflect.get(target, key);
+
+						Dep.target && dep.addsubs(Dep.target);
+						return res; //获取target 的 该属性的值
+					} else {
+						return false;
+					}
+				},
+				set(target, key, val) {
+					if (!Reflect.has(target, key)) {
+						console.log("创建新属性");
+						return Reflect.set(target, key, val);
+					} else {
+						console.log("更新成功");
+						let res = Reflect.set(target, key, val);
+						dep.notify();
+						return res;
+					}
+				},
+			}
+		);
+	}
+	const obj = _proxy({
+		name: "test_name",
+		job: "test_job",
+		arr: [1, 2, 3],
+		data: {
+			label: "text_label",
+		},
+	});
+
+	// 数据劫持与发布订阅结合，实现双向绑定，访问属性的时候进入get对相关属性进行依赖收集，修改时进入set进行 notify通知，通知订阅者更新数据
+	// Object.keys(obj).forEach((key) => {   // v2
+	// 	let value = obj[key];
+	// 	Object.defineProperty(obj, key, {
+	// 		get() {
+	// 			console.log(`user get ${value}`);
+	// 			Dep.target && dep.addsubs(Dep.target);
+	// 			return value;
+	// 		},
+	// 		set(nv) {
+	// 			console.log(`user set ${key} = ${nv}`);
+	// 			value = nv;
+	// 			dep.notify();
+	// 		},
+	// 	});
+	// });
+
+	// 添加渲染函数
+	function initWather() {
+		// 先复制初始化
+		Object.keys(obj).forEach((key) => {
+			let value = obj[key];
+			if (key == "name") {
+				// user document.getElementById("user") 的简写
+				user.innerHTML = value;
+			}
+			if (key == "job") {
+				job.innerHTML = value;
+			}
+
+			if (key == "data") {
+				data.innerHTML = value.label;
+			}
+
+			if (key == "arr") {
+				arr.innerHTML = value;
+			}
+
+			// 重点：监听obj的每一个属性变成订阅者，拥有一个update方法，当通过set监听到属性变化时，就会触发发布系统的发布方法，通过下面这个订阅过的属性，就会触发回调更新数据
+			// Watcher 内部会主动获取obj对象的key属性，除非get方法，在get方法中奖这个订阅者与发布系统进行广联
+			new Watcher(obj, key, (value) => {
 				if (key == "name") {
 					// user document.getElementById("user") 的简写
 					user.innerHTML = value;
@@ -167,41 +190,25 @@
 				if (key == "arr") {
 					arr.innerHTML = value;
 				}
-
-				new Watcher(obj, key, (value) => {
-					if (key == "name") {
-						// user document.getElementById("user") 的简写
-						user.innerHTML = value;
-					}
-					if (key == "job") {
-						job.innerHTML = value;
-					}
-
-					if (key == "data") {
-						data.innerHTML = value.label;
-					}
-
-					if (key == "arr") {
-						arr.innerHTML = value;
-					}
-				});
 			});
-		}
-		initWather();
-
-		// v-model
-		input.value = obj.name;
-		input.addEventListener("keyup", function () {
-			// obj.name = event.target.value;
-			// obj.data.label = event.target.value;
-			obj.arr.unshift(event.target.value);
-			// obj.data = event.target.value;
-			console.log(obj);
 		});
+	}
+	initWather();
 
-		// setTimeout(() => {
-		// 	obj.name = "lzoxun";
-		// 	obj.job = "123";
-		// }, 3000);
-	</script>
+	// v-model
+	input.value = obj.name;
+	input.addEventListener("keyup", function () {
+		obj.name = event.target.value;
+		obj.data.label = event.target.value;
+		// obj.arr.unshift(event.target.value);
+		// obj.data = event.target.value;
+		// console.log(obj);
+	});
+
+	// setTimeout(() => {
+	// 	obj.name = "lzoxun";
+	// 	obj.job = "123";
+	// }, 3000);
+</script>
+
 </html>
