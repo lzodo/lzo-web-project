@@ -18,6 +18,8 @@
 		// 	type: "application/json",
 		// });
 
+		const data = { event: 'page_unload', timestamp: Date.now() };
+		// const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
 		const blob = new Blob(['user=gqk'], { type: 'text/plain' });
 		let res = navigator.sendBeacon(
 			"http://localhost:8778/study/api/sendBeacon",
